@@ -54,25 +54,42 @@ title: "Omer — 49 Niveles | ElevAlma"
       border-bottom: 1px solid rgba(201,168,76,0.15);
     }
 
-    .omer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .omer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
 
     .omer-card {
-      display: flex; gap: 14px; padding: 16px; background: var(--bg-card);
-      border: 1px solid var(--border); border-radius: 10px;
-      text-decoration: none; color: inherit; transition: all 0.3s;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; transition: all 0.3s; text-decoration: none; color: inherit;
     }
-    .omer-card:hover { border-color: rgba(201,168,76,0.3); background: var(--bg-card-hover); transform: translateY(-2px); }
-    .omer-card.locked { opacity: 0.35; pointer-events: none; }
+    .omer-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-3px); }
+    .omer-card.locked { opacity: 0.3; pointer-events: none; }
 
-    .omer-card-num {
-      flex-shrink: 0; width: 44px; height: 44px; border-radius: 8px;
-      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; font-weight: 600; color: var(--gold);
+    .omer-card-thumb { position: relative; aspect-ratio: 16/9; overflow: hidden; background: rgba(255,255,255,0.03); }
+    .omer-card-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+    .omer-card:hover .omer-card-thumb img { transform: scale(1.05); }
+    .omer-card-day-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(0,0,0,0.75); border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 6px; padding: 4px 10px; font-size: 13px; font-weight: 600; color: var(--gold);
     }
-    .omer-card-info { flex: 1; min-width: 0; }
+    .omer-card-locked-overlay {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(6,6,6,0.7); font-size: 14px; color: var(--text-dim); letter-spacing: 1px;
+    }
+
+    .omer-card-body { padding: 16px; }
     .omer-card-title { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 4px; line-height: 1.3; }
-    .omer-card-sefirah { font-size: 12px; color: var(--text-dim); }
+    .omer-card-sefirah { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; }
+
+    .omer-card-actions { display: flex; gap: 8px; }
+    .omer-card-btn {
+      display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px;
+      border-radius: 6px; font-family: Inter, sans-serif; font-size: 12px; font-weight: 500;
+      text-decoration: none; transition: all 0.2s; cursor: pointer;
+    }
+    .omer-btn-video { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
+    .omer-btn-video:hover { background: rgba(201,168,76,0.25); }
+    .omer-btn-blog { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.08); }
+    .omer-btn-blog:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
     @media (max-width: 640px) {
       .omer-grid { grid-template-columns: 1fr; }
@@ -90,6 +107,7 @@ title: "Omer — 49 Niveles | ElevAlma"
         <li><a href="/">Inicio</a></li>
         <li><a href="/#videos">Videos</a></li>
         <li><a href="/blog/">Blog</a></li>
+        <li><a href="/omer/" class="active">Omer</a></li>
         <li><a href="/etz-jaim/">Etz Jaim</a></li>
         <li><a href="/#servicios">Servicios</a></li>
       </ul>
@@ -229,6 +247,20 @@ title: "Omer — 49 Niveles | ElevAlma"
       { day: 49, title: 'Día 49', sefirah: 'Maljut she-be-Maljut', url: null }
     ];
 
+    function getYouTubeId(url) {
+      if (!url) return null;
+      var m = url.match(/youtu\.be\/([^?]+)/) || url.match(/[?&]v=([^&]+)/);
+      return m ? m[1] : null;
+    }
+
+    function getBlogSlug(d) {
+      // Generate a slug for the blog post link
+      var slug = d.title.toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+      return 'dia-' + d.day + '-' + slug + '-omer';
+    }
+
     function render() {
       var published = DAYS.filter(function(d) { return d.url; }).length;
       var total = DAYS.length;
@@ -250,16 +282,37 @@ title: "Omer — 49 Niveles | ElevAlma"
           } else {
             continue;
           }
-          var tag = d.url ? 'a' : 'div';
-          var href = d.url ? ' href="' + d.url + '" target="_blank" rel="noopener"' : '';
+          var ytId = getYouTubeId(d.url);
           var locked = d.url ? '' : ' locked';
-          html += '<' + tag + href + ' class="omer-card' + locked + '">';
-          html += '<div class="omer-card-num">' + d.day + '</div>';
-          html += '<div class="omer-card-info">';
+
+          html += '<div class="omer-card' + locked + '">';
+
+          // Thumbnail
+          html += '<div class="omer-card-thumb">';
+          if (ytId) {
+            html += '<img src="https://img.youtube.com/vi/' + ytId + '/mqdefault.jpg" alt="Día ' + d.day + '" loading="lazy">';
+          }
+          html += '<div class="omer-card-day-badge">Día ' + d.day + '</div>';
+          if (!d.url) {
+            html += '<div class="omer-card-locked-overlay">Próximamente</div>';
+          }
+          html += '</div>';
+
+          // Body
+          html += '<div class="omer-card-body">';
           html += '<div class="omer-card-title">' + d.title + '</div>';
           html += '<div class="omer-card-sefirah">' + d.sefirah + '</div>';
-          html += '</div>';
-          html += '</' + tag + '>';
+
+          if (d.url) {
+            html += '<div class="omer-card-actions">';
+            html += '<a href="' + d.url + '" target="_blank" rel="noopener" class="omer-card-btn omer-btn-video">▶ Video</a>';
+            if (d.blog) {
+              html += '<a href="' + d.blog + '" class="omer-card-btn omer-btn-blog">📝 Blog</a>';
+            }
+            html += '</div>';
+          }
+
+          html += '</div></div>';
         }
         grid.innerHTML = html;
       }
