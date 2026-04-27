@@ -471,47 +471,52 @@ section {
 .jbar-date {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: 10px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 .jbar-heb {
   color: var(--gold);
   font-weight: 500;
   direction: rtl;
+  font-size: 15px;
 }
-.jbar-sep { color: rgba(255,255,255,0.15); }
-.jbar-greg { color: rgba(255,255,255,0.5); }
+.jbar-sep { color: rgba(201,168,76,0.3); }
+.jbar-greg { color: rgba(255,255,255,0.55); font-size: 14px; }
 .jbar-parasha {
   color: #fff;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   text-align: center;
   flex: 1;
   min-width: 160px;
+  letter-spacing: 0.5px;
 }
 .jbar-times {
   display: flex;
-  gap: 14px;
+  gap: 18px;
   flex-wrap: wrap;
 }
 .jbar-time {
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
   white-space: nowrap;
+  letter-spacing: 0.3px;
 }
 .jbar-time b {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
   font-weight: 500;
 }
 @media (max-width: 900px) {
+  .jbar { padding: 12px 20px; }
   .jbar-inner {
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     text-align: center;
   }
   .jbar-parasha { min-width: auto; }
-  .jbar-times { justify-content: center; }
+  .jbar-times { justify-content: center; gap: 14px; }
 }
 
 /* ---- HERO STATS ---- */
