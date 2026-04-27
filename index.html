@@ -588,7 +588,7 @@
           counted = true;
           document.querySelectorAll('.hero-stat-number[data-target]').forEach(function(el) {
             var target = parseInt(el.getAttribute('data-target'));
-            animateCount(el, target, 2000);
+            animateCount(el, target, 5000);
           });
         }
       });
@@ -617,8 +617,8 @@
         if(elVids) elVids.textContent = vidsNum.toLocaleString('en-US') + '+';
         // Re-trigger animation if already visible
         if(counted) {
-          if(heroSubs) animateCount(heroSubs, subsNum, 2000);
-          if(heroVids) animateCount(heroVids, vidsNum, 2000);
+          if(heroSubs) animateCount(heroSubs, subsNum, 5000);
+          if(heroVids) animateCount(heroVids, vidsNum, 5000);
         }
       }
     }).catch(function(){});
