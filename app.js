@@ -99,11 +99,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const featSub = document.getElementById('featured-subtitle');
     const featMeta = document.getElementById('featured-meta');
     const featLink = document.getElementById('featured-link');
+    const featImg = document.getElementById('featured-thumb-img');
 
     if (featTitle) featTitle.textContent = f.title;
     if (featSub) featSub.textContent = f.subtitle;
-    if (featMeta) featMeta.textContent = f.duration + ' · ' + f.views + ' vistas';
+    if (featMeta) featMeta.textContent = f.duration + (f.views ? ' · ' + f.views + ' vistas' : '');
     if (featLink) featLink.href = 'https://www.youtube.com/watch?v=' + f.youtubeId;
+    if (featImg) {
+      featImg.src = 'https://img.youtube.com/vi/' + f.youtubeId + '/maxresdefault.jpg';
+      featImg.alt = f.title;
+    }
   }
 
   // ---- NEWSLETTER FORM (FormSubmit.co) ----
@@ -238,6 +243,7 @@ function renderVideos(videos, category) {
     <a href="https://www.youtube.com/watch?v=${v.youtubeId}" target="_blank" rel="noopener"
        class="video-card reveal stagger-${Math.min(i + 1, 6)}">
       <div class="video-card-thumb">
+        <img src="https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg" alt="${v.title}" loading="lazy">
         <div class="play-btn"></div>
       </div>
       <div class="video-card-body">
