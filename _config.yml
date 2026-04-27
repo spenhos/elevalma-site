@@ -1,0 +1,22 @@
+title: ElevAlma — Torá, Sabiduría y Conexión
+description: Videos semanales de Torá, reflexión profunda y herramientas para conectar con tu esencia. Por Saleh Penhos.
+url: https://elevalma.com
+baseurl: ""
+author: Saleh Penhos
+
+permalink: /blog/:title/
+
+collections_dir: .
+markdown: kramdown
+
+exclude:
+  - README.md
+  - CNAME
+  - node_modules
+
+defaults:
+  - scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "post"

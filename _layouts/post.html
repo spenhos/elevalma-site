@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} — ElevAlma</title>
+  <meta name="description" content="{{ page.description }}">
+  <meta property="og:title" content="{{ page.title }} — ElevAlma">
+  <meta property="og:description" content="{{ page.description }}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 465 565'%3E%3Cg transform='translate(0,563) scale(1,-1)'%3E%3Cpath d='M247 270 213 292H214C202 303 195 330 195 358C195 369 197 387 199 405C201 422 203 441 203 453C203 511 174 519 116 523C108 523 93 527 86 563C86 563 2 554 2 484C2 439 43 411 106 411C121 411 125 388 124 357C124 333 122 309 122 285C121 267 133 242 160 222C207 189 256 155 303 122C306 119 310 115 311 106H49L16 0H382C408 7 456 59 456 100C456 114 447 130 425 146C402 161 379 177 356 193H358C342 209 337 233 337 262C337 306 364 376 393 405C403 403 420 395 439 385C458 411 463 450 463 461C463 512 420 519 378 522C367 523 344 527 341 560C341 560 256 562 256 484C256 452 283 425 328 413C299 374 268 321 247 270Z' fill='%23c9a84c'/%3E%3C/g%3E%3C/svg%3E">
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7TTW2CM2MZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7TTW2CM2MZ');
+  </script>
+
+  <style>
+    .blog-post { max-width: 780px; margin: 0 auto; padding: 160px 24px 80px; }
+    .blog-post .label { margin-bottom: 16px; display: inline-block; }
+    .blog-post h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 600; line-height: 1.15; margin-bottom: 16px; }
+    .blog-post .post-meta { color: var(--text-dim); font-size: 14px; margin-bottom: 40px; }
+    .blog-post .post-video { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin-bottom: 48px; background: #0d0d1a; }
+    .blog-post .post-video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    .blog-post .post-content { font-size: 17px; line-height: 1.85; color: var(--text-secondary); }
+    .blog-post .post-content p { margin-bottom: 24px; }
+    .blog-post .post-content h2 { font-size: 24px; font-weight: 600; color: #fff; margin: 48px 0 16px; }
+    .blog-post .post-content h3 { font-size: 20px; font-weight: 600; color: var(--gold); margin: 36px 0 12px; }
+    .blog-post .post-content strong { color: #fff; font-weight: 500; }
+    .blog-post .post-content em { color: var(--gold); font-style: italic; }
+    .blog-post .post-content blockquote { border-left: 3px solid var(--gold); padding: 12px 24px; margin: 32px 0; color: var(--text-secondary); font-style: italic; background: rgba(201,168,76,0.04); border-radius: 0 8px 8px 0; }
+    .blog-post .post-content ul, .blog-post .post-content ol { margin: 16px 0 24px 24px; }
+    .blog-post .post-content li { margin-bottom: 8px; }
+    .blog-cta { text-align: center; margin-top: 64px; padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .blog-cta p { color: var(--text-dim); margin-bottom: 20px; font-size: 15px; }
+    .blog-nav { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06); font-size: 14px; }
+    .blog-nav a { color: var(--gold); }
+    .blog-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+    .blog-tags span { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); background: rgba(201,168,76,0.08); padding: 4px 12px; border-radius: 20px; }
+  </style>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ page.title }}",
+    "description": "{{ page.description }}",
+    "image": "https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg",
+    "author": { "@type": "Person", "name": "Saleh Penhos" },
+    "publisher": { "@type": "Organization", "name": "ElevAlma" },
+    "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ site.url }}{{ page.url }}" }{% if page.youtube_id %},
+    "video": { "@type": "VideoObject", "name": "{{ page.title }}", "thumbnailUrl": "https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg", "uploadDate": "{{ page.date | date: '%Y-%m-%d' }}", "embedUrl": "https://www.youtube.com/embed/{{ page.youtube_id }}" }{% endif %}
+  }
+  </script>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><svg class="nav-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 80" aria-label="ElevAlma"><g transform="translate(12, 8) scale(0.113, 0.113)"><g transform="translate(0, 563) scale(1, -1)"><path d="M247 270 213 292H214C202 303 195 330 195 358C195 369 197 387 199 405C201 422 203 441 203 453C203 511 174 519 116 523C108 523 93 527 86 563C86 563 2 554 2 484C2 439 43 411 106 411C121 411 125 388 124 357C124 333 122 309 122 285C121 267 133 242 160 222C207 189 256 155 303 122C306 119 310 115 311 106H49L16 0H382C408 7 456 59 456 100C456 114 447 130 425 146C402 161 379 177 356 193H358C342 209 337 233 337 262C337 306 364 376 393 405C403 403 420 395 439 385C458 411 463 450 463 461C463 512 420 519 378 522C367 523 344 527 341 560C341 560 256 562 256 484C256 452 283 425 328 413C299 374 268 321 247 270Z" fill="#c9a84c"/></g></g><text x="72" y="57" font-family="Inter, sans-serif" font-weight="600" font-size="52" letter-spacing="3"><tspan fill="#ffffff">Elev</tspan><tspan fill="#c9a84c">Alma</tspan></text></svg></a>
+      <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/#videos">Videos</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/#servicios">Servicios</a></li>
+      </ul>
+      <a href="/#contacto" class="nav-cta">Contacto</a>
+      <div class="nav-mobile" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <article class="blog-post">
+    <span class="label">{{ page.series }}</span>
+    <h1>{{ page.title }}</h1>
+    <div class="post-meta">{{ page.date | date: "%d de %B, %Y" }} · Por Saleh Penhos · {{ page.duration }}</div>
+
+    {% if page.tags.size > 0 %}
+    <div class="blog-tags">
+      {% for tag in page.tags %}<span>{{ tag }}</span>{% endfor %}
+    </div>
+    {% endif %}
+
+    {% if page.youtube_id %}
+    <div class="post-video">
+      <iframe src="https://www.youtube.com/embed/{{ page.youtube_id }}" title="{{ page.title }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    </div>
+    {% endif %}
+
+    <div class="post-content">
+      {{ content }}
+    </div>
+
+    <div class="blog-cta">
+      <p>¿Te resonó este contenido? Agenda una consulta personalizada.</p>
+      <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="btn-primary">Agendar consulta</a>
+    </div>
+
+    <div class="blog-nav">
+      {% if page.previous.url %}<a href="{{ page.previous.url }}">← {{ page.previous.title }}</a>{% else %}<span></span>{% endif %}
+      {% if page.next.url %}<a href="{{ page.next.url }}">{{ page.next.title }} →</a>{% else %}<span></span>{% endif %}
+    </div>
+  </article>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="https://www.youtube.com/@elevalma.oficial" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://www.instagram.com/elevalma" target="_blank" rel="noopener">Instagram</a>
+          <a href="/blog/">Blog</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 ElevAlma · Saleh Penhos</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
