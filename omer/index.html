@@ -1,0 +1,272 @@
+---
+layout: null
+title: "Omer — 49 Niveles | ElevAlma"
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>De la Libertad a la Revelación — 49 Niveles del Omer | ElevAlma</title>
+  <meta name="description" content="Curso completo de Kabbalá: 49 días del Omer, un nivel por día. Sefirot, Musar y transformación del Alma. Por Saleh Penhos.">
+  <meta property="og:title" content="49 Niveles del Omer — ElevAlma">
+  <meta property="og:description" content="Curso de Kabbalá: 49 días, 49 niveles de transformación del Alma.">
+  <meta property="og:image" content="https://elevalma.com/og-image.png">
+  <link rel="canonical" href="https://elevalma.com/omer/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7TTW2CM2MZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7TTW2CM2MZ');
+  </script>
+  <style>
+    .omer-page { max-width: 960px; margin: 0 auto; padding: 160px 24px 80px; }
+    .omer-page h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 600; margin-bottom: 8px; }
+    .omer-subtitle { font-size: clamp(16px, 2.5vw, 20px); color: var(--gold); font-weight: 300; margin-bottom: 12px; letter-spacing: 1px; }
+    .omer-desc { color: var(--text-dim); font-size: 16px; line-height: 1.6; margin-bottom: 48px; max-width: 640px; }
+
+    .omer-cta-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 56px; }
+    .omer-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 8px; font-family: Inter, sans-serif;
+      font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.3s;
+    }
+    .omer-cta-gold { background: var(--gold); color: #0a0a0a; }
+    .omer-cta-gold:hover { background: var(--gold-light); }
+    .omer-cta-outline { background: transparent; color: var(--gold); border: 1.5px solid rgba(201,168,76,0.3); }
+    .omer-cta-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+
+    .omer-progress { margin-bottom: 48px; }
+    .omer-progress-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+    .omer-progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; transition: width 1s ease; }
+    .omer-progress-text { font-size: 13px; color: var(--text-dim); margin-top: 8px; }
+
+    .omer-week { margin-bottom: 48px; }
+    .omer-week-title {
+      font-size: 14px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .omer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+
+    .omer-card {
+      display: flex; gap: 14px; padding: 16px; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 10px;
+      text-decoration: none; color: inherit; transition: all 0.3s;
+    }
+    .omer-card:hover { border-color: rgba(201,168,76,0.3); background: var(--bg-card-hover); transform: translateY(-2px); }
+    .omer-card.locked { opacity: 0.35; pointer-events: none; }
+
+    .omer-card-num {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 8px;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 600; color: var(--gold);
+    }
+    .omer-card-info { flex: 1; min-width: 0; }
+    .omer-card-title { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 4px; line-height: 1.3; }
+    .omer-card-sefirah { font-size: 12px; color: var(--text-dim); }
+
+    @media (max-width: 640px) {
+      .omer-grid { grid-template-columns: 1fr; }
+      .omer-cta-row { flex-direction: column; }
+      .omer-cta { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><svg class="nav-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 40" aria-label="ElevAlma"><g transform="translate(6, 4) scale(0.055, 0.055)" opacity="0.75"><g transform="translate(0, 563) scale(1, -1)"><path d="M247 270 213 292H214C202 303 195 330 195 358C195 369 197 387 199 405C201 422 203 441 203 453C203 511 174 519 116 523C108 523 93 527 86 563C86 563 2 554 2 484C2 439 43 411 106 411C121 411 125 388 124 357C124 333 122 309 122 285C121 267 133 242 160 222C207 189 256 155 303 122C306 119 310 115 311 106H49L16 0H382C408 7 456 59 456 100C456 114 447 130 425 146C402 161 379 177 356 193H358C342 209 337 233 337 262C337 306 364 376 393 405C403 403 420 395 439 385C458 411 463 450 463 461C463 512 420 519 378 522C367 523 344 527 341 560C341 560 256 562 256 484C256 452 283 425 328 413C299 374 268 321 247 270Z" fill="#c9a84c"/></g></g><text x="46" y="28" font-family="Inter, sans-serif" font-weight="300" font-size="26" letter-spacing="8"><tspan fill="#ffffff">ELEV</tspan><tspan fill="#c9a84c">ALMA</tspan></text></svg></a>
+      <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/#videos">Videos</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/etz-jaim/">Etz Jaim</a></li>
+        <li><a href="/#servicios">Servicios</a></li>
+      </ul>
+      <a href="/#contacto" class="nav-cta">Contacto</a>
+      <a href="/#servicios" class="nav-cta-gold">Consulta</a>
+      <div class="nav-mobile" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="omer-page">
+    <span class="label">Curso de Kabbalá</span>
+    <h1>De la Libertad a la Revelación</h1>
+    <p class="omer-subtitle">49 Niveles del Omer</p>
+    <p class="omer-desc">Un video por día. Una sefiráh por nivel. 49 días de transformación real del Alma — desde Pésaj hasta Shavuot. No es teoría: es trabajo interior con la Toráh como espejo.</p>
+
+    <div class="omer-cta-row">
+      <a href="https://youtube.com/playlist?list=PLeEljjsjqm48Bn8ppUIq4L7RwBBrdOtF8" target="_blank" rel="noopener" class="omer-cta omer-cta-gold">▶ Ver playlist en YouTube</a>
+      <a href="/etz-jaim/" class="omer-cta omer-cta-outline">🌳 Árbol de la Vida interactivo</a>
+      <a href="https://elevalma.com/wa" target="_blank" rel="noopener" class="omer-cta omer-cta-outline">📲 Canal de WhatsApp</a>
+    </div>
+
+    <div class="omer-progress">
+      <div class="omer-progress-bar"><div class="omer-progress-fill" id="omerProgress" style="width:0%"></div></div>
+      <p class="omer-progress-text" id="omerProgressText"></p>
+    </div>
+
+    <!-- SEMANA 1: Jésed -->
+    <div class="omer-week">
+      <h2 class="omer-week-title">Semana 1 — Jésed (Bondad)</h2>
+      <div class="omer-grid" id="week1"></div>
+    </div>
+
+    <!-- SEMANA 2: Guevuráh -->
+    <div class="omer-week">
+      <h2 class="omer-week-title">Semana 2 — Guevuráh (Disciplina)</h2>
+      <div class="omer-grid" id="week2"></div>
+    </div>
+
+    <!-- SEMANA 3: Tiféret -->
+    <div class="omer-week">
+      <h2 class="omer-week-title">Semana 3 — Tiféret (Armonía)</h2>
+      <div class="omer-grid" id="week3"></div>
+    </div>
+
+    <!-- SEMANA 4: Nétzaj -->
+    <div class="omer-week">
+      <h2 class="omer-week-title">Semana 4 — Nétzaj (Perseverancia)</h2>
+      <div class="omer-grid" id="week4"></div>
+    </div>
+
+    <!-- SEMANA 5: Hod -->
+    <div class="omer-week">
+      <h2 class="omer-week-title">Semana 5 — Hod (Humildad)</h2>
+      <div class="omer-grid" id="week5"></div>
+    </div>
+
+    <!-- SEMANA 6: Yesod -->
+    <div class="omer-week">
+      <h2 class="omer-week-title">Semana 6 — Yesod (Fundamento)</h2>
+      <div class="omer-grid" id="week6"></div>
+    </div>
+
+    <!-- SEMANA 7: Maljut -->
+    <div class="omer-week">
+      <h2 class="omer-week-title">Semana 7 — Maljut (Soberanía)</h2>
+      <div class="omer-grid" id="week7"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="https://www.youtube.com/@elevalma.oficial" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://www.instagram.com/elevalma" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://whatsapp.com/channel/0029VbBt6FK1SWszxnYZE50s" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="/blog/">Blog</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 ElevAlma · Saleh Penhos</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    var DAYS = [
+      { day: 0, title: 'Introducción', sefirah: 'Intro al Omer', url: 'https://youtu.be/aMIrPi00ne4' },
+      { day: 1, title: 'Estudio Profundo', sefirah: 'Jésed she-be-Jésed', url: 'https://youtu.be/ILuSxTSdG00' },
+      { day: 2, title: 'Escucha Atenta', sefirah: 'Guevuráh she-be-Jésed', url: 'https://youtu.be/tzmHQXs9iE4' },
+      { day: 3, title: 'Articulación de los Labios', sefirah: 'Tiféret she-be-Jésed', url: 'https://youtu.be/TniMReaCPpY' },
+      { day: 4, title: 'Comprensión del Corazón', sefirah: 'Nétzaj she-be-Jésed', url: 'https://youtu.be/TrMS6jBMXxw' },
+      { day: 5, title: 'Discernimiento del Corazón', sefirah: 'Hod she-be-Jésed', url: 'https://youtu.be/1anr7UjUkuc' },
+      { day: 6, title: 'Temor Reverencial', sefirah: 'Yesod she-be-Jésed', url: 'https://youtu.be/sUPWPjjlJ7c' },
+      { day: 7, title: 'Consciencia de la Responsabilidad', sefirah: 'Maljut she-be-Jésed', url: 'https://youtu.be/g36vxyoL-8E' },
+      { day: 8, title: 'Disciplina y Humildad', sefirah: 'Jésed she-be-Guevuráh', url: 'https://youtu.be/FMwft25MX1Y' },
+      { day: 9, title: 'Día 9', sefirah: 'Guevuráh she-be-Guevuráh', url: null },
+      { day: 10, title: 'Día 10', sefirah: 'Tiféret she-be-Guevuráh', url: null },
+      { day: 11, title: 'Día 11', sefirah: 'Nétzaj she-be-Guevuráh', url: null },
+      { day: 12, title: 'Día 12', sefirah: 'Hod she-be-Guevuráh', url: null },
+      { day: 13, title: 'Día 13', sefirah: 'Yesod she-be-Guevuráh', url: null },
+      { day: 14, title: 'Día 14', sefirah: 'Maljut she-be-Guevuráh', url: null },
+      { day: 15, title: 'Día 15', sefirah: 'Jésed she-be-Tiféret', url: null },
+      { day: 16, title: 'Día 16', sefirah: 'Guevuráh she-be-Tiféret', url: null },
+      { day: 17, title: 'Día 17', sefirah: 'Tiféret she-be-Tiféret', url: null },
+      { day: 18, title: 'Día 18', sefirah: 'Nétzaj she-be-Tiféret', url: null },
+      { day: 19, title: 'Día 19', sefirah: 'Hod she-be-Tiféret', url: null },
+      { day: 20, title: 'Día 20', sefirah: 'Yesod she-be-Tiféret', url: null },
+      { day: 21, title: 'Día 21', sefirah: 'Maljut she-be-Tiféret', url: null },
+      { day: 22, title: 'Día 22', sefirah: 'Jésed she-be-Nétzaj', url: null },
+      { day: 23, title: 'Día 23', sefirah: 'Guevuráh she-be-Nétzaj', url: null },
+      { day: 24, title: 'Día 24', sefirah: 'Tiféret she-be-Nétzaj', url: null },
+      { day: 25, title: 'Día 25', sefirah: 'Nétzaj she-be-Nétzaj', url: null },
+      { day: 26, title: 'Día 26', sefirah: 'Hod she-be-Nétzaj', url: null },
+      { day: 27, title: 'Día 27', sefirah: 'Yesod she-be-Nétzaj', url: null },
+      { day: 28, title: 'Día 28', sefirah: 'Maljut she-be-Nétzaj', url: null },
+      { day: 29, title: 'Día 29', sefirah: 'Jésed she-be-Hod', url: null },
+      { day: 30, title: 'Día 30', sefirah: 'Guevuráh she-be-Hod', url: null },
+      { day: 31, title: 'Día 31', sefirah: 'Tiféret she-be-Hod', url: null },
+      { day: 32, title: 'Día 32', sefirah: 'Nétzaj she-be-Hod', url: null },
+      { day: 33, title: 'Día 33', sefirah: 'Hod she-be-Hod', url: null },
+      { day: 34, title: 'Día 34', sefirah: 'Yesod she-be-Hod', url: null },
+      { day: 35, title: 'Día 35', sefirah: 'Maljut she-be-Hod', url: null },
+      { day: 36, title: 'Día 36', sefirah: 'Jésed she-be-Yesod', url: null },
+      { day: 37, title: 'Día 37', sefirah: 'Guevuráh she-be-Yesod', url: null },
+      { day: 38, title: 'Día 38', sefirah: 'Tiféret she-be-Yesod', url: null },
+      { day: 39, title: 'Día 39', sefirah: 'Nétzaj she-be-Yesod', url: null },
+      { day: 40, title: 'Día 40', sefirah: 'Hod she-be-Yesod', url: null },
+      { day: 41, title: 'Día 41', sefirah: 'Yesod she-be-Yesod', url: null },
+      { day: 42, title: 'Día 42', sefirah: 'Maljut she-be-Yesod', url: null },
+      { day: 43, title: 'Día 43', sefirah: 'Jésed she-be-Maljut', url: null },
+      { day: 44, title: 'Día 44', sefirah: 'Guevuráh she-be-Maljut', url: null },
+      { day: 45, title: 'Día 45', sefirah: 'Tiféret she-be-Maljut', url: null },
+      { day: 46, title: 'Día 46', sefirah: 'Nétzaj she-be-Maljut', url: null },
+      { day: 47, title: 'Día 47', sefirah: 'Hod she-be-Maljut', url: null },
+      { day: 48, title: 'Día 48', sefirah: 'Yesod she-be-Maljut', url: null },
+      { day: 49, title: 'Día 49', sefirah: 'Maljut she-be-Maljut', url: null }
+    ];
+
+    function render() {
+      var published = DAYS.filter(function(d) { return d.url; }).length;
+      var total = DAYS.length;
+      var pct = Math.round((published / total) * 100);
+      document.getElementById('omerProgress').style.width = pct + '%';
+      document.getElementById('omerProgressText').textContent = published + ' de ' + total + ' videos publicados (' + pct + '%)';
+
+      for (var w = 1; w <= 7; w++) {
+        var grid = document.getElementById('week' + w);
+        var start = (w === 1) ? 0 : (w - 1) * 7 + 1;
+        var end = w * 7;
+        var html = '';
+        for (var i = 0; i < DAYS.length; i++) {
+          var d = DAYS[i];
+          if (w === 1 && d.day <= 7) {
+            // Week 1 includes intro (day 0) + days 1-7
+          } else if (w > 1 && d.day >= start && d.day <= end) {
+            // Other weeks
+          } else {
+            continue;
+          }
+          var tag = d.url ? 'a' : 'div';
+          var href = d.url ? ' href="' + d.url + '" target="_blank" rel="noopener"' : '';
+          var locked = d.url ? '' : ' locked';
+          html += '<' + tag + href + ' class="omer-card' + locked + '">';
+          html += '<div class="omer-card-num">' + d.day + '</div>';
+          html += '<div class="omer-card-info">';
+          html += '<div class="omer-card-title">' + d.title + '</div>';
+          html += '<div class="omer-card-sefirah">' + d.sefirah + '</div>';
+          html += '</div>';
+          html += '</' + tag + '>';
+        }
+        grid.innerHTML = html;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', render);
+  </script>
+
+</body>
+</html>
