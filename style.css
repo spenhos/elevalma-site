@@ -1203,6 +1203,21 @@ section {
   }
 }
 
+/* ---- ETZ JAIM ---- */
+.etz-section {
+  padding: 100px 0 80px;
+}
+
+.etz-container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.etz-svg {
+  width: 100%;
+  height: auto;
+}
+
 /* ---- FOOTER ---- */
 .footer {
   border-top: 0.5px solid var(--border);
