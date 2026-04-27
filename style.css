@@ -211,12 +211,12 @@ section {
 
 /* ---- HERO ---- */
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
-  padding-top: var(--nav-h);
+  padding-top: 20px;
 }
 
 .hero-bg {
@@ -444,59 +444,129 @@ section {
   color: var(--text-dim);
 }
 
+/* ---- JEWISH INFO BAR ---- */
+.jbar {
+  background: rgba(201,168,76,0.04);
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+  padding: 10px 24px;
+  padding-top: 80px; /* nav height + spacing */
+  position: relative;
+  z-index: 10;
+}
+.jbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.jbar-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.jbar-heb {
+  color: var(--gold);
+  font-weight: 500;
+  direction: rtl;
+}
+.jbar-sep { color: rgba(255,255,255,0.15); }
+.jbar-greg { color: rgba(255,255,255,0.5); }
+.jbar-parasha {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  flex: 1;
+  min-width: 160px;
+}
+.jbar-times {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.jbar-time {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  white-space: nowrap;
+}
+.jbar-time b {
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+}
+@media (max-width: 900px) {
+  .jbar-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .jbar-parasha { min-width: auto; }
+  .jbar-times { justify-content: center; }
+}
+
 /* ---- HERO STATS ---- */
 .hero-stats {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 0;
-  margin-top: 48px;
-  padding: 28px 40px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(201,168,76,0.12);
-  border-radius: 16px;
-  backdrop-filter: blur(8px);
+  gap: 16px;
+  margin-top: 40px;
 }
 .hero-stat {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 0 36px;
-  position: relative;
+  gap: 14px;
+  padding: 18px 28px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s;
+}
+.hero-stat:hover {
+  border-color: rgba(201,168,76,0.3);
+}
+.hero-stat-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--gold);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+.hero-stat-content {
+  display: flex;
+  flex-direction: column;
 }
 .hero-stat-number {
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(26px, 3.5vw, 36px);
   font-weight: 700;
   color: var(--gold);
   line-height: 1;
   font-variant-numeric: tabular-nums;
+  display: inline;
 }
 .hero-stat-plus {
-  position: absolute;
-  top: 0;
-  right: 12px;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   color: var(--gold);
-  opacity: 0.6;
+  opacity: 0.5;
 }
 .hero-stat-label {
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: rgba(255,255,255,0.45);
-  margin-top: 6px;
-}
-.hero-stat-divider {
-  width: 1px;
-  height: 40px;
-  background: rgba(201,168,76,0.2);
+  color: rgba(255,255,255,0.4);
+  margin-top: 4px;
 }
 @media (max-width: 600px) {
-  .hero-stats { padding: 20px 16px; gap: 0; }
-  .hero-stat { padding: 0 20px; }
-  .hero-stat-number { font-size: 26px; }
-  .hero-stat-plus { right: 4px; font-size: 16px; }
+  .hero-stats { gap: 10px; }
+  .hero-stat { padding: 14px 18px; gap: 10px; }
+  .hero-stat-icon { width: 22px; height: 22px; }
+  .hero-stat-number { font-size: 24px; }
+  .hero-stat-plus { font-size: 18px; }
 }
 
 /* ---- SCROLL LINE ---- */
@@ -1470,8 +1540,9 @@ section {
 
 /* ---- RESPONSIVE ---- */
 @media (max-width: 900px) {
-  .nav-links, .nav-cta, .nav-cta-gold { display: none; }
+  .nav-links, .nav-cta, .nav-cta-gold { display: none !important; }
   .nav-mobile { display: flex; }
+  .nav-inner { padding: 0 20px; overflow: visible; }
 
   .about-grid {
     grid-template-columns: 1fr;

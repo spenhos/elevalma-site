@@ -70,6 +70,25 @@
     </div>
   </nav>
 
+  <!-- ==================== JEWISH INFO BAR ==================== -->
+  <div class="jbar" id="jbar">
+    <div class="jbar-inner">
+      <div class="jbar-date">
+        <span class="jbar-heb" id="jbar-heb">—</span>
+        <span class="jbar-sep">·</span>
+        <span class="jbar-greg" id="jbar-greg">—</span>
+      </div>
+      <div class="jbar-parasha" id="jbar-parasha">—</div>
+      <div class="jbar-times">
+        <span class="jbar-time" id="jbar-sunrise" title="Salida del sol">☀️ <b>—</b></span>
+        <span class="jbar-time" id="jbar-sunset" title="Puesta del sol">🌅 <b>—</b></span>
+        <span class="jbar-time" id="jbar-candles" title="Encendido de velas">🕯️ <b>—</b></span>
+        <span class="jbar-time" id="jbar-havdalah" title="Havdalah">✡ <b>—</b></span>
+        <span class="jbar-time" id="jbar-rt" title="Rabenu Tam (72 min)">RT <b>—</b></span>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== HERO ==================== -->
   <section class="hero" id="inicio">
     <div class="hero-bg">
@@ -105,21 +124,18 @@
         <!-- HERO STATS -->
         <div class="hero-stats reveal stagger-5">
           <div class="hero-stat">
-            <span class="hero-stat-number" data-target="598" id="hero-videos">0</span>
-            <span class="hero-stat-plus">+</span>
-            <span class="hero-stat-label">Videos</span>
+            <svg class="hero-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <div class="hero-stat-content">
+              <span class="hero-stat-number" data-target="598" id="hero-videos">0</span><span class="hero-stat-plus">+</span>
+              <span class="hero-stat-label">Videos</span>
+            </div>
           </div>
-          <div class="hero-stat-divider"></div>
           <div class="hero-stat">
-            <span class="hero-stat-number" data-target="7387" id="hero-subs">0</span>
-            <span class="hero-stat-plus">+</span>
-            <span class="hero-stat-label">Suscriptores</span>
-          </div>
-          <div class="hero-stat-divider"></div>
-          <div class="hero-stat">
-            <span class="hero-stat-number" data-target="49">0</span>
-            <span class="hero-stat-plus"></span>
-            <span class="hero-stat-label">Días del Omer</span>
+            <svg class="hero-stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <div class="hero-stat-content">
+              <span class="hero-stat-number" data-target="7387" id="hero-subs">0</span><span class="hero-stat-plus">+</span>
+              <span class="hero-stat-label">Suscriptores</span>
+            </div>
           </div>
         </div>
       </div>
@@ -606,6 +622,76 @@
         }
       }
     }).catch(function(){});
+  })();
+  </script>
+
+  <!-- Jewish Info Bar -->
+  <script>
+  (async function(){
+    try {
+      var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      var now = new Date();
+      var yyyy = now.getFullYear(), mm = String(now.getMonth()+1).padStart(2,'0'), dd = String(now.getDate()).padStart(2,'0');
+      var dateStr = yyyy+'-'+mm+'-'+dd;
+
+      // Spanish date
+      var gregStr = now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+      gregStr = gregStr.charAt(0).toUpperCase() + gregStr.slice(1);
+      document.getElementById('jbar-greg').textContent = gregStr;
+
+      // Hebrew date
+      var heb = await fetch('https://www.hebcal.com/converter?cfg=json&date='+dateStr+'&g2h=1').then(function(r){return r.json()});
+      document.getElementById('jbar-heb').textContent = heb.hebrew || (heb.hd+' '+heb.hm+' '+heb.hy);
+
+      // IP geolocation (no permissions)
+      var lat = 19.43, lon = -99.13; // fallback: CDMX
+      try {
+        var geo = await fetch('https://ipapi.co/json/').then(function(r){return r.json()});
+        if(geo.latitude) { lat = geo.latitude; lon = geo.longitude; }
+      } catch(e){}
+
+      // Shabbat times + parasha
+      var shabUrl = 'https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude='+lat+'&longitude='+lon+'&tzid='+encodeURIComponent(tz)+'&M=on&b=18';
+      var shab = await fetch(shabUrl).then(function(r){return r.json()});
+
+      var parasha='', candlesTime='', havdalahTime='';
+      if(shab.items){
+        shab.items.forEach(function(it){
+          if(it.category==='parashat') parasha = it.title;
+          if(it.category==='candles') candlesTime = it.date;
+          if(it.category==='havdalah') havdalahTime = it.date;
+        });
+      }
+
+      // Show parasha
+      if(parasha){
+        // Translate "Parashat" to Spanish
+        document.getElementById('jbar-parasha').textContent = parasha.replace('Parashat','Parashat');
+      }
+
+      // Format time helper
+      function fmtTime(isoStr){
+        if(!isoStr) return '—';
+        var d = new Date(isoStr);
+        return d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',hour12:true});
+      }
+
+      // Candle lighting
+      if(candlesTime) document.getElementById('jbar-candles').innerHTML = '🕯️ <b>'+fmtTime(candlesTime)+'</b>';
+
+      // Havdalah
+      if(havdalahTime) document.getElementById('jbar-havdalah').innerHTML = '✡ <b>'+fmtTime(havdalahTime)+'</b>';
+
+      // Zmanim (sunrise, sunset, Rabenu Tam)
+      var zmUrl = 'https://www.hebcal.com/zmanim?cfg=json&date='+dateStr+'&latitude='+lat+'&longitude='+lon+'&tzid='+encodeURIComponent(tz);
+      var zm = await fetch(zmUrl).then(function(r){return r.json()});
+
+      if(zm.times){
+        if(zm.times.sunrise) document.getElementById('jbar-sunrise').innerHTML = '☀️ <b>'+fmtTime(zm.times.sunrise)+'</b>';
+        if(zm.times.sunset) document.getElementById('jbar-sunset').innerHTML = '🌅 <b>'+fmtTime(zm.times.sunset)+'</b>';
+        if(zm.times.tzeit72min) document.getElementById('jbar-rt').innerHTML = 'RT <b>'+fmtTime(zm.times.tzeit72min)+'</b>';
+      }
+    } catch(e){ console.log('jbar error',e); }
   })();
   </script>
 
