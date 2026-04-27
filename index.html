@@ -157,11 +157,11 @@
           <p class="body-text reveal stagger-2">Creador de ElevAlma, un espacio dedicado a hacer accesible la sabiduría de la Torá para el mundo hispanohablante. Cada semana produzco contenido que conecta la tradición milenaria con los desafíos de la vida moderna, buscando que cada persona pueda encontrar significado, propósito y herramientas para elevar su vida cotidiana.</p>
           <div class="about-stats reveal stagger-3">
             <div class="stat-card">
-              <div class="stat-number">598</div>
+              <div class="stat-number" id="yt-videos">598+</div>
               <div class="stat-label">Videos</div>
             </div>
             <div class="stat-card">
-              <div class="stat-number">7,387</div>
+              <div class="stat-number" id="yt-subs">7,387+</div>
               <div class="stat-label">Suscriptores</div>
             </div>
             <div class="stat-card">
@@ -318,7 +318,7 @@
         </div>
 
         <div class="reveal-right">
-          <form id="contact-form" class="contact-form" action="https://formsubmit.co/consulta@elevalma.com" method="POST">
+          <form id="contact-form" class="contact-form" action="https://formsubmit.co/73ba5ea63f9aef54db219240acb80a2b" method="POST">
             <!-- FormSubmit config -->
             <input type="hidden" name="_subject" value="Nueva consulta desde elevalma.com">
             <input type="hidden" name="_captcha" value="false">
@@ -523,6 +523,26 @@
         return false;
       }
     });
+  })();
+  </script>
+
+  <!-- YouTube Stats Auto-Update -->
+  <script>
+  (function(){
+    var API_KEY = 'AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'; // ← Reemplaza con tu API key
+    var CHANNEL_ID = 'UC_xxxxxxxxxxxxxxxxxxxxxx'; // ← Reemplaza con tu Channel ID
+    var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + CHANNEL_ID + '&key=' + API_KEY;
+    fetch(url).then(function(r){return r.json()}).then(function(data){
+      if(data.items && data.items[0]){
+        var stats = data.items[0].statistics;
+        var subs = parseInt(stats.subscriberCount).toLocaleString('en-US');
+        var vids = parseInt(stats.videoCount).toLocaleString('en-US');
+        var elSubs = document.getElementById('yt-subs');
+        var elVids = document.getElementById('yt-videos');
+        if(elSubs) elSubs.textContent = subs + '+';
+        if(elVids) elVids.textContent = vids + '+';
+      }
+    }).catch(function(){});
   })();
   </script>
 
