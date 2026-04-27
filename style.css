@@ -444,6 +444,61 @@ section {
   color: var(--text-dim);
 }
 
+/* ---- HERO STATS ---- */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 48px;
+  padding: 28px 40px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(201,168,76,0.12);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+}
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 36px;
+  position: relative;
+}
+.hero-stat-number {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.hero-stat-plus {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold);
+  opacity: 0.6;
+}
+.hero-stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.45);
+  margin-top: 6px;
+}
+.hero-stat-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(201,168,76,0.2);
+}
+@media (max-width: 600px) {
+  .hero-stats { padding: 20px 16px; gap: 0; }
+  .hero-stat { padding: 0 20px; }
+  .hero-stat-number { font-size: 26px; }
+  .hero-stat-plus { right: 4px; font-size: 16px; }
+}
+
 /* ---- SCROLL LINE ---- */
 .scroll-line {
   position: absolute;

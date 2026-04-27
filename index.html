@@ -102,6 +102,26 @@
             <span class="meta" id="featured-meta">—</span>
           </div>
         </a>
+        <!-- HERO STATS -->
+        <div class="hero-stats reveal stagger-5">
+          <div class="hero-stat">
+            <span class="hero-stat-number" data-target="598" id="hero-videos">0</span>
+            <span class="hero-stat-plus">+</span>
+            <span class="hero-stat-label">Videos</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-number" data-target="7387" id="hero-subs">0</span>
+            <span class="hero-stat-plus">+</span>
+            <span class="hero-stat-label">Suscriptores</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-number" data-target="49">0</span>
+            <span class="hero-stat-plus"></span>
+            <span class="hero-stat-label">Días del Omer</span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="scroll-line">Scroll</div>
@@ -526,21 +546,64 @@
   })();
   </script>
 
-  <!-- YouTube Stats Auto-Update -->
+  <!-- Animated Counters + YouTube Stats Auto-Update -->
   <script>
   (function(){
+    // Animate counting
+    function animateCount(el, target, duration) {
+      var start = 0, startTime = null;
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        var current = Math.floor(eased * target);
+        el.textContent = current.toLocaleString('en-US');
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target.toLocaleString('en-US');
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Trigger counters when visible
+    var counted = false;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !counted) {
+          counted = true;
+          document.querySelectorAll('.hero-stat-number[data-target]').forEach(function(el) {
+            var target = parseInt(el.getAttribute('data-target'));
+            animateCount(el, target, 2000);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    var heroStats = document.querySelector('.hero-stats');
+    if (heroStats) observer.observe(heroStats);
+
+    // YouTube API auto-update
     var API_KEY = 'AIzaSyCGX-QSET9JcUVPLYetbxVTuKI7ZPhlWvY';
     var CHANNEL_ID = 'UCm7TaLFmuImm2wfhCHJJehw';
     var url = 'https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + CHANNEL_ID + '&key=' + API_KEY;
     fetch(url).then(function(r){return r.json()}).then(function(data){
       if(data.items && data.items[0]){
         var stats = data.items[0].statistics;
-        var subs = parseInt(stats.subscriberCount).toLocaleString('en-US');
-        var vids = parseInt(stats.videoCount).toLocaleString('en-US');
+        var subsNum = parseInt(stats.subscriberCount);
+        var vidsNum = parseInt(stats.videoCount);
+        // Update hero counters targets
+        var heroSubs = document.getElementById('hero-subs');
+        var heroVids = document.getElementById('hero-videos');
+        if(heroSubs) heroSubs.setAttribute('data-target', subsNum);
+        if(heroVids) heroVids.setAttribute('data-target', vidsNum);
+        // Update about section
         var elSubs = document.getElementById('yt-subs');
         var elVids = document.getElementById('yt-videos');
-        if(elSubs) elSubs.textContent = subs + '+';
-        if(elVids) elVids.textContent = vids + '+';
+        if(elSubs) elSubs.textContent = subsNum.toLocaleString('en-US') + '+';
+        if(elVids) elVids.textContent = vidsNum.toLocaleString('en-US') + '+';
+        // Re-trigger animation if already visible
+        if(counted) {
+          if(heroSubs) animateCount(heroSubs, subsNum, 2000);
+          if(heroVids) animateCount(heroVids, vidsNum, 2000);
+        }
       }
     }).catch(function(){});
   })();
