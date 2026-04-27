@@ -130,6 +130,7 @@ title: Blog — ElevAlma
       <div class="blog-filters">
         <button class="blog-filter-btn active" data-filter="all">Todos</button>
         <button class="blog-filter-btn" data-filter="Parashá">Parashá</button>
+        <button class="blog-filter-btn" data-filter="Omer">Omer</button>
         <button class="blog-filter-btn" data-filter="Festividades">Festividades</button>
         <button class="blog-filter-btn" data-filter="13 Atributos">13 Atributos</button>
         <button class="blog-filter-btn" data-filter="Reflexiones">Reflexiones</button>
@@ -171,119 +172,43 @@ title: Blog — ElevAlma
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const searchInput = document.getElementById('blogSearch');
-      const filterButtons = document.querySelectorAll('.blog-filter-btn');
-      const blogCards = document.querySelectorAll('.blog-card');
+      var searchInput = document.getElementById('blogSearch');
+      var filterButtons = document.querySelectorAll('.blog-filter-btn');
+      var blogCards = document.querySelectorAll('.blog-card');
+      var activeFilter = 'all';
 
-      let activeFilters = new Set(['all']);
-
-      function getCardData(card) {
-        const label = card.querySelector('.blog-card-body .label')?.textContent.trim() || '';
-        const title = card.querySelector('.blog-card-body h2')?.textContent.trim() || '';
-        const description = card.querySelector('.blog-card-body p')?.textContent.trim() || '';
-
-        return {
-          series: label,
-          title: title,
-          description: description,
-          text: (label + ' ' + title + ' ' + description).toLowerCase()
-        };
+      function matchCategory(t, filter) {
+        if (filter === 'all') return true;
+        if (filter === 'Parashá') return t.includes('perashá') || t.includes('parashat') || t.includes('parashá') || t.includes('perashat');
+        if (filter === 'Omer') return t.includes('omer') || t.includes('sefirot') || t.includes('49 nivel');
+        if (filter === 'Festividades') return t.includes('purim') || t.includes('pésaj') || t.includes('pesaj') || t.includes('sucot') || t.includes('rosh hashan') || t.includes('neilá') || t.includes('kippur');
+        if (filter === '13 Atributos') return t.includes('atributos') || t.includes('misericordia') || t.includes('midot');
+        if (filter === 'Reflexiones') return !matchCategory(t,'Parashá') && !matchCategory(t,'13 Atributos') && !matchCategory(t,'Omer');
+        return true;
       }
 
       function filterCards() {
-        const searchTerm = searchInput.value.toLowerCase();
-
-        blogCards.forEach(card => {
-          const data = getCardData(card);
-
-          // Check search term match
-          const searchMatch = searchTerm === '' || data.text.includes(searchTerm);
-
-          // Check category filter match
-          let categoryMatch = activeFilters.has('all');
-          if (!categoryMatch) {
-            var t = data.text;
-            for (let filter of activeFilters) {
-              if (filter === 'Parashá' && (t.includes('perashá') || t.includes('parashat') || t.includes('parashá') || t.includes('perashat'))) {
-                categoryMatch = true; break;
-              } else if (filter === 'Festividades' && (t.includes('purim') || t.includes('pésaj') || t.includes('pesaj') || t.includes('sucot') || t.includes('rosh hashan') || t.includes('neilá') || t.includes('kippur'))) {
-                categoryMatch = true; break;
-              } else if (filter === '13 Atributos' && (t.includes('atributos') || t.includes('misericordia') || t.includes('midot'))) {
-                categoryMatch = true; break;
-              } else if (filter === 'Reflexiones' && !t.includes('perashá') && !t.includes('parashat') && !t.includes('parashá') && !t.includes('atributos')) {
-                categoryMatch = true; break;
-              }
-            }
-          }
-
-          // Show or hide card
-          if (searchMatch && categoryMatch) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
+        var searchTerm = searchInput.value.toLowerCase();
+        blogCards.forEach(function(card) {
+          var label = (card.querySelector('.blog-card-body .label') || {}).textContent || '';
+          var title = (card.querySelector('.blog-card-body h2') || {}).textContent || '';
+          var desc = (card.querySelector('.blog-card-body p') || {}).textContent || '';
+          var t = (label + ' ' + title + ' ' + desc).toLowerCase();
+          var searchMatch = searchTerm === '' || t.includes(searchTerm);
+          var catMatch = matchCategory(t, activeFilter);
+          card.classList.toggle('hidden', !(searchMatch && catMatch));
         });
       }
 
-      // Search input listener
       searchInput.addEventListener('input', filterCards);
 
-      // Filter button listeners
-      filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const filter = this.getAttribute('data-filter');
-
-          if (filter === 'all') {
-            activeFilters.clear();
-            activeFilters.add('all');
-            filterButtons.forEach(btn => {
-              if (btn.getAttribute('data-filter') === 'all') {
-                btn.classList.add('active');
-              } else {
-                btn.classList.remove('active');
-              }
-            });
-          } else {
-            activeFilters.delete('all');
-
-            if (activeFilters.has(filter)) {
-              activeFilters.delete(filter);
-            } else {
-              activeFilters.add(filter);
-            }
-
-            // Update button states
-            filterButtons.forEach(btn => {
-              const btnFilter = btn.getAttribute('data-filter');
-              if (btnFilter === 'all') {
-                btn.classList.toggle('active', activeFilters.size === 0);
-              } else {
-                btn.classList.toggle('active', activeFilters.has(btnFilter));
-              }
-            });
-
-            // If no filters selected, revert to 'all'
-            if (activeFilters.size === 0) {
-              activeFilters.add('all');
-              filterButtons.forEach(btn => {
-                if (btn.getAttribute('data-filter') === 'all') {
-                  btn.classList.add('active');
-                } else {
-                  btn.classList.remove('active');
-                }
-              });
-            }
-          }
-
+      filterButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          activeFilter = this.getAttribute('data-filter');
+          filterButtons.forEach(function(b) { b.classList.remove('active'); });
+          this.classList.add('active');
           filterCards();
         });
-      });
-
-      // Set 'all' as active by default
-      filterButtons.forEach(btn => {
-        if (btn.getAttribute('data-filter') === 'all') {
-          btn.classList.add('active');
-        }
       });
     });
   </script>
