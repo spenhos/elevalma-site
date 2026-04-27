@@ -461,7 +461,7 @@ title: Etz Jaim — ElevAlma
     <div class="etz-main" id="mainArea">
 
       <!-- SVG Tree -->
-      <svg id="etzJaim" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 800">
+      <svg id="etzJaim" xmlns="http://www.w3.org/2000/svg" viewBox="0 -30 480 860">
       <defs>
         <radialGradient id="atmG" cx="50%" cy="38%" r="52%">
           <stop id="atmStop0" offset="0%" stop-color="rgba(201,168,76,0.12)" stop-opacity="1"/>
@@ -489,8 +489,8 @@ title: Etz Jaim — ElevAlma
         </radialGradient>
       </defs>
 
-      <rect id="svgBg" width="480" height="720" fill="#0a0a1a"/>
-      <rect width="480" height="720" fill="url(#atmG)"/>
+      <rect id="svgBg" x="0" y="-30" width="480" height="860" fill="#0a0a1a"/>
+      <rect x="0" y="-30" width="480" height="860" fill="url(#atmG)"/>
       <ellipse id="maskEl" cx="240" cy="355" rx="265" ry="375" fill="url(#maskGrad)" display="none"/>
 
       <!-- Channels outline -->
@@ -858,7 +858,7 @@ function expSVG(){
 }
 function expPNG(){
   const svg=document.getElementById('etzJaim'),clone=svg.cloneNode(true);
-  const w=480*expScale,h=720*expScale;clone.setAttribute('width',w);clone.setAttribute('height',h);clone.removeAttribute('style');
+  const w=480*expScale,h=860*expScale;clone.setAttribute('width',w);clone.setAttribute('height',h);clone.removeAttribute('style');
   const src=new XMLSerializer().serializeToString(clone);
   const cv=document.createElement('canvas');cv.width=w;cv.height=h;
   const img=new Image(),blob=new Blob([src],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob);
