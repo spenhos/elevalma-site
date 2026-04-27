@@ -128,7 +128,7 @@ title: Blog — ElevAlma
         <input type="text" id="blogSearch" class="blog-search-input" placeholder="Buscar artículos...">
       </div>
       <div class="blog-filters">
-        <button class="blog-filter-btn" data-filter="all">Todos</button>
+        <button class="blog-filter-btn active" data-filter="all">Todos</button>
         <button class="blog-filter-btn" data-filter="Parashá">Parashá</button>
         <button class="blog-filter-btn" data-filter="Festividades">Festividades</button>
         <button class="blog-filter-btn" data-filter="13 Atributos">13 Atributos</button>
@@ -202,10 +202,16 @@ title: Blog — ElevAlma
           // Check category filter match
           let categoryMatch = activeFilters.has('all');
           if (!categoryMatch) {
+            var t = data.text;
             for (let filter of activeFilters) {
-              if (data.series === filter || data.title.includes(filter) || data.description.includes(filter)) {
-                categoryMatch = true;
-                break;
+              if (filter === 'Parashá' && (t.includes('perashá') || t.includes('parashat') || t.includes('parashá') || t.includes('perashat'))) {
+                categoryMatch = true; break;
+              } else if (filter === 'Festividades' && (t.includes('purim') || t.includes('pésaj') || t.includes('pesaj') || t.includes('sucot') || t.includes('rosh hashan') || t.includes('neilá') || t.includes('kippur'))) {
+                categoryMatch = true; break;
+              } else if (filter === '13 Atributos' && (t.includes('atributos') || t.includes('misericordia') || t.includes('midot'))) {
+                categoryMatch = true; break;
+              } else if (filter === 'Reflexiones' && !t.includes('perashá') && !t.includes('parashat') && !t.includes('parashá') && !t.includes('atributos')) {
+                categoryMatch = true; break;
               }
             }
           }
