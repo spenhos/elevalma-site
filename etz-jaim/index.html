@@ -193,7 +193,7 @@ title: Etz Jaim — ElevAlma
     font-size: 13px;
     font-family: 'Inter', sans-serif;
   }
-  .etz-sidebar select option { background: #0a0a1a; color: #f0f0f0; }
+  .etz-sidebar select option { background: #060606; color: #f0f0f0; }
   .srow { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
   .srow label { font-size: 11px; color: rgba(255,255,255,0.32); min-width: 64px; }
   .srow input[type="range"] { flex: 1; accent-color: #c9a84c; }
@@ -215,7 +215,7 @@ title: Etz Jaim — ElevAlma
     overflow-y: auto;
     padding: 24px 24px 60px;
     gap: 24px;
-    background: #0a0a1a;
+    background: #060606;
   }
 
   #etzJaim {
@@ -366,7 +366,7 @@ title: Etz Jaim — ElevAlma
         <li><a href="/#servicios">Servicios</a></li>
       </ul>
       <a href="/#contacto" class="nav-cta">Contacto</a>
-      <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="nav-cta-gold">Consulta</a>
+      <a href="/#servicios" class="nav-cta-gold">Consulta</a>
       <div class="nav-mobile" aria-label="Menú">
         <span></span><span></span><span></span>
       </div>
@@ -429,7 +429,7 @@ title: Etz Jaim — ElevAlma
         <h3>Fondo</h3>
         <div class="trow">
           <div class="topt" id="bgT" onclick="setBg('transparent',this)">Transparente</div>
-          <div class="topt on" id="bgD" onclick="setBg('#0a0a1a',this)">Oscuro</div>
+          <div class="topt on" id="bgD" onclick="setBg('#060606',this)">Oscuro</div>
           <div class="topt" id="bgB" onclick="setBg('#000000',this)">Negro</div>
         </div>
       </div>
@@ -466,7 +466,7 @@ title: Etz Jaim — ElevAlma
       <defs>
         <radialGradient id="atmG" cx="50%" cy="38%" r="52%">
           <stop id="atmStop0" offset="0%" stop-color="rgba(201,168,76,0.12)" stop-opacity="1"/>
-          <stop id="atmStop1" offset="100%" stop-color="#0a0a1a" stop-opacity="0"/>
+          <stop id="atmStop1" offset="100%" stop-color="#060606" stop-opacity="0"/>
         </radialGradient>
         <filter id="txtShadow" x="-20%" y="-20%" width="140%" height="140%">
           <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="rgba(0,0,0,0.80)"/>
@@ -490,7 +490,7 @@ title: Etz Jaim — ElevAlma
         </radialGradient>
       </defs>
 
-      <rect id="svgBg" x="0" y="-30" width="480" height="860" fill="#0a0a1a"/>
+      <rect id="svgBg" x="0" y="-30" width="480" height="860" fill="#060606"/>
       <rect x="0" y="-30" width="480" height="860" fill="url(#atmG)"/>
       <ellipse id="maskEl" cx="240" cy="355" rx="265" ry="375" fill="url(#maskGrad)" display="none"/>
 
@@ -817,12 +817,12 @@ function updAxis(){
   document.getElementById('ch-outline').setAttribute('stroke-width',(parseFloat(wid)+2.3).toFixed(1));
 }
 
-let currentBgCol='#0a0a1a';
+let currentBgCol='#060606';
 function setBg(col,el){
   document.querySelectorAll('.topt[id^="bg"]').forEach(t=>t.classList.remove('on'));
   el.classList.add('on');currentBgCol=col;
   const bg=document.getElementById('svgBg');
-  if(col==='transparent'){bg.setAttribute('fill','none');document.getElementById('mainArea').style.background='repeating-conic-gradient(#0d0d1a 0% 25%,#0a0a14 0% 50%) 0 0/20px 20px';}
+  if(col==='transparent'){bg.setAttribute('fill','none');document.getElementById('mainArea').style.background='repeating-conic-gradient(#0e0e0e 0% 25%,#080808 0% 50%) 0 0/20px 20px';}
   else{bg.setAttribute('fill',col);document.getElementById('mainArea').style.background='';}
 }
 
