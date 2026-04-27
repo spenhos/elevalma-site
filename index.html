@@ -603,8 +603,8 @@
     fetch(url).then(function(r){return r.json()}).then(function(data){
       if(data.items && data.items[0]){
         var stats = data.items[0].statistics;
-        var subsNum = parseInt(stats.subscriberCount);
-        var vidsNum = parseInt(stats.videoCount);
+        var subsNum = Math.max(parseInt(stats.subscriberCount), 7387);
+        var vidsNum = Math.max(parseInt(stats.videoCount), 598);
         // Update hero counters targets
         var heroSubs = document.getElementById('hero-subs');
         var heroVids = document.getElementById('hero-videos');
