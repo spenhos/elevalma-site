@@ -821,7 +821,7 @@ function setBg(col,el){
   document.querySelectorAll('.topt[id^="bg"]').forEach(t=>t.classList.remove('on'));
   el.classList.add('on');currentBgCol=col;
   const bg=document.getElementById('svgBg');
-  if(col==='transparent'){bg.setAttribute('fill','none');document.getElementById('mainArea').style.background='repeating-conic-gradient(#1a1035 0% 25%,#110d25 0% 50%) 0 0/20px 20px';}
+  if(col==='transparent'){bg.setAttribute('fill','none');document.getElementById('mainArea').style.background='repeating-conic-gradient(#0d0d1a 0% 25%,#0a0a14 0% 50%) 0 0/20px 20px';}
   else{bg.setAttribute('fill',col);document.getElementById('mainArea').style.background='';}
 }
 
