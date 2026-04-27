@@ -57,8 +57,18 @@ Y cuando estos dos hablan juntos, cuando el amor se une con la perseverancia, na
 
 ## La Historia Personal
 
-Hace años conocí a alguien que estaba aprendiendo. Era inteligente, rápido, tiene una mente muy analítica. Después de unos meses de estudio intenso, me preguntó confundido: leo los textos, entiendo los conceptos, puedo explicarlo a otros, no siento nada. Es como si fuera teoría y parece que no hay verdad aquí.
+Hace años conocí a alguien que estaba aprendiendo. Era inteligente, rápido, con una mente muy analítica. Después de unos meses de estudio intenso, me preguntó confundido: "Leo los textos, entiendo los conceptos, puedo explicarlo a otros. Pero no siento nada. Es como si fuera teoría y no hay verdad aquí."
 
-Y le pregunté: cuánto tiempo dedicas a reflexionar sobre lo que aprendes?
+Y le pregunté: ¿cuánto tiempo dedicas a reflexionar sobre lo que aprendes?
 
-Me lo miró abajo y dijo: realmente no mucho. Est
+Me miró y dijo: "Realmente no mucho. Estoy siempre buscando lo siguiente por leer, el siguiente concepto."
+
+Ahí estaba el problema. Él estaba acumulando, pero no esperando que nada lo transformara. Estaba buscando el siguiente concepto antes de que el anterior hubiera tenido oportunidad de penetrar. Y entonces le dije algo que él nunca olvidó: "La Toráh no es un menú que debes terminar. Es una verdad que debe vivir en ti. Y eso toma tiempo. Mucho tiempo."
+
+Eso es Netzaj en Gésed. La perseverancia que hace que el amor dure. Que hace que la verdad respire.
+
+## Reflexión Personal
+
+¿Hay algo que has aprendido intelectualmente, pero que aún no resuena en tu corazón? ¿Cuánto tiempo le dedicas a permitir que esa verdad viva en ti, que se convierta de concepto en realidad sentida?
+
+Binatal Alev no es un accidente de la enseñanza. Es el resultado de tu disposición a esperar, a reflexionar, a permitir que lo que aprendiste te cambie profundamente.
