@@ -296,11 +296,13 @@ section {
 
 .hero-content .label {
   margin-bottom: 24px;
-  display: inline-block;
+  display: block;
+  text-align: center;
 }
 
 .hero-content .heading-xl {
   margin-bottom: 24px;
+  text-align: center;
 }
 
 .hero-content .heading-xl em {
@@ -312,6 +314,8 @@ section {
   text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: 400;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 #hero-rotating {
@@ -326,12 +330,14 @@ section {
 
 .hero-content .body-text {
   margin-bottom: 40px;
+  text-align: center;
 }
 
 .hero-buttons {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .btn-primary {
@@ -375,6 +381,8 @@ section {
 /* ---- FEATURED VIDEO ---- */
 .featured-video {
   margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
   background: var(--bg-card);
   border: 0.5px solid var(--border);
   border-radius: 12px;
