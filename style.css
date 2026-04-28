@@ -315,9 +315,10 @@ section {
 }
 
 #hero-rotating {
-  transition: opacity 1s ease;
-  min-height: 2.2em;
+  transition: opacity 2s ease;
+  height: 2.2em;
   display: block;
+  overflow: hidden;
 }
 #hero-rotating.fade-out {
   opacity: 0;
