@@ -316,7 +316,7 @@ section {
 
 #hero-rotating {
   transition: opacity 2s ease;
-  height: 2.2em;
+  height: 3.2em;
   display: block;
   overflow: hidden;
 }
@@ -1630,6 +1630,9 @@ section {
 @media (max-width: 600px) {
   .hero-content .heading-xl {
     font-size: 32px;
+  }
+  #hero-rotating {
+    height: 4.2em;
   }
 
   .about-stats {
