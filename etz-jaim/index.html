@@ -315,15 +315,62 @@ title: Etz Jaim — ElevAlma
   }
 
   /* Responsive */
+  /* Mobile overlay for etz-jaim */
+  .mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6,6,6,0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    padding: 90px 0 40px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+    overflow-y: auto;
+  }
+  .mobile-overlay.open { opacity: 1; pointer-events: all; }
+  .mobile-overlay a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #f0f0f0;
+    padding: 18px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: color 0.3s;
+    display: block;
+    text-decoration: none;
+  }
+  .mobile-overlay a:last-of-type { border-bottom: none; }
+  .mobile-overlay a:hover { color: #c9a84c; }
+  .mobile-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #f0f0f0;
+    cursor: pointer;
+    background: none;
+  }
+
   .scroll-hint {
     display: none;
     position: fixed;
     bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 16px;
     z-index: 80;
-    color: var(--gold, #c9a84c);
-    font-size: 11px;
+    color: #c9a84c;
+    font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
     text-align: center;
@@ -333,12 +380,12 @@ title: Etz Jaim — ElevAlma
   .scroll-hint svg {
     display: block;
     margin: 4px auto 0;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
   @keyframes scrollPulse {
-    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
-    50% { opacity: 1; transform: translateX(-50%) translateY(6px); }
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(6px); }
   }
   @media (max-width: 900px) {
     .scroll-hint { display: block; }
@@ -382,6 +429,20 @@ title: Etz Jaim — ElevAlma
 </style>
 </head>
 <body>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-overlay" id="etzMobileOverlay">
+    <div class="mobile-close" id="etzMobileClose">&times;</div>
+    <a href="/">Inicio</a>
+    <a href="/#videos">Videos</a>
+    <a href="/#sobre-mi">Sobre mí</a>
+    <a href="/blog/">Blog</a>
+    <a href="/omer/">Omer</a>
+    <a href="/etz-jaim/">Etz Jaim</a>
+    <a href="/#servicios">Servicios</a>
+    <a href="/#contacto">Contacto</a>
+    <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" style="color: #c9a84c;">Consulta</a>
+  </div>
 
   <!-- NAV -->
   <nav class="nav scrolled">
@@ -1003,13 +1064,22 @@ buildNodes();buildSidebar();buildSelect();buildCalendar();initIntroBar();applyAr
 document.getElementById('bgD').click();applyMask();
 initCalendar();
 
-// Mobile nav toggle
+// Mobile nav toggle — opens menu overlay, not sidebar
 var navMobileBtn = document.querySelector('.nav-mobile');
-if(navMobileBtn) {
-  navMobileBtn.addEventListener('click', toggleSidebar);
+var etzOverlay = document.getElementById('etzMobileOverlay');
+var etzClose = document.getElementById('etzMobileClose');
+if(navMobileBtn && etzOverlay) {
+  navMobileBtn.addEventListener('click', function(){ etzOverlay.classList.toggle('open'); });
+  if(etzClose) etzClose.addEventListener('click', function(){ etzOverlay.classList.remove('open'); });
+  etzOverlay.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ etzOverlay.classList.remove('open'); }); });
 }
 var scrollHint=document.getElementById('scrollHint');
 if(scrollHint){window.addEventListener('scroll',function(){if(window.scrollY>100)scrollHint.style.display='none';},{passive:true});}
 </script>
+
+<div class="mobile-float-cta" style="right:auto;left:0;width:calc(100% - 160px);">
+  <a href="/#servicios">Agendar consulta</a>
+</div>
+
 </body>
 </html>
