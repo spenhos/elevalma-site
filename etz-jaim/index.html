@@ -1074,10 +1074,15 @@ if(navMobileBtn && etzOverlay) {
   etzOverlay.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ etzOverlay.classList.remove('open'); }); });
 }
 var scrollHint=document.getElementById('scrollHint');
-if(scrollHint){window.addEventListener('scroll',function(){if(window.scrollY>100)scrollHint.style.display='none';},{passive:true});}
+var etzCta=document.getElementById('etzFloatCta');
+window.addEventListener('scroll',function(){
+  var y=window.scrollY;
+  if(scrollHint) scrollHint.style.display = y > 100 ? 'none' : '';
+  if(etzCta) etzCta.style.cssText = y > 300 ? '' : 'display:none !important';
+},{passive:true});
 </script>
 
-<div class="mobile-float-cta" style="right:auto;left:0;width:calc(100% - 160px);">
+<div class="mobile-float-cta" id="etzFloatCta" style="display:none !important;">
   <a href="/#servicios">Agendar consulta</a>
 </div>
 
