@@ -323,7 +323,7 @@ section {
 
 #hero-rotating {
   transition: opacity 2s ease;
-  height: 3.2em;
+  height: 4.2em;
   display: block;
   overflow: hidden;
 }
