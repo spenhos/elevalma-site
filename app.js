@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = document.querySelector('.mobile-close');
 
   if (menuBtn && overlay) {
-    menuBtn.addEventListener('click', () => overlay.classList.add('open'));
-    closeBtn.addEventListener('click', () => overlay.classList.remove('open'));
+    menuBtn.addEventListener('click', () => overlay.classList.toggle('open'));
+    if (closeBtn) closeBtn.addEventListener('click', () => overlay.classList.remove('open'));
     overlay.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => overlay.classList.remove('open'));
     });

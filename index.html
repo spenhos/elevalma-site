@@ -44,6 +44,9 @@
   <!-- MOBILE OVERLAY -->
   <div class="mobile-overlay">
     <div class="mobile-close">&times;</div>
+    <div class="mobile-search">
+      <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Buscar...">
+    </div>
     <a href="#inicio">Inicio</a>
     <a href="#videos">Videos</a>
     <a href="#sobre-mi">Sobre mí</a>
@@ -52,7 +55,7 @@
     <a href="/etz-jaim/">Etz Jaim</a>
     <a href="#servicios">Servicios</a>
     <a href="#contacto">Contacto</a>
-    <a href="#servicios" style="color: var(--gold); font-weight: 500;">Consulta</a>
+    <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" style="color: var(--gold);">Consulta</a>
     <div class="mobile-zmanim" id="mobile-zmanim">
       <div class="mobile-zmanim-label" id="mobile-zmanim-date">—</div>
       <div class="mobile-zmanim-times" id="mobile-zmanim-times"></div>
@@ -112,17 +115,13 @@
         <h1 class="heading-xl reveal stagger-1" id="hero-rotating"></h1>
         <p class="body-text reveal stagger-2">Videos semanales de Torá, reflexión profunda y herramientas prácticas para conectar con tu esencia y vivir con propósito.</p>
         <div class="hero-buttons reveal stagger-3">
-          <a href="#videos" class="btn-primary">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-            Ver último video
-          </a>
-          <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="btn-secondary">Agendar consulta</a>
+          <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="btn-primary">Agendar consulta</a>
         </div>
 
         <!-- FEATURED VIDEO CARD -->
         <a id="featured-link" href="#" target="_blank" rel="noopener" class="featured-video reveal stagger-4">
           <div class="featured-thumb">
-            <img id="featured-thumb-img" src="" alt="" loading="eager">
+            <img id="featured-thumb-img" src="" alt="" loading="lazy">
             <div class="play-btn"></div>
           </div>
           <div class="featured-info">
@@ -554,8 +553,8 @@
   </footer>
 
   <!-- SCRIPTS -->
-  <script src="videos.js"></script>
-  <script src="app.js"></script>
+  <script src="videos.js" defer></script>
+  <script src="app.js" defer></script>
 
   <!-- Anti-spam: timing check -->
   <script>
@@ -723,26 +722,26 @@
   <script>
   (function(){
     var phrases = [
-      'La Toráh no te consuela. Te <em class="hero-keyword">CONFRONTA</em>.',
+      'La Toráh no te consuela.<br>Te <em class="hero-keyword">CONFRONTA</em>',
       'Eleva tu <em class="hero-keyword">ALMA</em>,<br>transforma tu vida',
-      '¿Y si todo lo que crees de ti... está <em class="hero-keyword">INCOMPLETO</em>?',
-      'Tu proceso de elevación empieza <em class="hero-keyword">AQUÍ</em>.',
-      '¿Estás viviendo... o solo <em class="hero-keyword">SOBREVIVIENDO</em>?',
-      'Sabiduría ancestral. <em class="hero-keyword">TRANSFORMACIÓN</em> real.',
-      'La pregunta correcta vale más que mil <em class="hero-keyword">RESPUESTAS</em>.',
-      'Hay una versión más alta de ti. <em class="hero-keyword">ENCUÉNTRALA</em>.',
-      'Lo que evitas enfrentar, te <em class="hero-keyword">DEFINE</em>.',
-      'Conecta con tu esencia. Vive con <em class="hero-keyword">PROPÓSITO</em>.',
-      'Lo que no cuestionas, te <em class="hero-keyword">CONTROLA</em>.',
-      '3,338 años de sabiduría. Una <em class="hero-keyword">VIDA</em> para aplicarla.',
-      'Tu <em class="hero-keyword">ALMA</em> sabe. Tu ego distrae.',
-      'La Kabbalá no es mística. Es <em class="hero-keyword">AUTOCONOCIMIENTO</em>.',
-      'Estudiar Toráh es mirarte al <em class="hero-keyword">ESPEJO</em>.',
-      'Deja de buscar afuera lo que ya está <em class="hero-keyword">DENTRO</em>.',
-      'No viniste a estar cómodo. Viniste a <em class="hero-keyword">DESPERTAR</em>.',
-      'Cada semana, una verdad que te <em class="hero-keyword">TRANSFORMA</em>.',
-      'No busques respuestas. Busca mejores <em class="hero-keyword">PREGUNTAS</em>.',
-      'Tu <em class="hero-keyword">ALMA</em> no necesita reparación. Necesita <em class="hero-keyword">REVELACIÓN</em>.'
+      '¿Y si todo lo que crees de ti<br>está <em class="hero-keyword">INCOMPLETO</em>?',
+      'Tu proceso de elevación<br>empieza <em class="hero-keyword">AQUÍ</em>',
+      '¿Estás viviendo<br>o solo <em class="hero-keyword">SOBREVIVIENDO</em>?',
+      'Sabiduría ancestral<br><em class="hero-keyword">TRANSFORMACIÓN</em> real',
+      'La pregunta correcta vale más<br>que mil <em class="hero-keyword">RESPUESTAS</em>',
+      'Hay una versión más alta de ti<br><em class="hero-keyword">ENCUÉNTRALA</em>',
+      'Lo que evitas enfrentar<br>te <em class="hero-keyword">DEFINE</em>',
+      'Conecta con tu esencia<br>Vive con <em class="hero-keyword">PROPÓSITO</em>',
+      'Lo que no cuestionas<br>te <em class="hero-keyword">CONTROLA</em>',
+      '3,338 años de sabiduría<br>Una <em class="hero-keyword">VIDA</em> para aplicarla',
+      'Tu <em class="hero-keyword">ALMA</em> sabe<br>Tu ego distrae',
+      'La Kabbalá no es mística<br>Es <em class="hero-keyword">AUTOCONOCIMIENTO</em>',
+      'Estudiar Toráh es mirarte<br>al <em class="hero-keyword">ESPEJO</em>',
+      'Deja de buscar afuera<br>lo que ya está <em class="hero-keyword">DENTRO</em>',
+      'No viniste a estar cómodo<br>Viniste a <em class="hero-keyword">DESPERTAR</em>',
+      'Cada semana, una verdad<br>que te <em class="hero-keyword">TRANSFORMA</em>',
+      'No busques respuestas<br>Busca mejores <em class="hero-keyword">PREGUNTAS</em>',
+      'Tu <em class="hero-keyword">ALMA</em> no necesita reparación<br>Necesita <em class="hero-keyword">REVELACIÓN</em>'
     ];
     var el = document.getElementById('hero-rotating');
     if(!el) return;
@@ -756,6 +755,42 @@
         el.classList.remove('fade-out');
       }, 2000);
     }, 10000);
+  })();
+  </script>
+
+  <!-- Mobile Search -->
+  <script>
+  (function(){
+    var input = document.getElementById('mobileSearch');
+    if(!input) return;
+    var sections = {
+      'inicio': '#inicio', 'home': '#inicio',
+      'video': '#videos', 'videos': '#videos', 'parasha': '#videos', 'perasha': '#videos',
+      'sobre': '#sobre-mi', 'mi': '#sobre-mi', 'bio': '#sobre-mi', 'saleh': '#sobre-mi',
+      'blog': '/blog/', 'articulo': '/blog/', 'post': '/blog/',
+      'omer': '/omer/', 'sefirot': '/omer/', 'niveles': '/omer/',
+      'etz': '/etz-jaim/', 'jaim': '/etz-jaim/', 'arbol': '/etz-jaim/', 'calendario': '/etz-jaim/',
+      'servicio': '#servicios', 'consulta': '#servicios', 'mentoria': '#servicios',
+      'contacto': '#contacto', 'email': '#contacto',
+      'torah': '/blog/', 'tora': '/blog/', 'kabbalah': '/blog/', 'kabbala': '/blog/',
+    };
+    input.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter') return;
+      var q = input.value.trim().toLowerCase();
+      if(!q) return;
+      var dest = null;
+      for(var k in sections){
+        if(q.indexOf(k) !== -1){ dest = sections[k]; break; }
+      }
+      document.querySelector('.mobile-overlay').classList.remove('open');
+      if(dest){
+        if(dest.startsWith('/')) window.location.href = dest;
+        else { window.location.hash = dest; }
+      } else {
+        window.location.href = '/blog/?q=' + encodeURIComponent(q);
+      }
+      input.value = '';
+    });
   })();
   </script>
 
