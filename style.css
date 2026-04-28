@@ -1719,7 +1719,10 @@ section {
     letter-spacing: 2px;
   }
   .hero-content .body-text {
-    display: none;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 auto 24px;
+    max-width: 340px;
   }
   .hero-buttons {
     display: none !important;
@@ -1799,7 +1802,7 @@ section {
     font-size: 28px;
   }
   #hero-rotating {
-    height: 5em;
+    height: 3.6em;
   }
 
   .about-stats {
