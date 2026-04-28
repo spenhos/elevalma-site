@@ -53,6 +53,10 @@
     <a href="#servicios">Servicios</a>
     <a href="#contacto">Contacto</a>
     <a href="#servicios" style="color: var(--gold); font-weight: 500;">Consulta</a>
+    <div class="mobile-zmanim" id="mobile-zmanim">
+      <div class="mobile-zmanim-label" id="mobile-zmanim-date">—</div>
+      <div class="mobile-zmanim-times" id="mobile-zmanim-times"></div>
+    </div>
   </div>
 
   <!-- NAVIGATION -->
@@ -85,7 +89,6 @@
         <span class="jbar-greg" id="jbar-greg">—</span>
       </div>
       <div class="jbar-parasha" id="jbar-parasha">—</div>
-      <div class="jbar-toggle" id="jbar-toggle" onclick="document.getElementById('jbar').classList.toggle('expanded')">▼</div>
       <div class="jbar-times">
         <span class="jbar-time" id="jbar-sunrise" data-tooltip="Netz HaJamá — Salida del sol">☀️ <b>—</b></span>
         <span class="jbar-time" id="jbar-sunset" data-tooltip="Shkiá — Puesta del sol">🌅 <b>—</b></span>
@@ -697,6 +700,20 @@
         if(zm.times.sunrise) document.getElementById('jbar-sunrise').innerHTML = '☀️ <b>'+fmtTime(zm.times.sunrise)+'</b>';
         if(zm.times.sunset) document.getElementById('jbar-sunset').innerHTML = '🌅 <b>'+fmtTime(zm.times.sunset)+'</b>';
         if(zm.times.tzeit72min) document.getElementById('jbar-rt').innerHTML = 'RT <b>'+fmtTime(zm.times.tzeit72min)+'</b>';
+
+        // Populate mobile overlay zmanim
+        var mzDate = document.getElementById('mobile-zmanim-date');
+        var mzTimes = document.getElementById('mobile-zmanim-times');
+        if(mzDate) mzDate.textContent = (parasha || '') + ' · ' + (heb.hebrew || '');
+        if(mzTimes) {
+          var times = [];
+          if(zm.times.sunrise) times.push('☀️ <b>'+fmtTime(zm.times.sunrise)+'</b>');
+          if(zm.times.sunset) times.push('🌅 <b>'+fmtTime(zm.times.sunset)+'</b>');
+          if(candlesTime) times.push('🕯️ <b>'+fmtTime(candlesTime)+'</b>');
+          if(havdalahTime) times.push('✡ <b>'+fmtTime(havdalahTime)+'</b>');
+          if(zm.times.tzeit72min) times.push('RT <b>'+fmtTime(zm.times.tzeit72min)+'</b>');
+          mzTimes.innerHTML = times.map(function(t){return '<span>'+t+'</span>';}).join('');
+        }
       }
     } catch(e){ console.log('jbar error',e); }
   })();
