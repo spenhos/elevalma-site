@@ -35,7 +35,7 @@ Escúchame bien: **una verdad que no ha sido cuestionada, atacada, defendida, no
 
 Una verdad que ha pasado por el fuego del debate. Que ha sido examinada desde sus enemigos más inteligentes. Que ha sido forzada a justificarse. **Esa verdad está viva. Esa verdad es tuya**.
 
-La tradición mística enseña que *dikduk javerim*—precisión con los compañeros—no es simplemente un sistema pedagógico. **Es un acto espiritual**. Es *Geburá*—disciplina, rigor—en el contexto de *Netzach*, que es amistad. Es **la amistad que no acepta mentiras**. Es el compañerismo que **ama más que a la comodidad**.
+La tradición mística enseña que *dikduk javerim*—precisión con los compañeros—no es simplemente un sistema pedagógico. **Es un acto espiritual**. Es *Gueburáh*—disciplina, rigor—en el contexto de *Netzach*, que es amistad. Es **la amistad que no acepta mentiras**. Es el compañerismo que **ama más que a la comodidad**.
 
 *Pirkeí Avot* dice: *Adquiere un compañero de estudio*. No dice amigos. No dice cuates. Dice **compañero de estudio**. Porque el compañero de estudio no es solo un amigo. **Es un testigo de tu verdad**. Es alguien que **no permitirá que te engañes a ti mismo**.
 

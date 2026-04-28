@@ -5,7 +5,7 @@ series: "Omer 5786"
 youtube_id: "FMwft25MX1Y"
 duration: "18 min"
 date: 2026-04-20
-tags: [Omer, Kabbalá, Sefirot, Humildad, Geburá]
+tags: [Omer, Kabbalá, Sefirot, Humildad, Gueburáh]
 category: omer
 ---
 
@@ -23,7 +23,7 @@ Eso es *anabá*—humildad. Y aquí viene lo incómodo: no es falsa modestia. No
 
 No el más sabio. No el más poderoso. **El más humilde**. Y eso es lo que lo hizo capaz de liberar un pueblo entero de la esclavitud. ¿Lo escuchas? La fuerza real no viene de estar seguro de ti mismo. Viene de estar seguro de Dios. Y cuanto más te acercas a la fuente, **más pequeño te vuelves**. 
 
-La *Kabbalá* lo llama la obra de Geburá—la disciplina. No es severidad externa. Es el acto de decir **no a la ilusión de que tú eres el centro del universo**. Es renunciar a la necesidad de tener razón. De impresionar. De mantener una fachada de que tienes todo resuelto. En ese acto de renuncia consciente, se abre un espacio. **Un espacio donde puede entrar la verdad**.
+La *Kabbalá* lo llama la obra de Gueburáh—la disciplina. No es severidad externa. Es el acto de decir **no a la ilusión de que tú eres el centro del universo**. Es renunciar a la necesidad de tener razón. De impresionar. De mantener una fachada de que tienes todo resuelto. En ese acto de renuncia consciente, se abre un espacio. **Un espacio donde puede entrar la verdad**.
 
 ## La Pregunta Incómoda
 

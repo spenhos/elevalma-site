@@ -1,6 +1,6 @@
 ---
 title: "DÍA 4 — Comprensión del Corazón | 49 Niveles del Omer"
-description: "Netzaj en Gésed: perseverancia dentro del amor. Cómo la verdadera comprensión nace cuando mantienes el amor vivo a través de la persistencia."
+description: "Netzaj en Jésed: perseverancia dentro del amor. Cómo la verdadera comprensión nace cuando mantienes el amor vivo a través de la persistencia."
 series: "Omer 5786"
 youtube_id: "TrMS6jBMXxw"
 duration: "10 min"
@@ -23,7 +23,7 @@ Es cuando una verdad que llevabas conociendo intelectualmente, de repente resuen
 
 Ese momento se llama *Binatal Alev*. Y la pregunta que hoy empieza es: ¿cómo llegamos ahí? ¿Cómo transformamos el conocimiento muerto en comprensión viva?
 
-Estamos en la primera semana del Omer—la semana del Gésed. Pero hoy estamos en un nivel más profundo. Netzaj en Gésed significa perseverancia dentro del amor. ¿Qué significa? Que el amor sin persistencia es fugaz. Es un impulso bonito que se desvanece. Pero cuando añades perseverancia, persistencia al amor, cuando sigues amando el estudio incluso cuando cansa, sigues escuchando incluso cuando es difícil, sigues articulando la verdad incluso cuando nadie parece entender—ahí sucede algo hermoso.
+Estamos en la primera semana del Omer—la semana del Jésed. Pero hoy estamos en un nivel más profundo. Netzaj en Jésed significa perseverancia dentro del amor. ¿Qué significa? Que el amor sin persistencia es fugaz. Es un impulso bonito que se desvanece. Pero cuando añades perseverancia, persistencia al amor, cuando sigues amando el estudio incluso cuando cansa, sigues escuchando incluso cuando es difícil, sigues articulando la verdad incluso cuando nadie parece entender—ahí sucede algo hermoso.
 
 Binatal Alev nace de esa persistencia. No viene en un relámpago. No es un momento de iluminación. Es el resultado de haber hecho el trabajo, de haber estudiado una y otra y otra vez, de haber reflexionado, de haber vuelto a los mismos lugares una docena de veces y cada vez encontrar algo nuevo.
 
@@ -49,7 +49,7 @@ Y la experiencia que tiene al tocar es completamente distinta. Esa es la diferen
 
 ## El Diálogo de Hoy
 
-Los dos, Gésed y Netzaj, están teniendo una conversación. Gésed dice: ama el estudio, ama la investigación, ama la búsqueda de la verdad, que tu aprendizaje sea un acto de amor.
+Los dos, Jésed y Netzaj, están teniendo una conversación. Jésed dice: ama el estudio, ama la investigación, ama la búsqueda de la verdad, que tu aprendizaje sea un acto de amor.
 
 Netzaj responde: sí, pero si amas algo, debes persistir. No puedes amar asaltos. No puedes amar intermitentemente. El verdadero amor requiere compromiso, requiere mostrar una y otra vez.
 
@@ -65,7 +65,7 @@ Me miró y dijo: "Realmente no mucho. Estoy siempre buscando lo siguiente por le
 
 Ahí estaba el problema. Él estaba acumulando, pero no esperando que nada lo transformara. Estaba buscando el siguiente concepto antes de que el anterior hubiera tenido oportunidad de penetrar. Y entonces le dije algo que él nunca olvidó: "La Toráh no es un menú que debes terminar. Es una verdad que debe vivir en ti. Y eso toma tiempo. Mucho tiempo."
 
-Eso es Netzaj en Gésed. La perseverancia que hace que el amor dure. Que hace que la verdad respire.
+Eso es Netzaj en Jésed. La perseverancia que hace que el amor dure. Que hace que la verdad respire.
 
 ## Reflexión Personal
 

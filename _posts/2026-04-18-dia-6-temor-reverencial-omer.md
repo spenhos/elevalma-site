@@ -1,6 +1,6 @@
 ---
 title: "DÍA 6 — Temor Reverencial | 49 Niveles del Omer"
-description: "Yirah—el temor que no paraliza sino que abre. Yesod en Gésed: cuando el fundamento de tu ser se alinea con lo sagrado."
+description: "Yirah—el temor que no paraliza sino que abre. Yesod en Jésed: cuando el fundamento de tu ser se alinea con lo sagrado."
 series: "Omer 5786"
 youtube_id: "5pQkX8m2nvU"
 duration: "11 min"
@@ -21,7 +21,7 @@ Hoy llegamos al sexto Kinyán, y es uno de los más malentendidos de la Toráh.
 
 Estamos en el sexto día. Hemos caminado a través del amor al estudio, la disciplina de la escucha, la belleza de la expresión, la paciencia de la comprensión, el discernimiento del corazón. Y ahora llegamos a algo más fundamental: el fundamento de todo.
 
-Yesod, la Sefirah de hoy, es el fundamento. Y cuando Yesod entra en Gésed, cuando el fundamento entra en el amor, la pregunta es: **¿cuál es el fundamento de tu amor?** ¿Sobre qué está construido? ¿Sobre qué se sostiene?
+Yesod, la Sefirah de hoy, es el fundamento. Y cuando Yesod entra en Jésed, cuando el fundamento entra en el amor, la pregunta es: **¿cuál es el fundamento de tu amor?** ¿Sobre qué está construido? ¿Sobre qué se sostiene?
 
 ## La Base que Sostiene Todo
 

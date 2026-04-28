@@ -9,9 +9,9 @@ tags: [Omer, Kabbalá, Sefirot, Tiféret, Mishnáh]
 category: omer
 ---
 
-## De Gézed a Geburá a Tiféret
+## De Jésed a Gueburáh a Tiféret
 
-Hace dos semanas estábamos en Gézed—amor, abundancia, expansión. Hace una semana estábamos en Geburá—disciplina, fuerza, límite, espada. **Ahora estamos aquí en Tiféret—en la belleza**. 
+Hace dos semanas estábamos en Jésed—amor, abundancia, expansión. Hace una semana estábamos en Gueburáh—disciplina, fuerza, límite, espada. **Ahora estamos aquí en Tiféret—en la belleza**. 
 
 Y no es coincidencia. Aquí es donde el amor y la disciplina danzan juntos. La primera semana te enseñó que **el amor sin límites es caos**. La segunda semana te mostró que **la disciplina sin corazón es crueldad**. **Esta semana es la sinfonía. Es lo que sucede cuando dos fuerzas opuestas trabajan juntas**.
 
@@ -23,7 +23,7 @@ Un árbol es hermoso. ¿Por qué? Porque tiene forma. Las raíces están bajo ti
 
 La Mishnáh es lo mismo. **El amor sin estructura es sentimentalismo. Se disuelve**. La disciplina sin estructura es crueldad. **Se vuelve arbitraria**. Pero cuando toman el amor y le dan la forma de la Mishnáh, eso es Tiféret. **Eso es belleza**.
 
-Recuerda ese viaje que han hecho hasta aquí. En Gézed descubrieron la capacidad de sentir, de abrirse. En Geburá aprendieron a disciplinar eso. A exigir. A ser precisos. Ahora en Tiféret la pregunta cambia: **¿Cómo traducimos ese amor y esa disciplina en forma vivida? ¿Cómo las hacemos reales?** 
+Recuerda ese viaje que han hecho hasta aquí. En Jésed descubrieron la capacidad de sentir, de abrirse. En Gueburáh aprendieron a disciplinar eso. A exigir. A ser precisos. Ahora en Tiféret la pregunta cambia: **¿Cómo traducimos ese amor y esa disciplina en forma vivida? ¿Cómo las hacemos reales?** 
 
 **Respuesta: a través de la estructura**.
 
@@ -55,4 +55,4 @@ La mayoría de nosotros vivimos en círculos sin estructura. Abres el teléfono.
 
 ## Reflexión Personal
 
-**En tus relaciones, ¿hay amor sin límite o hay amor con responsabilidad?** ¿Dónde estás permitiendo el caos del Gézed sin la estructura del Tiféret? **¿Dónde has construido muros de disciplina que han bloqueado el flujo del amor?** ¿Puedes encontrar el punto de equilibrio donde ambos danzas? Hoy, toma un pasaje de la Mishnáh—cualquiera, incluso cinco líneas. Pregúntate: **¿Cuál es la estructura aquí? ¿Por qué está construida de esta manera?** No busques la respuesta en internet. **Piensa. Usa tu mente**. Porque eso es lo que la Mishnáh quiere de nosotros. Cuando lo hagas, estás adquiriendo el *quinián* 15.
+**En tus relaciones, ¿hay amor sin límite o hay amor con responsabilidad?** ¿Dónde estás permitiendo el caos del Jésed sin la estructura del Tiféret? **¿Dónde has construido muros de disciplina que han bloqueado el flujo del amor?** ¿Puedes encontrar el punto de equilibrio donde ambos danzas? Hoy, toma un pasaje de la Mishnáh—cualquiera, incluso cinco líneas. Pregúntate: **¿Cuál es la estructura aquí? ¿Por qué está construida de esta manera?** No busques la respuesta en internet. **Piensa. Usa tu mente**. Porque eso es lo que la Mishnáh quiere de nosotros. Cuando lo hagas, estás adquiriendo el *quinián* 15.

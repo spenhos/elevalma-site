@@ -1,6 +1,6 @@
 ---
 title: "DÍA 3 — Articulación de los Labios | 49 Niveles del Omer"
-description: "Tercer Kinyán: Arihat Sefatayim—la articulación a través de los labios. Tiféret en Gésed: cuando lo que aprendiste se vuelve luminoso en la expresión."
+description: "Tercer Kinyán: Arihat Sefatayim—la articulación a través de los labios. Tiféret en Jésed: cuando lo que aprendiste se vuelve luminoso en la expresión."
 series: "Omer 5786"
 youtube_id: "TniMReaCPpY"
 duration: "10 min"
@@ -27,7 +27,7 @@ Este es el tercer Kinyán—la articulación a través de los labios. Es donde l
 
 ## La Enseñanza Central
 
-Estamos adentro en la semana uno, seguimos en Gésed, el amor, la semana del amor. Pero hoy estamos en un nivel diferente de ese amor. Ayer fue Guevurá en Gésed—disciplina dentro del amor. Hoy es Tiféret en Gésed—la belleza dentro del amor.
+Estamos adentro en la semana uno, seguimos en Jésed, el amor, la semana del amor. Pero hoy estamos en un nivel diferente de ese amor. Ayer fue Gueburáh en Jésed—disciplina dentro del amor. Hoy es Tiféret en Jésed—la belleza dentro del amor.
 
 Tiféret es el corazón, es el equilibrio donde todo adquiere forma y belleza. Es donde lo que fue amor se vuelve luminoso.
 
@@ -75,7 +75,7 @@ Toma algo que hayas aprendido en estos primeros dos días—algo sobre el Omer, 
 
 Haz el esfuerzo. Encuentra las palabras. Haz que sea hermoso y bello. Y en ese acto adquirirás algo nuevo. Descubrirás que sabes mucho más de lo que querías que sabes. Y que tu conocimiento es más luminoso de lo que imaginaste.
 
-Cerramos ahora el triángulo. El día uno, estudio con amor—tal Muda, el fuego de aprender. El día dos, escucha atenta—Guevurá en Gésed, la disciplina de recibir. El día tres, articulación de los labios—Tiféret en Gésed, la belleza de expresar.
+Cerramos ahora el triángulo. El día uno, estudio con amor—tal Muda, el fuego de aprender. El día dos, escucha atenta—Gueburáh en Jésed, la disciplina de recibir. El día tres, articulación de los labios—Tiféret en Jésed, la belleza de expresar.
 
 Estos tres, estudio, escucha, articulación, son los tres pilares del aprendizaje verdadero.
 

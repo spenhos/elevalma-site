@@ -1,11 +1,11 @@
 ---
 title: "DÍA 1 — Talmud: Estudio Profundo | 49 Niveles del Omer"
-description: "Primer día del Omer. El primer Kinyán es Talmud—no leer, sino luchar con el texto hasta que te remodela. Gésed en Gésed: amor puro al estudio, sin ego."
+description: "Primer día del Omer. El primer Kinyán es Talmud—no leer, sino luchar con el texto hasta que te remodela. Jésed en Jésed: amor puro al estudio, sin ego."
 series: "Omer 5786"
 youtube_id: "ILuSxTSdG00"
 duration: "10 min"
 date: 2026-04-13
-tags: [Omer, Talmud, Kinyanim, Estudio, Gésed]
+tags: [Omer, Talmud, Kinyanim, Estudio, Jésed]
 category: omer
 ---
 
@@ -45,7 +45,7 @@ Pero cuando el estudio viene del amor puro a la verdad—ese es el momento en el
 
 ## El Diálogo de las Sefirot
 
-Hoy es el primer día de la primera semana: Gésed en Gésed, amor dentro del amor. El amor más puro que existe—el que no tiene agenda, el que da sin esperar nada a cambio, sin calcular el retorno, sin registro.
+Hoy es el primer día de la primera semana: Jésed en Jésed, amor dentro del amor. El amor más puro que existe—el que no tiene agenda, el que da sin esperar nada a cambio, sin calcular el retorno, sin registro.
 
 Y cuando combinas eso con *Talmud*, obtienes algo verdaderamente extraordinario: **el estudio sin ego**.
 

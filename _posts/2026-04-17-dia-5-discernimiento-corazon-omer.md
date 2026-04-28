@@ -1,6 +1,6 @@
 ---
 title: "DÍA 5 — Discernimiento del Corazón | 49 Niveles del Omer"
-description: "Hod en Gésed: cuando el amor se aclara con discernimiento. La capacidad de distinguir entre lo que parece verdad y lo que es verdad de verdad."
+description: "Hod en Jésed: cuando el amor se aclara con discernimiento. La capacidad de distinguir entre lo que parece verdad y lo que es verdad de verdad."
 series: "Omer 5786"
 youtube_id: "2HrKv7xJ9lQ"
 duration: "11 min"
@@ -17,7 +17,7 @@ El primer día hablamos de amor al estudio sin ego. El segundo, de escucha disci
 
 ## Siglut Alev—Discernimiento del Corazón
 
-Estamos en la primera semana del Omer, seguimos en Gésed, el amor. Pero hoy estamos en Hod en Gésed—la claridad dentro del amor. Hod es tradicionalmente el reino de la inteligencia discriminante, la capacidad de distinguir, de separar, de discernir. Y cuando Hod entra en el corazón, ocurre algo extraordinario: el amor se vuelve inteligente.
+Estamos en la primera semana del Omer, seguimos en Jésed, el amor. Pero hoy estamos en Hod en Jésed—la claridad dentro del amor. Hod es tradicionalmente el reino de la inteligencia discriminante, la capacidad de distinguir, de separar, de discernir. Y cuando Hod entra en el corazón, ocurre algo extraordinario: el amor se vuelve inteligente.
 
 *Siglut Alev* es el cuarto Kinyán. Significa literalmente "marcación del corazón"—la capacidad de marcar, de distinguir, de discernir dentro del corazón. No es frío análisis. Es el corazón con ojos abiertos.
 
@@ -29,9 +29,9 @@ La tradición enseña que *Siglut*—el discernimiento—es la herramienta que d
 
 El Ramhal habla de las "luces contrafachas"—luz que no es verdadera luz. Pueden parecer luz, pueden brillar, pero no tienen la esencia. Y el discernimiento del corazón es lo que te permite verlas. Ver a través de ellas.
 
-## La Conversación entre Gésed y Hod
+## La Conversación entre Jésed y Hod
 
-Gésed dice: ama todo, abre tu corazón, sé abundante en tu amor y tu recepción.
+Jésed dice: ama todo, abre tu corazón, sé abundante en tu amor y tu recepción.
 
 Hod responde: sí, pero que tu amor sea sabio. Que tenga vista. Que pueda distinguir. Porque el amor ciego no es amor—es capricho.
 

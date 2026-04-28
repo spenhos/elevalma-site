@@ -1,11 +1,11 @@
 ---
 title: "DÍA 2 — Escucha Atenta | 49 Niveles del Omer"
-description: "El segundo Kinyán es Shemiat Ozén—escucha con atención. Guevurá en Gésed: la disciplina de silenciar el ego para recibir la enseñanza."
+description: "El segundo Kinyán es Shemiat Ozén—escucha con atención. Gueburáh en Jésed: la disciplina de silenciar el ego para recibir la enseñanza."
 series: "Omer 5786"
 youtube_id: "tzmHQXs9iE4"
 duration: "11 min"
 date: 2026-04-14
-tags: [Omer, Escucha, Kinyanim, Disciplina, Guevurá]
+tags: [Omer, Escucha, Kinyanim, Disciplina, Gueburáh]
 category: omer
 ---
 
@@ -25,11 +25,11 @@ Y aquí está lo incómodo: **si no puedes escuchar, no puedes estudiar**. No im
 
 ## La Estructura del Diálogo
 
-Estamos en la primera semana del Omer—la semana del Gésed, del amor. Pero hoy estamos en un nivel diferente. Ayer fue Gésed en Gésed, el puro amor. Hoy es Guevurá en Gésed—la disciplina dentro del amor.
+Estamos en la primera semana del Omer—la semana del Jésed, del amor. Pero hoy estamos en un nivel diferente. Ayer fue Jésed en Jésed, el puro amor. Hoy es Gueburáh en Jésed—la disciplina dentro del amor.
 
 ¿Qué significa? Que el amor verdadero necesita el rigor para existir. ¿Cómo la disciplina, cuando nace del amor, se convierte en algo sagrado?
 
-**Escuchar es un acto de violencia contra el ego.** Tu ego quiere hablar, quiere responder, quiere estar en el centro de la escucha. Quiere que lo silencies—con disciplina, con fuerza interna. Pero—y esto es importante—es disciplina que nace del Gésed, nace desde el amor por el aprendizaje, por el maestro, por la verdad.
+**Escuchar es un acto de violencia contra el ego.** Tu ego quiere hablar, quiere responder, quiere estar en el centro de la escucha. Quiere que lo silencies—con disciplina, con fuerza interna. Pero—y esto es importante—es disciplina que nace del Jésed, nace desde el amor por el aprendizaje, por el maestro, por la verdad.
 
 No es represión. Es dirección. Es canalización amorosa de esa energía.
 
@@ -47,9 +47,9 @@ La tradición jazídica enseña que las palabras de la Toráh son vivas. Son luc
 
 Ahora quizá lo profundo. La escucha atenta requiere una fortaleza especial porque escuchar significa renunciar. Renuncias al control, renuncias a la necesidad de ser escuchado primero. Renuncias a la ilusión de que ya sabes.
 
-En el lenguaje de la Kabbalá, esto es Guevurá—la fuerza de contención, la disciplina, el "no" heroico. Porque para poder escuchar, tienes que poder decir "no" a tu impulso de interrumpir, de responder, de juzgar.
+En el lenguaje de la Kabbalá, esto es Gueburáh—la fuerza de contención, la disciplina, el "no" heroico. Porque para poder escuchar, tienes que poder decir "no" a tu impulso de interrumpir, de responder, de juzgar.
 
-La tradición mística enseña que cuando un alumno se sienta frente al maestro, ocurre algo casi alquímico. Las palabras del maestro entran no solo en el oído del alumno, sino en su alma. Pero solo si hay escucha verdadera. Y ese silencio interno no es pasividad—es una fuerza activa. Es disciplina. Es Guevurá.
+La tradición mística enseña que cuando un alumno se sienta frente al maestro, ocurre algo casi alquímico. Las palabras del maestro entran no solo en el oído del alumno, sino en su alma. Pero solo si hay escucha verdadera. Y ese silencio interno no es pasividad—es una fuerza activa. Es disciplina. Es Gueburáh.
 
 ## Por Qué Es el Segundo Kinyán
 
@@ -71,7 +71,7 @@ Fue entonces cuando entendí visceralmente qué es Shemiat Ozén. No es solo un 
 
 Y fue sorprendente. Las cosas que había entendido superficialmente, de repente adquirían profundidad. Las palabras que había escuchado pero no realmente recibido, de repente empezaban a vivir en mi ser.
 
-Eso fue Guevurá en Gésed funcionando y activa. El amor por el aprendizaje, aplicó la disciplina que es Guevurá para silenciar al ego. Y en ese silencio llegó la verdadera escucha.
+Eso fue Gueburáh en Jésed funcionando y activa. El amor por el aprendizaje, aplicó la disciplina que es Gueburáh para silenciar al ego. Y en ese silencio llegó la verdadera escucha.
 
 ## Reflexión Personal
 
@@ -83,7 +83,7 @@ La escucha atenta es un poder. Y ese poder obviamente requiere una disciplina pa
 
 Durante el día, en cualquier conversación importante, practica la escucha atenta. No como técnica estratégica, sino como un acto espiritual.
 
-Cuando sientas el impulso de responder, respira. Deja que la otra persona termine. Recibe sus palabras y no las filtres. Haz eso conscientemente hoy. Siéntelo como disciplina amorosa. Eso es Guevurá en Gésed.
+Cuando sientas el impulso de responder, respira. Deja que la otra persona termine. Recibe sus palabras y no las filtres. Haz eso conscientemente hoy. Siéntelo como disciplina amorosa. Eso es Gueburáh en Jésed.
 
 Y mañana, cuando hablemos de la articulación de las palabras, entenderás por qué necesitaba venir después de esto.
 

@@ -29,7 +29,7 @@ Cada episodio dura entre 8 y 11 minutos y funciona sobre tres ejes:
 
 **1. El Kinyán del Día** — La Mishnah en Pirké Avot enumera 48 formas específicas en que adquirimos la Toráh. No son abstractas—son herramientas concretas: la escucha, la humildad, la alegría, la disciplina, la autenticidad, la conexión. Cada nivel trabaja una.
 
-**2. La Sefirah** — El Omer está dividido en 7 semanas, cada una con su propia cualidad espiritual: Gésed (amor), Guevurá (disciplina), Tiféret (equilibrio), Netzaj (perseverancia), Hod (humildad), Yesod (fundamento), Maljút (soberanía). Cada día combina un Kinyán con una Sefirah, y en esa conversación ocurre el aprendizaje más profundo.
+**2. La Sefirah** — El Omer está dividido en 7 semanas, cada una con su propia cualidad espiritual: Jésed (amor), Gueburáh (disciplina), Tiféret (equilibrio), Netzaj (perseverancia), Hod (humildad), Yesod (fundamento), Maljút (soberanía). Cada día combina un Kinyán con una Sefirah, y en esa conversación ocurre el aprendizaje más profundo.
 
 **3. La Aplicación** — Cada episodio termina con algo que puedes llevar ese día. No una idea para pensar, sino un acto, una pregunta, una práctica concreta que hace que el concepto salga del video y entre en tu vida.
 
