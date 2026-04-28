@@ -113,7 +113,7 @@
       <div class="hero-content">
         <span class="label reveal" style="font-size: 15px; letter-spacing: 5px;">Torá · Sabiduría · Conexión</span>
         <h1 class="heading-xl reveal stagger-1" id="hero-rotating"></h1>
-        <p class="body-text reveal stagger-2">Videos semanales de Torá, reflexión profunda y herramientas prácticas para conectar con tu esencia y vivir con propósito.</p>
+        <p class="body-text reveal stagger-2" id="hero-subtitle"></p>
         <div class="hero-buttons reveal stagger-3">
           <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="btn-primary">Agendar consulta</a>
         </div>
@@ -723,41 +723,66 @@
   })();
   </script>
 
-  <!-- Hero Rotating Phrases -->
+  <!-- Hero Rotating Phrases + Subtitles (paired) -->
   <script>
   (function(){
-    var phrases = [
-      'La Toráh no te consuela.<br>Te <em class="hero-keyword">CONFRONTA</em>',
-      'Eleva tu <em class="hero-keyword">ALMA</em>,<br>transforma tu vida',
-      '¿Y si todo lo que crees de ti<br>está <em class="hero-keyword">INCOMPLETO</em>?',
-      'Tu proceso de elevación<br>empieza <em class="hero-keyword">AQUÍ</em>',
-      '¿Estás viviendo<br>o solo <em class="hero-keyword">SOBREVIVES</em>?',
-      'Sabiduría ancestral,<br><em class="hero-keyword">CAMBIO</em> real',
-      'La pregunta correcta<br>vale más que mil <em class="hero-keyword">RESPUESTAS</em>',
-      'Hay una versión más alta de ti<br><em class="hero-keyword">ENCUÉNTRALA</em>',
-      'Lo que evitas enfrentar<br>te <em class="hero-keyword">DEFINE</em>',
-      'Conecta con tu esencia<br>Vive con <em class="hero-keyword">PROPÓSITO</em>',
-      'Lo que no cuestionas<br>te <em class="hero-keyword">CONTROLA</em>',
-      '3,338 años de sabiduría<br>Una <em class="hero-keyword">VIDA</em> para aplicarla',
-      'Tu <em class="hero-keyword">ALMA</em> sabe<br>Tu ego distrae',
-      'La Kabbalá no es mística.<br>Es <em class="hero-keyword">CONÓCETE</em> a ti mismo',
-      'Estudiar Toráh es mirarte<br>al <em class="hero-keyword">ESPEJO</em>',
-      'Deja de buscar afuera<br>lo que ya está <em class="hero-keyword">DENTRO</em>',
-      'No viniste a estar cómodo<br>Viniste a <em class="hero-keyword">DESPERTAR</em>',
-      'Cada semana, una verdad<br>que te <em class="hero-keyword">TRANSFORMA</em>',
-      'No busques respuestas<br>Busca mejores <em class="hero-keyword">PREGUNTAS</em>',
-      'Tu <em class="hero-keyword">ALMA</em> no necesita<br>reparación, necesita <em class="hero-keyword">REVELARSE</em>'
+    var pairs = [
+      ['La Toráh no te consuela.<br>Te <em class="hero-keyword">CONFRONTA</em>',
+       'Cada parashá es un espejo que te obliga a verte sin filtros.'],
+      ['Eleva tu <em class="hero-keyword">ALMA</em>,<br>transforma tu vida',
+       'Videos semanales de Toráh, reflexión profunda y herramientas prácticas.'],
+      ['¿Y si todo lo que crees de ti<br>está <em class="hero-keyword">INCOMPLETO</em>?',
+       'La Toráh revela dimensiones de ti que aún no has explorado.'],
+      ['Tu proceso de elevación<br>empieza <em class="hero-keyword">AQUÍ</em>',
+       'Parashá, Kabbalá, Omer y mentoría personalizada para tu camino.'],
+      ['¿Estás viviendo<br>o solo <em class="hero-keyword">SOBREVIVES</em>?',
+       'Hay una diferencia entre existir y vivir con propósito. Descúbrela.'],
+      ['Sabiduría ancestral,<br><em class="hero-keyword">CAMBIO</em> real',
+       '3,338 años de conocimiento aplicado a los desafíos de hoy.'],
+      ['La pregunta correcta<br>vale más que mil <em class="hero-keyword">RESPUESTAS</em>',
+       'Cada clase es una invitación a cuestionar lo que das por hecho.'],
+      ['Hay una versión más alta de ti.<br><em class="hero-keyword">ENCUÉNTRALA</em>',
+       'Toráh, Kabbalá y herramientas para conectar con tu mejor versión.'],
+      ['Lo que evitas enfrentar<br>te <em class="hero-keyword">DEFINE</em>',
+       'Reflexión profunda para dejar de huir y empezar a construir.'],
+      ['Conecta con tu esencia.<br>Vive con <em class="hero-keyword">PROPÓSITO</em>',
+       'Videos, consultas y mentoría para alinear tu vida con tu alma.'],
+      ['Lo que no cuestionas<br>te <em class="hero-keyword">CONTROLA</em>',
+       'Cada video es una invitación a cuestionar lo que das por hecho.'],
+      ['3,338 años de sabiduría.<br>Una <em class="hero-keyword">VIDA</em> para aplicarla',
+       'Cada semana exploramos una porción que transforma tu perspectiva.'],
+      ['Tu <em class="hero-keyword">ALMA</em> sabe.<br>Tu ego distrae',
+       'Aprende a distinguir la voz interior que guía de la que confunde.'],
+      ['La Kabbalá no es mística.<br>Es <em class="hero-keyword">CONÓCETE</em> a ti mismo',
+       'Las sefirot son un mapa práctico de tu mundo interior.'],
+      ['Estudiar Toráh es mirarte<br>al <em class="hero-keyword">ESPEJO</em>',
+       'No es un texto antiguo. Es tu historia contada antes de que nacieras.'],
+      ['Deja de buscar afuera<br>lo que ya está <em class="hero-keyword">DENTRO</em>',
+       'La Toráh no te da algo nuevo. Te revela lo que ya eres.'],
+      ['No viniste a estar cómodo.<br>Viniste a <em class="hero-keyword">DESPERTAR</em>',
+       'Incomodidad con propósito es el motor del crecimiento real.'],
+      ['Cada semana, una verdad<br>que te <em class="hero-keyword">TRANSFORMA</em>',
+       'Parashá semanal con reflexiones que no se quedan en teoría.'],
+      ['No busques respuestas.<br>Busca mejores <em class="hero-keyword">PREGUNTAS</em>',
+       'El estudio de Toráh no cierra puertas. Las abre todas.'],
+      ['Tu <em class="hero-keyword">ALMA</em> no necesita<br>reparación, necesita <em class="hero-keyword">REVELARSE</em>',
+       'No estás roto. Solo necesitas quitar las capas que te cubren.']
     ];
     var el = document.getElementById('hero-rotating');
+    var sub = document.getElementById('hero-subtitle');
     if(!el) return;
-    var idx = Math.floor(Math.random() * phrases.length);
-    el.innerHTML = phrases[idx];
+    var idx = Math.floor(Math.random() * pairs.length);
+    el.innerHTML = pairs[idx][0];
+    if(sub) sub.textContent = pairs[idx][1];
     setInterval(function(){
       el.classList.add('fade-out');
+      if(sub) sub.classList.add('fade-out');
       setTimeout(function(){
-        idx = (idx + 1) % phrases.length;
-        el.innerHTML = phrases[idx];
+        idx = (idx + 1) % pairs.length;
+        el.innerHTML = pairs[idx][0];
+        if(sub) sub.textContent = pairs[idx][1];
         el.classList.remove('fade-out');
+        if(sub) sub.classList.remove('fade-out');
       }, 2000);
     }, 10000);
   })();
