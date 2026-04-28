@@ -100,6 +100,22 @@ title: "Omer — 49 Niveles | ElevAlma"
 </head>
 <body>
 
+  <div class="mobile-overlay">
+    <div class="mobile-close">&times;</div>
+    <div class="mobile-search">
+      <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Buscar...">
+    </div>
+    <a href="/">Inicio</a>
+    <a href="/#videos">Videos</a>
+    <a href="/#sobre-mi">Sobre mí</a>
+    <a href="/blog/">Blog</a>
+    <a href="/omer/">Omer</a>
+    <a href="/etz-jaim/">Etz Jaim</a>
+    <a href="/#servicios">Servicios</a>
+    <a href="/#contacto">Contacto</a>
+    <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" style="color: var(--gold);">Consulta</a>
+  </div>
+
   <nav class="nav scrolled">
     <div class="nav-inner">
       <a href="/" class="nav-logo"><svg class="nav-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 40" aria-label="ElevAlma"><g transform="translate(6, 4) scale(0.055, 0.055)" opacity="0.75"><g transform="translate(0, 563) scale(1, -1)"><path d="M247 270 213 292H214C202 303 195 330 195 358C195 369 197 387 199 405C201 422 203 441 203 453C203 511 174 519 116 523C108 523 93 527 86 563C86 563 2 554 2 484C2 439 43 411 106 411C121 411 125 388 124 357C124 333 122 309 122 285C121 267 133 242 160 222C207 189 256 155 303 122C306 119 310 115 311 106H49L16 0H382C408 7 456 59 456 100C456 114 447 130 425 146C402 161 379 177 356 193H358C342 209 337 233 337 262C337 306 364 376 393 405C403 403 420 395 439 385C458 411 463 450 463 461C463 512 420 519 378 522C367 523 344 527 341 560C341 560 256 562 256 484C256 452 283 425 328 413C299 374 268 321 247 270Z" fill="#c9a84c"/></g></g><text x="46" y="28" font-family="Inter, sans-serif" font-weight="300" font-size="26" letter-spacing="8"><tspan fill="#ffffff">ELEV</tspan><tspan fill="#c9a84c">ALMA</tspan></text></svg></a>
@@ -320,6 +336,19 @@ title: "Omer — 49 Niveles | ElevAlma"
 
     document.addEventListener('DOMContentLoaded', render);
   </script>
+
+  <script>
+(function(){
+  var menuBtn = document.querySelector('.nav-mobile');
+  var overlay = document.querySelector('.mobile-overlay');
+  var closeBtn = document.querySelector('.mobile-close');
+  if(menuBtn && overlay){
+    menuBtn.addEventListener('click', function(){ overlay.classList.toggle('open'); });
+    if(closeBtn) closeBtn.addEventListener('click', function(){ overlay.classList.remove('open'); });
+    overlay.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ overlay.classList.remove('open'); }); });
+  }
+})();
+</script>
 
 </body>
 </html>

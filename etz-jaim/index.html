@@ -315,6 +315,35 @@ title: Etz Jaim — ElevAlma
   }
 
   /* Responsive */
+  .scroll-hint {
+    display: none;
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 80;
+    color: var(--gold, #c9a84c);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    animation: scrollPulse 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .scroll-hint svg {
+    display: block;
+    margin: 4px auto 0;
+    width: 24px;
+    height: 24px;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(6px); }
+  }
+  @media (max-width: 900px) {
+    .scroll-hint { display: block; }
+  }
+
   @media (max-width: 900px) {
     #sidebarToggle { display: block; }
     .etz-sidebar {
@@ -460,6 +489,10 @@ title: Etz Jaim — ElevAlma
     </div>
 
     <!-- ═══════════════ MAIN AREA ═══════════════ -->
+    <div class="scroll-hint" id="scrollHint">
+      Desliza
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </div>
     <div class="etz-main" id="mainArea">
 
       <!-- SVG Tree -->
@@ -932,7 +965,7 @@ async function initCalendar(){
   const rd=getOmerDayLocal(lookup);
   if(rd!==null)applyOmerDay(rd,rough?' · 🌙 Ajustando…':' · ☀️ Ajustando…',true);
   let sunset=null;
-  try{setCalStatus('📍',(calOmerDay?`Día ${calOmerDay} · `:'')+'Solicitando ubicación…');const pos=await new Promise((r,j)=>navigator.geolocation.getCurrentPosition(r,j,{timeout:6000,maximumAge:300000}));sunset=await fetchSunset(todayStr,pos.coords.latitude,pos.coords.longitude);}catch(e){}
+  try{setCalStatus('📍',(calOmerDay?`Día ${calOmerDay} · `:'')+'Calculando…');let lat=19.43,lon=-99.13;try{const geo=await fetch('https://ipapi.co/json/').then(r=>r.json());if(geo.latitude){lat=geo.latitude;lon=geo.longitude;}}catch(e){}sunset=await fetchSunset(todayStr,lat,lon);}catch(e){}
   const after=sunset?now>sunset:rough;lookup=todayStr;
   if(after){const t=new Date(now);t.setDate(t.getDate()+1);lookup=toDateStr(t);}
   calOmerDay=getOmerDayLocal(lookup);
@@ -969,6 +1002,14 @@ function initIntroBar(){
 buildNodes();buildSidebar();buildSelect();buildCalendar();initIntroBar();applyAri();
 document.getElementById('bgD').click();applyMask();
 initCalendar();
+
+// Mobile nav toggle
+var navMobileBtn = document.querySelector('.nav-mobile');
+if(navMobileBtn) {
+  navMobileBtn.addEventListener('click', toggleSidebar);
+}
+var scrollHint=document.getElementById('scrollHint');
+if(scrollHint){window.addEventListener('scroll',function(){if(window.scrollY>100)scrollHint.style.display='none';},{passive:true});}
 </script>
 </body>
 </html>

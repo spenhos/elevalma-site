@@ -351,7 +351,7 @@ section {
   padding: 16px 34px;
   border-radius: 8px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -563,6 +563,9 @@ section {
   transform: translateX(-50%) translateY(0);
 }
 .jbar-toggle {
+  display: none;
+}
+.mobile-float-cta {
   display: none;
 }
 
@@ -1573,11 +1576,13 @@ section {
 }
 
 .mobile-overlay a {
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   color: var(--text);
   padding: 18px 28px;
-  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   transition: color 0.3s, background 0.2s;
   display: block;
 }
@@ -1706,6 +1711,12 @@ section {
   .hero-content .heading-xl em.hero-keyword {
     letter-spacing: 2px;
   }
+  .hero-content .body-text {
+    display: none;
+  }
+  .hero-buttons {
+    display: none !important;
+  }
 
   .hero-tzadi-bg {
     right: -15%;
@@ -1717,6 +1728,32 @@ section {
   .btn-primary, .btn-secondary {
     padding: 14px 28px;
     font-size: 11px;
+  }
+
+  /* Floating CTA */
+  .mobile-float-cta {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    padding: 12px 20px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(transparent, rgba(6,6,6,0.95) 30%);
+  }
+  .mobile-float-cta a {
+    display: block;
+    text-align: center;
+    background: var(--gold);
+    color: #060606;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
   }
 
   .about-grid {

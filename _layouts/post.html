@@ -70,6 +70,22 @@
 </head>
 <body>
 
+  <div class="mobile-overlay">
+    <div class="mobile-close">&times;</div>
+    <div class="mobile-search">
+      <input type="text" id="mobileSearch" class="mobile-search-input" placeholder="Buscar...">
+    </div>
+    <a href="/">Inicio</a>
+    <a href="/#videos">Videos</a>
+    <a href="/#sobre-mi">Sobre mí</a>
+    <a href="/blog/">Blog</a>
+    <a href="/omer/">Omer</a>
+    <a href="/etz-jaim/">Etz Jaim</a>
+    <a href="/#servicios">Servicios</a>
+    <a href="/#contacto">Contacto</a>
+    <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" style="color: var(--gold);">Consulta</a>
+  </div>
+
   <!-- NAVIGATION -->
   <nav class="nav scrolled">
     <div class="nav-inner">
@@ -135,6 +151,19 @@
       </div>
     </div>
   </footer>
+
+  <script>
+(function(){
+  var menuBtn = document.querySelector('.nav-mobile');
+  var overlay = document.querySelector('.mobile-overlay');
+  var closeBtn = document.querySelector('.mobile-close');
+  if(menuBtn && overlay){
+    menuBtn.addEventListener('click', function(){ overlay.classList.toggle('open'); });
+    if(closeBtn) closeBtn.addEventListener('click', function(){ overlay.classList.remove('open'); });
+    overlay.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ overlay.classList.remove('open'); }); });
+  }
+})();
+</script>
 
 </body>
 </html>
