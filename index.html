@@ -93,6 +93,7 @@
       </div>
       <div class="jbar-parasha" id="jbar-parasha">—</div>
       <div class="jbar-times">
+        <span class="jbar-time jbar-city" id="jbar-city" style="opacity:0.5;font-size:9px;letter-spacing:1px;">—</span>
         <span class="jbar-time" id="jbar-sunrise" data-tooltip="Netz HaJamá — Salida del sol">☀️ <b>—</b></span>
         <span class="jbar-time" id="jbar-sunset" data-tooltip="Shkiá — Puesta del sol">🌅 <b>—</b></span>
         <span class="jbar-time" id="jbar-candles" data-tooltip="Encendido de velas — 18 min antes de Shkiá">🕯️ <b>—</b></span>
@@ -661,11 +662,16 @@
       document.getElementById('jbar-heb').textContent = heb.hebrew || (heb.hd+' '+heb.hm+' '+heb.hy);
 
       // IP geolocation (no permissions)
-      var lat = 19.43, lon = -99.13; // fallback: CDMX
+      var lat = 19.43, lon = -99.13, cityName = 'CDMX'; // fallback
       try {
         var geo = await fetch('https://ipapi.co/json/').then(function(r){return r.json()});
         if(geo.latitude) { lat = geo.latitude; lon = geo.longitude; }
+        if(geo.city) cityName = geo.city;
       } catch(e){}
+
+      // Show city
+      var cityEl = document.getElementById('jbar-city');
+      if(cityEl) cityEl.textContent = '📍 ' + cityName;
 
       // Shabbat times + parasha
       var shabUrl = 'https://www.hebcal.com/shabbat?cfg=json&geo=pos&latitude='+lat+'&longitude='+lon+'&tzid='+encodeURIComponent(tz)+'&M=on&b=18';
@@ -711,7 +717,7 @@
         // Populate mobile overlay zmanim
         var mzDate = document.getElementById('mobile-zmanim-date');
         var mzTimes = document.getElementById('mobile-zmanim-times');
-        if(mzDate) mzDate.textContent = (parasha || '') + ' · ' + (heb.hebrew || '');
+        if(mzDate) mzDate.textContent = (parasha || '') + ' · ' + (heb.hebrew || '') + ' · 📍 ' + cityName;
         if(mzTimes) {
           var times = [];
           if(zm.times.sunrise) times.push('☀️ <b>'+fmtTime(zm.times.sunrise)+'</b>');
