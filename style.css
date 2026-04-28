@@ -308,6 +308,20 @@ section {
   color: var(--gold);
 }
 
+.hero-content .heading-xl em.hero-keyword {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+#hero-rotating {
+  transition: opacity 1s ease;
+  min-height: 1.1em;
+}
+#hero-rotating.fade-out {
+  opacity: 0;
+}
+
 .hero-content .body-text {
   margin-bottom: 40px;
 }

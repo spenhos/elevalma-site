@@ -105,7 +105,7 @@
     <div class="container">
       <div class="hero-content">
         <span class="label reveal" style="font-size: 15px; letter-spacing: 5px;">Torá · Sabiduría · Conexión</span>
-        <h1 class="heading-xl reveal stagger-1">Eleva tu <em>Alma</em>,<br>transforma tu vida</h1>
+        <h1 class="heading-xl reveal stagger-1" id="hero-rotating"></h1>
         <p class="body-text reveal stagger-2">Videos semanales de Torá, reflexión profunda y herramientas prácticas para conectar con tu esencia y vivir con propósito.</p>
         <div class="hero-buttons reveal stagger-3">
           <a href="#videos" class="btn-primary">
@@ -698,6 +698,46 @@
         if(zm.times.tzeit72min) document.getElementById('jbar-rt').innerHTML = 'RT <b>'+fmtTime(zm.times.tzeit72min)+'</b>';
       }
     } catch(e){ console.log('jbar error',e); }
+  })();
+  </script>
+
+  <!-- Hero Rotating Phrases -->
+  <script>
+  (function(){
+    var phrases = [
+      'La Toráh no te consuela. Te <em class="hero-keyword">CONFRONTA</em>.',
+      'Eleva tu <em class="hero-keyword">ALMA</em>,<br>transforma tu vida',
+      '¿Y si todo lo que crees de ti... está <em class="hero-keyword">INCOMPLETO</em>?',
+      'Tu proceso de elevación empieza <em class="hero-keyword">AQUÍ</em>.',
+      '¿Estás viviendo... o solo <em class="hero-keyword">SOBREVIVIENDO</em>?',
+      'Sabiduría ancestral. <em class="hero-keyword">TRANSFORMACIÓN</em> real.',
+      'La pregunta correcta vale más que mil <em class="hero-keyword">RESPUESTAS</em>.',
+      'Hay una versión más alta de ti. <em class="hero-keyword">ENCUÉNTRALA</em>.',
+      'Lo que evitas enfrentar, te <em class="hero-keyword">DEFINE</em>.',
+      'Conecta con tu esencia. Vive con <em class="hero-keyword">PROPÓSITO</em>.',
+      'Lo que no cuestionas, te <em class="hero-keyword">CONTROLA</em>.',
+      '3,300 años de sabiduría. Una <em class="hero-keyword">VIDA</em> para aplicarla.',
+      'Tu <em class="hero-keyword">ALMA</em> sabe. Tu ego distrae.',
+      'La Kabbalá no es mística. Es <em class="hero-keyword">AUTOCONOCIMIENTO</em>.',
+      'Estudiar Toráh es mirarte al <em class="hero-keyword">ESPEJO</em>.',
+      'Deja de buscar afuera lo que ya está <em class="hero-keyword">DENTRO</em>.',
+      'No viniste a estar cómodo. Viniste a <em class="hero-keyword">DESPERTAR</em>.',
+      'Cada semana, una verdad que te <em class="hero-keyword">TRANSFORMA</em>.',
+      'No busques respuestas. Busca mejores <em class="hero-keyword">PREGUNTAS</em>.',
+      'Tu <em class="hero-keyword">ALMA</em> no necesita reparación. Necesita <em class="hero-keyword">REVELACIÓN</em>.'
+    ];
+    var el = document.getElementById('hero-rotating');
+    if(!el) return;
+    var idx = Math.floor(Math.random() * phrases.length);
+    el.innerHTML = phrases[idx];
+    setInterval(function(){
+      el.classList.add('fade-out');
+      setTimeout(function(){
+        idx = (idx + 1) % phrases.length;
+        el.innerHTML = phrases[idx];
+        el.classList.remove('fade-out');
+      }, 1000);
+    }, 6000);
   })();
   </script>
 
