@@ -503,7 +503,6 @@ section {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  flex-wrap: wrap;
 }
 .jbar-date {
   display: flex;
@@ -531,8 +530,7 @@ section {
 }
 .jbar-times {
   display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
+  gap: 14px;
 }
 .jbar-time {
   font-size: 13px;
