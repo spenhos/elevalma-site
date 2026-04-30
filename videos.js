@@ -7,21 +7,32 @@
 const SITE_DATA = {
   // Video destacado en el Hero
   featured: {
-    id: "ajare-mot-kedoshim-5786",
-    title: "VACIO - KADOSH — ¿Qué haces con lo que te está permitido?",
-    subtitle: "Perashá Ajare Mot - Kedoshim 5786",
-    description: "Una reflexión profunda sobre los límites entre lo permitido y lo sagrado.",
-    date: "2026-04-25",
-    duration: "27 min",
+    id: "emor-5786",
+    title: "EMOR — La destrucción que nace de la buena intención",
+    subtitle: "Perashá Emor 5786",
+    description: "¿Por qué la Toráh eleva a quien causó el peor daño espiritual de la historia? La respuesta cambia cómo ves cada error que has cometido.",
+    date: "2026-04-30",
+    duration: "23 min",
     views: "",
-    youtubeId: "xfxI4PNxGBk",
-    thumbnail: "https://img.youtube.com/vi/xfxI4PNxGBk/maxresdefault.jpg",
-    tags: ["Ajare Mot", "Kedoshim", "Vayikrá"]
+    youtubeId: "eos_HsCnMf8",
+    thumbnail: "https://img.youtube.com/vi/eos_HsCnMf8/maxresdefault.jpg",
+    tags: ["Emor", "Kedushá", "Vayikrá"]
   },
 
   // Todos los videos (más reciente primero)
   videos: [
     // ── PARASHÁ SEMANAL ──
+    {
+      id: "emor-5786",
+      title: "EMOR — La destrucción que nace de la buena intención",
+      series: "Perashá Emor",
+      description: "¿Por qué la Toráh eleva a quien causó el peor daño espiritual? La respuesta cambia cómo ves cada error.",
+      date: "2026-04-30",
+      duration: "23 min",
+      youtubeId: "eos_HsCnMf8",
+      thumbnail: "https://img.youtube.com/vi/eos_HsCnMf8/maxresdefault.jpg",
+      category: "parasha"
+    },
     {
       id: "ajare-mot-kedoshim-5786",
       title: "VACIO - KADOSH — ¿Qué haces con lo que te está permitido?",
