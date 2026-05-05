@@ -7,20 +7,32 @@
 const SITE_DATA = {
   // Video destacado en el Hero
   featured: {
-    id: "emor-5786",
-    title: "EMOR — La destrucción que nace de la buena intención",
-    subtitle: "Perashá Emor 5786",
-    description: "¿Por qué la Toráh eleva a quien causó el peor daño espiritual de la historia? La respuesta cambia cómo ves cada error que has cometido.",
-    date: "2026-04-30",
-    duration: "23 min",
+    id: "omer-dia-33-lag-baomer",
+    title: "DÍA 33 — Lag BaOmer: Hod she-be-Hod",
+    subtitle: "De la Libertad a la Revelación — 49 Niveles del Omer",
+    description: "Lag BaOmer celebra la luz que surge cuando dejas de pretender que eres más de lo que eres. Hod she-be-Hod es el reconocimiento más profundo: tu esplendor real está en lo que aceptas de ti mismo.",
+    date: "2026-05-05",
+    duration: "20 min",
     views: "",
-    youtubeId: "eos_HsCnMf8",
-    thumbnail: "https://img.youtube.com/vi/eos_HsCnMf8/maxresdefault.jpg",
-    tags: ["Emor", "Kedushá", "Vayikrá"]
+    youtubeId: "Ek--ojUjyoE",
+    thumbnail: "https://img.youtube.com/vi/Ek--ojUjyoE/maxresdefault.jpg",
+    tags: ["Omer", "Lag BaOmer", "Kabbalá"]
   },
 
   // Todos los videos (más reciente primero)
   videos: [
+    // ── OMER ──
+    {
+      id: "omer-dia-33-lag-baomer",
+      title: "DÍA 33 — Lag BaOmer: Hod she-be-Hod",
+      series: "49 Niveles del Omer",
+      description: "Lag BaOmer celebra la luz que surge cuando dejas de pretender que eres más de lo que eres.",
+      date: "2026-05-05",
+      duration: "20 min",
+      youtubeId: "Ek--ojUjyoE",
+      thumbnail: "https://img.youtube.com/vi/Ek--ojUjyoE/maxresdefault.jpg",
+      category: "omer"
+    },
     // ── PARASHÁ SEMANAL ──
     {
       id: "emor-5786",
