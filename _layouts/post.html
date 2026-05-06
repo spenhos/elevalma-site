@@ -93,21 +93,6 @@
     .blog-tags span { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); background: rgba(201,168,76,0.08); padding: 4px 12px; border-radius: 20px; }
   </style>
 
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "{{ page.title }}",
-    "description": "{{ page.description }}",
-    "image": "https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg",
-    "author": { "@type": "Person", "name": "Saleh Penhos" },
-    "publisher": { "@type": "Organization", "name": "ElevAlma" },
-    "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
-    "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ site.url }}{{ page.url }}" }{% if page.youtube_id %},
-    "video": { "@type": "VideoObject", "name": "{{ page.title }}", "thumbnailUrl": "https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg", "uploadDate": "{{ page.date | date: '%Y-%m-%dT12:00:00-06:00' }}", "embedUrl": "https://www.youtube.com/embed/{{ page.youtube_id }}" }{% endif %}
-  }
-  </script>
 </head>
 <body>
 
