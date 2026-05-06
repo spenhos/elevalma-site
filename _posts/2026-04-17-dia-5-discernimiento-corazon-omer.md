@@ -2,7 +2,7 @@
 title: "DÍA 5 — Discernimiento del Corazón | 49 Niveles del Omer"
 description: "Hod en Jésed: cuando el amor se aclara con discernimiento. La capacidad de distinguir entre lo que parece verdad y lo que es verdad de verdad."
 series: "Omer 5786"
-youtube_id: "2HrKv7xJ9lQ"
+youtube_id: "1anr7UjUkuc"
 duration: "11 min"
 date: 2026-04-17
 tags: [Omer, Discernimiento, Siglut, Hod, Verdad]

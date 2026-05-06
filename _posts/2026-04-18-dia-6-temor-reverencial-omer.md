@@ -2,7 +2,7 @@
 title: "DÍA 6 — Temor Reverencial | 49 Niveles del Omer"
 description: "Yirah—el temor que no paraliza sino que abre. Yesod en Jésed: cuando el fundamento de tu ser se alinea con lo sagrado."
 series: "Omer 5786"
-youtube_id: "5pQkX8m2nvU"
+youtube_id: "sUPWPjjlJ7c"
 duration: "11 min"
 date: 2026-04-18
 tags: [Omer, Yirah, Temor, Yesod, Reverencia]
