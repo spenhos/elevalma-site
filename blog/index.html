@@ -29,27 +29,29 @@ title: Blog — ElevAlma
   </script>
 
   <!-- Schema.org JSON-LD -->
+  {% for post in site.posts limit:5 %}
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Blog — ElevAlma",
-    "description": "Artículos semanales sobre Torá, Parashá, Kabalá y crecimiento espiritual.",
-    "url": "https://elevalma.com/blog/",
-    "inLanguage": "es",
-    "mainEntity": {
-      "@type": "ItemList",
-      "itemListElement": [{% for post in site.posts limit:10 %}
-        {
-          "@type": "ListItem",
-          "position": {{ forloop.index }},
-          "url": "https://elevalma.com{{ post.url }}",
-          "name": {{ post.title | jsonify }}
-        }{% unless forloop.last %},{% endunless %}{% endfor %}
-      ]
-    }
+    "@type": "BlogPosting",
+    "headline": {{ post.title | jsonify }},
+    "description": {{ post.description | jsonify }},
+    "image": "https://img.youtube.com/vi/{{ post.youtube_id }}/maxresdefault.jpg",
+    "datePublished": "{{ post.date | date: '%Y-%m-%dT12:00:00-06:00' }}",
+    "author": {
+      "@type": "Person",
+      "name": "Saleh Penhos",
+      "url": "https://elevalma.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ElevAlma",
+      "url": "https://elevalma.com"
+    },
+    "mainEntityOfPage": "https://elevalma.com{{ post.url }}"
   }
   </script>
+  {% endfor %}
 
   <style>
     .blog-listing { max-width: 960px; margin: 0 auto; padding: 160px 24px 80px; }
