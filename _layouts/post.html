@@ -36,8 +36,8 @@
     "headline": {{ page.title | jsonify }},
     "description": {{ page.description | jsonify }},
     "image": "https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg",
-    "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
-    "dateModified": "{{ page.date | date: '%Y-%m-%d' }}",
+    "datePublished": "{{ page.date | date: '%Y-%m-%dT12:00:00-06:00' }}",
+    "dateModified": "{{ page.date | date: '%Y-%m-%dT12:00:00-06:00' }}",
     "author": {
       "@type": "Person",
       "name": "Saleh Penhos",
@@ -61,7 +61,7 @@
       "name": {{ page.title | jsonify }},
       "description": {{ page.description | jsonify }},
       "thumbnailUrl": "https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg",
-      "uploadDate": "{{ page.date | date: '%Y-%m-%d' }}",
+      "uploadDate": "{{ page.date | date: '%Y-%m-%dT12:00:00-06:00' }}",
       "duration": "PT{{ page.duration | replace: ' min', 'M' }}",
       "contentUrl": "https://www.youtube.com/watch?v={{ page.youtube_id }}",
       "embedUrl": "https://www.youtube.com/embed/{{ page.youtube_id }}"
@@ -105,7 +105,7 @@
     "publisher": { "@type": "Organization", "name": "ElevAlma" },
     "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
     "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ site.url }}{{ page.url }}" }{% if page.youtube_id %},
-    "video": { "@type": "VideoObject", "name": "{{ page.title }}", "thumbnailUrl": "https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg", "uploadDate": "{{ page.date | date: '%Y-%m-%d' }}", "embedUrl": "https://www.youtube.com/embed/{{ page.youtube_id }}" }{% endif %}
+    "video": { "@type": "VideoObject", "name": "{{ page.title }}", "thumbnailUrl": "https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg", "uploadDate": "{{ page.date | date: '%Y-%m-%dT12:00:00-06:00' }}", "embedUrl": "https://www.youtube.com/embed/{{ page.youtube_id }}" }{% endif %}
   }
   </script>
 </head>
