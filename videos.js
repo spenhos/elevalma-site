@@ -7,20 +7,32 @@
 const SITE_DATA = {
   // Video destacado en el Hero
   featured: {
-    id: "omer-dia-33-lag-baomer",
-    title: "DÍA 33 — Lag BaOmer: Hod she-be-Hod",
-    subtitle: "De la Libertad a la Revelación — 49 Niveles del Omer",
-    description: "Lag BaOmer celebra la luz que surge cuando dejas de pretender que eres más de lo que eres. Hod she-be-Hod es el reconocimiento más profundo: tu esplendor real está en lo que aceptas de ti mismo.",
-    date: "2026-05-05",
-    duration: "20 min",
+    id: "behar-bejukotay-5786",
+    title: "CEGUERA EXISTENCIAL — ¿Quién eres cuando te quitan lo que creías que eras?",
+    subtitle: "Perashá Behar-Bejukotay 5786",
+    description: "Behar-Bejukotay revela tres síntomas de una enfermedad que todos padecemos: la ceguera de creer que lo que posees te define. Un diagnóstico de la Toráh que cambia cómo ves tu vida.",
+    date: "2026-05-13",
+    duration: "28 min",
     views: "",
-    youtubeId: "Ek--ojUjyoE",
-    thumbnail: "https://img.youtube.com/vi/Ek--ojUjyoE/maxresdefault.jpg",
-    tags: ["Omer", "Lag BaOmer", "Kabbalá"]
+    youtubeId: "PqosbXntkuQ",
+    thumbnail: "https://img.youtube.com/vi/PqosbXntkuQ/maxresdefault.jpg",
+    tags: ["Parashá", "Behar", "Bejukotay", "Musar"]
   },
 
   // Todos los videos (más reciente primero)
   videos: [
+    // ── PARASHÁ SEMANAL ──
+    {
+      id: "behar-bejukotay-5786",
+      title: "CEGUERA EXISTENCIAL — ¿Quién eres cuando te quitan lo que creías que eras?",
+      series: "Perashá Behar-Bejukotay",
+      description: "Tres síntomas de una enfermedad que todos padecemos: la ceguera de creer que lo que posees te define.",
+      date: "2026-05-13",
+      duration: "28 min",
+      youtubeId: "PqosbXntkuQ",
+      thumbnail: "https://img.youtube.com/vi/PqosbXntkuQ/maxresdefault.jpg",
+      category: "parasha"
+    },
     // ── OMER ──
     {
       id: "omer-dia-33-lag-baomer",

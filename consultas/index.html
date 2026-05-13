@@ -1,0 +1,604 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultas y Acompañamiento Espiritual — ElevAlma | Saleh Penhos</title>
+  <meta name="description" content="Consulta personalizada de Toráh y Kabalá con Saleh Penhos. Orientación espiritual por email (gratuita), sesiones individuales y mentoría mensual. Tu camino de crecimiento comienza aquí.">
+  <meta property="og:title" content="Consultas y Acompañamiento Espiritual — ElevAlma">
+  <meta property="og:description" content="Orientación espiritual personalizada con Saleh Penhos. Consulta gratuita por email, sesiones individuales y mentoría mensual de Toráh y Kabalá.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://elevalma.com/consultas/">
+  <meta property="og:image" content="https://elevalma.com/og-image.png?v=3">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <link rel="canonical" href="https://elevalma.com/consultas/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 465 565'%3E%3Cg transform='translate(0,563) scale(1,-1)'%3E%3Cpath d='M247 270 213 292H214C202 303 195 330 195 358C195 369 197 387 199 405C201 422 203 441 203 453C203 511 174 519 116 523C108 523 93 527 86 563C86 563 2 554 2 484C2 439 43 411 106 411C121 411 125 388 124 357C124 333 122 309 122 285C121 267 133 242 160 222C207 189 256 155 303 122C306 119 310 115 311 106H49L16 0H382C408 7 456 59 456 100C456 114 447 130 425 146C402 161 379 177 356 193H358C342 209 337 233 337 262C337 306 364 376 393 405C403 403 420 395 439 385C458 411 463 450 463 461C463 512 420 519 378 522C367 523 344 527 341 560C341 560 256 562 256 484C256 452 283 425 328 413C299 374 268 321 247 270Z' fill='%23c9a84c'/%3E%3C/g%3E%3C/svg%3E">
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7TTW2CM2MZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7TTW2CM2MZ');
+  </script>
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "ElevAlma — Consultas y Acompañamiento Espiritual",
+    "description": "Consulta personalizada de Toráh y Kabalá con Saleh Penhos. Orientación espiritual, sesiones individuales y mentoría mensual.",
+    "url": "https://elevalma.com/consultas/",
+    "provider": {
+      "@type": "Person",
+      "name": "Saleh Penhos",
+      "url": "https://elevalma.com",
+      "jobTitle": "Educador de Torá y Kabalá"
+    },
+    "areaServed": "Worldwide",
+    "availableLanguage": "Spanish",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Servicios de acompañamiento espiritual",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "name": "Consulta por email",
+          "description": "Orientación inicial personalizada sobre Toráh, espiritualidad o temas personales. Respuesta en máximo 72 horas.",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "Consulta individual",
+          "description": "Sesión 1-a-1 de orientación espiritual, estudio personalizado y reflexión guiada por videollamada.",
+          "price": "80",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "Mentoría mensual",
+          "description": "Programa de acompañamiento continuo con 4 sesiones mensuales, seguimiento por WhatsApp y material exclusivo.",
+          "price": "250",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+  }
+  </script>
+
+  <style>
+    /* ===== CONSULTAS PAGE STYLES ===== */
+    .consultas-hero {
+      padding: 160px 24px 60px;
+      text-align: center;
+      position: relative;
+    }
+    .consultas-hero .label { margin-bottom: 16px; display: inline-block; }
+    .consultas-hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .consultas-hero .hero-sub {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ===== WHY SECTION ===== */
+    .consultas-why {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+    .consultas-why h2 {
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 600;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+    .consultas-why p {
+      font-size: 17px;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    .consultas-why strong { color: #fff; font-weight: 500; }
+    .consultas-why em { color: var(--gold); font-style: italic; }
+
+    /* ===== ALCANCES ===== */
+    .consultas-alcances {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+    .consultas-alcances h2 {
+      font-size: clamp(24px, 3.5vw, 32px);
+      font-weight: 600;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .alcances-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .alcance-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 28px;
+    }
+    .alcance-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--gold);
+    }
+    .alcance-card p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* ===== SERVICES SECTION (reuses main site styles) ===== */
+    .consultas-services {
+      padding: 60px 24px;
+    }
+
+    /* ===== CONTACT INFO ===== */
+    .consultas-contact {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+    .consultas-contact h2 {
+      font-size: clamp(24px, 3.5vw, 32px);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .consultas-contact > p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .consultas-contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    @media (max-width: 700px) {
+      .consultas-contact-form { grid-template-columns: 1fr; }
+    }
+
+    /* ===== BLOG RECIENTES ===== */
+    .consultas-blog {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+    .consultas-blog h2 {
+      font-size: clamp(24px, 3.5vw, 32px);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .consultas-blog > p {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+    .blog-recent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .blog-recent-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+    .blog-recent-card:hover {
+      border-color: rgba(201,168,76,0.3);
+      transform: translateY(-4px);
+    }
+    .blog-recent-card img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+    .blog-recent-card .card-body {
+      padding: 20px;
+    }
+    .blog-recent-card .card-series {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .blog-recent-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .blog-recent-card .card-meta {
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE OVERLAY -->
+  <div class="mobile-overlay">
+    <div class="mobile-close">&times;</div>
+    <a href="/">Inicio</a>
+    <a href="/#videos">Videos</a>
+    <a href="/#sobre-mi">Sobre mí</a>
+    <a href="/blog/">Blog</a>
+    <a href="/omer/">Omer</a>
+    <a href="/etz-jaim/">Etz Jaim</a>
+    <a href="/consultas/">Servicios</a>
+    <a href="/consultas/#contacto">Contacto</a>
+    <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" style="color: var(--gold);">Agendar</a>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="nav scrolled">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><svg class="nav-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 40" aria-label="ElevAlma"><g transform="translate(6, 4) scale(0.055, 0.055)" opacity="0.75"><g transform="translate(0, 563) scale(1, -1)"><path d="M247 270 213 292H214C202 303 195 330 195 358C195 369 197 387 199 405C201 422 203 441 203 453C203 511 174 519 116 523C108 523 93 527 86 563C86 563 2 554 2 484C2 439 43 411 106 411C121 411 125 388 124 357C124 333 122 309 122 285C121 267 133 242 160 222C207 189 256 155 303 122C306 119 310 115 311 106H49L16 0H382C408 7 456 59 456 100C456 114 447 130 425 146C402 161 379 177 356 193H358C342 209 337 233 337 262C337 306 364 376 393 405C403 403 420 395 439 385C458 411 463 450 463 461C463 512 420 519 378 522C367 523 344 527 341 560C341 560 256 562 256 484C256 452 283 425 328 413C299 374 268 321 247 270Z" fill="#c9a84c"/></g></g><text x="46" y="28" font-family="Inter, sans-serif" font-weight="300" font-size="26" letter-spacing="8"><tspan fill="#ffffff">ELEV</tspan><tspan fill="#c9a84c">ALMA</tspan></text></svg></a>
+      <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/#videos">Videos</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/omer/">Omer</a></li>
+        <li><a href="/etz-jaim/">Etz Jaim</a></li>
+        <li><a href="/consultas/" class="active">Servicios</a></li>
+      </ul>
+      <a href="/consultas/#contacto" class="nav-cta">Contacto</a>
+      <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="nav-cta-gold">Agendar</a>
+      <div class="nav-mobile" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="consultas-hero">
+    <div class="container">
+      <span class="label">Acompañamiento espiritual</span>
+      <h1>Tu camino merece<br>guía dedicada</h1>
+      <p class="hero-sub">La Toráh no fue diseñada para estudiarse en aislamiento. Cada alma tiene preguntas únicas, y a veces lo que necesitas no es más información — es alguien que camine contigo mientras encuentras tus propias respuestas.</p>
+    </div>
+  </section>
+
+  <!-- ===== POR QUÉ UNA CONSULTA ===== -->
+  <section class="consultas-why">
+    <h2>¿Por qué una consulta personal?</h2>
+
+    <p>Vivimos en una era de acceso ilimitado a la información. Puedes encontrar clases de Toráh, explicaciones de Kabalá y comentarios rabínicos con un solo clic. Pero hay algo que ningún video, ningún artículo y ningún podcast pueden hacer por ti: <strong>mirarte a los ojos y preguntarte qué es lo que realmente te está pasando.</strong></p>
+
+    <p>La sabiduría de la Toráh es universal en sus principios, pero profundamente personal en su aplicación. Lo que la parashá de esta semana significa para ti no es lo mismo que significa para alguien más. Tu momento de vida, tus circunstancias, tus luchas internas — todo eso determina qué enseñanza necesitas escuchar y, sobre todo, <strong>cómo necesitas escucharla.</strong></p>
+
+    <p>Una consulta personal no es una clase. No es un sermón. No es alguien que te dice qué hacer. Es un espacio seguro donde puedes traer tus preguntas más difíciles — esas que no le haces a nadie porque te da miedo que te juzguen, o porque no sabes ni cómo formularlas — y trabajarlas juntos a la luz de una tradición que lleva más de 3,300 años entendiendo el alma humana.</p>
+
+    <p>En ElevAlma creo que <em>cada persona merece ser vista, escuchada y acompañada en su proceso de crecimiento</em>. No importa si apenas estás comenzando tu camino espiritual o si llevas años estudiando. No importa si tu pregunta es sobre Toráh, sobre una crisis personal, sobre tu relación con Hashem o sobre cómo dar sentido a algo que te pasó. Lo que importa es que te atrevas a preguntar.</p>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== ALCANCES ===== -->
+  <section class="consultas-alcances">
+    <h2>¿En qué puedo ayudarte?</h2>
+    <div class="alcances-grid">
+      <div class="alcance-card">
+        <h3>Orientación espiritual</h3>
+        <p>Encontrar dirección en momentos de confusión, crisis de fe o búsqueda de propósito. Conectar tu vida cotidiana con principios de Toráh y Kabalá de manera práctica y honesta.</p>
+      </div>
+      <div class="alcance-card">
+        <h3>Estudio personalizado</h3>
+        <p>Profundizar en temas específicos de Toráh, Talmud, Musar o Kabalá adaptados a tu nivel y a lo que necesitas en este momento de tu vida. Un aprendizaje que no es genérico — es tuyo.</p>
+      </div>
+      <div class="alcance-card">
+        <h3>Procesos de vida</h3>
+        <p>Acompañamiento en transiciones importantes: duelo, cambios de carrera, conflictos familiares, decisiones difíciles. La Toráh tiene herramientas para cada etapa — pero necesitas saber cuál aplicar y cuándo.</p>
+      </div>
+      <div class="alcance-card">
+        <h3>Crecimiento personal</h3>
+        <p>Trabajar midot (cualidades del carácter), romper patrones destructivos, construir hábitos de elevación. No se trata de ser perfecto — se trata de caminar con intención.</p>
+      </div>
+      <div class="alcance-card">
+        <h3>Relaciones y familia</h3>
+        <p>Mejorar tu relación de pareja, tu rol como padre o madre, o resolver conflictos interpersonales. La Toráh entiende las relaciones humanas con una profundidad que la psicología moderna apenas empieza a alcanzar.</p>
+      </div>
+      <div class="alcance-card">
+        <h3>Conexión con Hashem</h3>
+        <p>Para quienes sienten distancia, duda o desconexión con lo espiritual. No hay preguntas prohibidas — a veces la duda honesta es el comienzo del camino más profundo.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== SERVICIOS (LAS 3 CARDS) ===== -->
+  <section id="servicios" class="consultas-services">
+    <div class="container">
+      <div class="services-header">
+        <span class="label">Servicios</span>
+        <h2 class="heading-lg">Elige tu forma de<br>acompañamiento</h2>
+        <p class="body-text" style="margin: 16px auto 0;">Cada persona necesita algo diferente. Desde una orientación inicial gratuita hasta un programa de mentoría continua.</p>
+      </div>
+      <div class="services-grid">
+
+        <!-- Service 1: Consulta gratuita por email -->
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h3>Consulta por email</h3>
+          <p class="service-desc">¿Tienes una pregunta sobre Torá, espiritualidad o un tema personal? Escríbeme y te respondo con orientación personalizada.</p>
+          <div class="service-price">
+            <span class="amount">Gratuita</span>
+          </div>
+          <ul class="service-features">
+            <li>Respuesta en máximo 72 horas</li>
+            <li>Orientación inicial personalizada</li>
+            <li>Sin compromiso</li>
+          </ul>
+          <a href="#contacto" class="service-cta">Escribir consulta</a>
+        </div>
+
+        <!-- Service 2 (Popular): Consulta individual -->
+        <div class="service-card popular">
+          <span class="service-badge">Popular</span>
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3>Consulta individual</h3>
+          <p class="service-desc">Sesión 1-a-1 de orientación espiritual, estudio personalizado y reflexión guiada sobre los temas que más te importan.</p>
+          <div class="service-price">
+            <span class="amount">$80</span>
+            <span class="period">USD / sesión</span>
+          </div>
+          <ul class="service-features">
+            <li>50 minutos por videollamada</li>
+            <li>Orientación personalizada</li>
+            <li>Material de estudio</li>
+          </ul>
+          <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="service-cta">Agendar sesión</a>
+        </div>
+
+        <!-- Service 3: Mentoría mensual -->
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3>Mentoría mensual</h3>
+          <p class="service-desc">Programa de acompañamiento continuo con sesiones semanales, seguimiento personalizado y acceso a material exclusivo.</p>
+          <div class="service-price">
+            <span class="amount">$250</span>
+            <span class="period">USD / mes</span>
+          </div>
+          <ul class="service-features">
+            <li>4 sesiones al mes</li>
+            <li>Seguimiento por WhatsApp</li>
+            <li>Material exclusivo</li>
+            <li>Acceso a grupo privado</li>
+          </ul>
+          <a href="https://cal.com/elevalma/mentoria-mensual-programa-de-acompanamiento" target="_blank" rel="noopener" class="service-cta">Comenzar mentoría</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== CONTACTO ===== -->
+  <section id="contacto" class="consultas-contact">
+    <span class="label">Contacto</span>
+    <h2>Conversemos</h2>
+    <p>¿Tienes preguntas, quieres agendar una consulta o simplemente necesitas hablar? Escríbeme directamente o usa el formulario. Me pondré en contacto contigo lo antes posible.</p>
+
+    <div class="consultas-contact-form">
+      <div class="contact-channels">
+        <a href="mailto:consulta@elevalma.com" class="contact-channel">
+          <div class="contact-channel-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="contact-channel-label">Email</div>
+            <div class="contact-channel-value">consulta@elevalma.com</div>
+          </div>
+        </a>
+        <a href="https://www.youtube.com/@elevalma.oficial" target="_blank" rel="noopener" class="contact-channel">
+          <div class="contact-channel-icon">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8z" fill="currentColor"/><polygon points="9.6 15.6 15.9 12 9.6 8.4" fill="#060606"/></svg>
+          </div>
+          <div>
+            <div class="contact-channel-label">YouTube</div>
+            <div class="contact-channel-value">@elevalma.oficial</div>
+          </div>
+        </a>
+        <a href="https://open.spotify.com/show/054bnaJPZCms5gtcxLjVkB" target="_blank" rel="noopener" class="contact-channel">
+          <div class="contact-channel-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4.3-1 8-.6 11 1.2.4.2.5.6.3 1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.7.3 1zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1-.1-1.2-.6-.2-.5.1-1 .6-1.2 4-1.2 10.7-1 14.9 1.5.5.3.6.9.3 1.3-.2.5-.8.6-1.4.3z"/></svg>
+          </div>
+          <div>
+            <div class="contact-channel-label">Spotify</div>
+            <div class="contact-channel-value">ElevAlma Podcast</div>
+          </div>
+        </a>
+        <a href="https://www.tiktok.com/@elevalma" target="_blank" rel="noopener" class="contact-channel">
+          <div class="contact-channel-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.3 5.3A4.5 4.5 0 0 1 16.5 4V0h-3.8v16.5a2.8 2.8 0 1 1-1.9-2.6V10a6.6 6.6 0 1 0 5.7 6.5V9a8.3 8.3 0 0 0 4.9 1.6V6.8a4.5 4.5 0 0 1-2.1-1.5z"/></svg>
+          </div>
+          <div>
+            <div class="contact-channel-label">TikTok</div>
+            <div class="contact-channel-value">@elevalma</div>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/elevalma.oficial/" target="_blank" rel="noopener" class="contact-channel">
+          <div class="contact-channel-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4a3.9 3.9 0 0 1-1.4-.9 3.9 3.9 0 0 1-.9-1.4c-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zM12 0C8.7 0 8.3 0 7 .1 5.7.1 4.8.3 4 .6a5.8 5.8 0 0 0-2.1 1.4A5.8 5.8 0 0 0 .6 4C.3 4.8.1 5.7.1 7 0 8.3 0 8.7 0 12s0 3.7.1 5c.1 1.3.2 2.2.6 3a5.8 5.8 0 0 0 1.4 2.1A5.8 5.8 0 0 0 4 23.4c.8.3 1.7.5 3 .5 1.3.1 1.7.1 5 .1s3.7 0 5-.1c1.3-.1 2.2-.2 3-.6a5.8 5.8 0 0 0 2.1-1.4 5.8 5.8 0 0 0 1.4-2.1c.3-.8.5-1.7.5-3 .1-1.3.1-1.7.1-5s0-3.7-.1-5c-.1-1.3-.2-2.2-.6-3a5.8 5.8 0 0 0-1.4-2.1A5.8 5.8 0 0 0 20 .6C19.2.3 18.3.1 17 .1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/></svg>
+          </div>
+          <div>
+            <div class="contact-channel-label">Instagram</div>
+            <div class="contact-channel-value">@elevalma.oficial</div>
+          </div>
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbBt6FK1SWszxnYZE50s" target="_blank" rel="noopener" class="contact-channel">
+          <div class="contact-channel-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4l-2-1c-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.3.3-.6.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6l.4-.4c.1-.2.2-.3.1-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.2.2-1.3 0-.2-.2-.3-.4-.4zM12 21.8c-1.8 0-3.5-.5-5-1.3l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 0 1 2.2 12 9.8 9.8 0 0 1 12 2.2 9.8 9.8 0 0 1 21.8 12 9.8 9.8 0 0 1 12 21.8zM12 0a12 12 0 0 0-10.2 18.3L0 24l5.8-1.5A12 12 0 1 0 12 0z"/></svg>
+          </div>
+          <div>
+            <div class="contact-channel-label">WhatsApp</div>
+            <div class="contact-channel-value">Canal ElevAlma</div>
+          </div>
+        </a>
+      </div>
+
+      <div>
+        <form id="contact-form" class="contact-form" action="https://formsubmit.co/73ba5ea63f9aef54db219240acb80a2b" method="POST">
+          <input type="hidden" name="_subject" value="Nueva consulta desde elevalma.com/consultas">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://elevalma.com/consultas/#contacto">
+          <input type="text" name="_honey" style="display:none">
+
+          <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="nombre" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="type">Tipo de consulta</label>
+            <select id="type" name="tipo_consulta" required>
+              <option value="" disabled selected>Seleccionar...</option>
+              <option value="consulta-gratuita">Consulta gratuita</option>
+              <option value="consulta-individual">Consulta individual</option>
+              <option value="mentoria">Mentoría mensual</option>
+              <option value="clase-grupal">Clase grupal privada</option>
+              <option value="colaboracion">Colaboración</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="mensaje" placeholder="Cuéntame en qué puedo ayudarte..." rows="4" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Enviar mensaje</button>
+        </form>
+
+        <div class="form-success">
+          <h3>Mensaje enviado</h3>
+          <p>Gracias por escribirme. Te responderé lo antes posible.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== BLOG RECIENTES ===== -->
+  <section class="consultas-blog">
+    <span class="label">Blog</span>
+    <h2>Reflexiones recientes</h2>
+    <p>Cada semana publico una reflexión escrita basada en la parashá. Aquí están las más recientes.</p>
+
+    <div class="blog-recent-grid">
+      {% assign recent_posts = site.posts | slice: 0, 3 %}
+      {% for post in recent_posts %}
+      <a href="{{ post.url }}" class="blog-recent-card">
+        {% if post.youtube_id %}
+        <img src="https://img.youtube.com/vi/{{ post.youtube_id }}/mqdefault.jpg" alt="{{ post.title }}" loading="lazy">
+        {% endif %}
+        <div class="card-body">
+          {% if post.series %}<div class="card-series">{{ post.series }}</div>{% endif %}
+          <h3>{{ post.title }}</h3>
+          <div class="card-meta">{{ post.date | date: "%d de %B, %Y" }} · {{ post.duration }}</div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <div style="text-align: center; margin-top: 32px;">
+      <a href="/blog/" class="btn-secondary">Ver todos los artículos</a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">Elev<span style="color: #c9a84c;">Alma</span></span>
+        <div class="footer-links">
+          <a href="https://www.youtube.com/@elevalma.oficial" target="_blank" rel="noopener">YouTube</a>
+          <a href="https://open.spotify.com/show/054bnaJPZCms5gtcxLjVkB" target="_blank" rel="noopener">Spotify</a>
+          <a href="https://www.instagram.com/elevalma.oficial/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@elevalma" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://whatsapp.com/channel/0029VbBt6FK1SWszxnYZE50s" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="/blog/">Blog</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 ElevAlma &middot; Saleh Penhos</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile nav script -->
+  <script>
+  (function(){
+    var menuBtn = document.querySelector('.nav-mobile');
+    var overlay = document.querySelector('.mobile-overlay');
+    var closeBtn = document.querySelector('.mobile-close');
+    if(menuBtn && overlay){
+      menuBtn.addEventListener('click', function(){ overlay.classList.toggle('open'); });
+      if(closeBtn) closeBtn.addEventListener('click', function(){ overlay.classList.remove('open'); });
+      overlay.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ overlay.classList.remove('open'); }); });
+    }
+  })();
+  </script>
+
+  <!-- Anti-spam timing -->
+  <script>
+  (function(){
+    var form = document.getElementById('contact-form');
+    if(!form) return;
+    var loadTime = Date.now();
+    form.addEventListener('submit', function(e){
+      if(Date.now() - loadTime < 3000){ e.preventDefault(); return false; }
+    });
+  })();
+  </script>
+
+  <div class="mobile-float-cta">
+    <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener">Agendar consulta</a>
+  </div>
+
+</body>
+</html>
