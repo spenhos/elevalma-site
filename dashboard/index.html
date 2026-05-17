@@ -180,34 +180,6 @@ tr:last-child td { border-bottom: none; }
   <div class="card"><h3>Frecuencia de publicación</h3><canvas id="c3" height="200"></canvas></div>
 </div>
 
-<!-- GA -->
-<div class="sec">
-  <svg viewBox="0 0 24 24"><rect x="4" y="14" width="4" height="6" rx="1" fill="#E37400"/><rect x="10" y="9" width="4" height="11" rx="1" fill="#E37400"/><rect x="16" y="4" width="4" height="16" rx="1" fill="#E37400"/></svg>
-  Google Analytics — elevalma.com
-</div>
-
-<div class="card" style="margin-bottom:20px; background: linear-gradient(135deg, #fff, #fff8f0);">
-  <h3>Estado de implementación GA4</h3>
-  <ul class="chk">
-    <li><span class="ok">&#10003;</span> <b>GA4 instalado</b> — Tag G-7TTW2CM2MZ activo</li>
-    <li><span class="ok">&#10003;</span> <b>Tracking en homepage, blog, /consultas/, /omer/</b></li>
-    <li><span class="ok">&#10003;</span> <b>Eventos de conversión</b> — click_agendar_sesion, click_escribir_consulta, click_comenzar_mentoria, form_submit_consulta</li>
-    <li><span class="pend">!</span> <b>Search Console</b> — Pendiente vincular con GA4</li>
-  </ul>
-  <div class="tip">
-    <b>Próximos pasos:</b><br><br>
-    1. En GA4 → Admin → Events, marca los eventos como "key events"<br>
-    2. Conecta Search Console: GA4 → Admin → Product Links<br>
-    3. Crea reporte en lookerstudio.google.com con GA4 + Search Console<br>
-    4. Crea audiencias: "visitó /consultas/" y "visitó /blog/"
-  </div>
-</div>
-
-<div class="row g2">
-  <div class="card"><h3>Páginas trackeadas</h3><canvas id="c4" height="200"></canvas></div>
-  <div class="card"><h3>Eventos de conversión (prioridad)</h3><canvas id="c5" height="200"></canvas></div>
-</div>
-
 <!-- CONTENIDO -->
 <div class="sec">
   <svg viewBox="0 0 24 24" fill="none" stroke="#b8941f" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
@@ -419,15 +391,6 @@ function go() {
   // Spotify
   mkChart('c2', 'bar', ['Behar-Bej.','Emor','Tzav','Terumá'], [{ data: [30,23,23,28], backgroundColor: green, borderRadius: 6 }]);
   mkChart('c3', 'line', ['Ene','Feb','Mar','Abr','May'], [{ data: [4,5,6,8,2], borderColor: green, backgroundColor: gR, fill: true, tension: 0.4, pointBackgroundColor: green, pointRadius: 5 }]);
-
-  // GA
-  new Chart(document.getElementById('c4'), {
-    type: 'doughnut',
-    data: { labels: ['Homepage','Blog (84)','Omer','Etz Jaim','Consultas','Redirects'], datasets: [{ data: [1,84,1,1,1,4], backgroundColor: [orange,gold,blue,purple,green,'#ddd'], borderWidth: 0 }] },
-    options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10, usePointStyle: true } } } }
-  });
-
-  mkChart('c5', 'bar', ['agendar_sesion','form_submit','escribir_consulta','comenzar_mentoria','scroll_servicios','click_youtube'], [{ data: [10,9,9,8,7,6], backgroundColor: [orange,orange,orange,orange,oL,oL], borderRadius: 6 }], { horizontal: true });
 
   // Content
   mkChart('c6', 'bar', ['Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr','May'], [{ data: [1,21,5,4,2,5,7,18,19,2], backgroundColor: [gL,gold,gL,gL,gL,gL,gL,gold,gold,gL], borderColor: gold, borderWidth: 1, borderRadius: 6 }]);
