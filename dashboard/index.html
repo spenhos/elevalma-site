@@ -994,16 +994,15 @@ function loadYTAnalytics(channelId) {
       }
 
       // KPIs
-      if (data.kpi) {
-        var views28 = data.kpi[0] || 0;
-        var watchMin = data.kpi[1] || 0;
-        var avgDur = data.kpi[2] || 0;
-        var ctr = data.kpi[4] || 0;
-
-        document.getElementById('yta-views28').textContent = parseInt(views28).toLocaleString();
-        document.getElementById('yta-watchtime').textContent = (watchMin / 60).toFixed(1);
-        document.getElementById('yta-avgdur').textContent = Math.round(avgDur);
-        document.getElementById('yta-ctr').textContent = (ctr * 100).toFixed(1) + '%';
+      if (data.kpi && data.kpi.views !== undefined) {
+        document.getElementById('yta-views28').textContent = parseInt(data.kpi.views).toLocaleString();
+        document.getElementById('yta-watchtime').textContent = (data.kpi.estimatedMinutesWatched / 60).toFixed(1);
+        document.getElementById('yta-avgdur').textContent = Math.round(data.kpi.averageViewDuration);
+        if (data.kpi.ctr !== undefined) {
+          document.getElementById('yta-ctr').textContent = (data.kpi.ctr * 100).toFixed(1) + '%';
+        } else {
+          document.getElementById('yta-ctr').textContent = '—';
+        }
       }
 
       // Daily charts
