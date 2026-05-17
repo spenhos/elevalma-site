@@ -196,6 +196,25 @@ tr:last-child td { border-bottom: none; }
   <div class="card full"><h3>Rendimiento de videos recientes</h3><canvas id="c1" height="180"></canvas></div>
 </div>
 
+<!-- YOUTUBE ANALYTICS (OAuth2) -->
+<div id="yt-analytics-section" style="display:none;">
+  <div class="row">
+    <div class="card" style="text-align:center;"><div class="kl">Watch Time (28d)</div><div class="kv yt" id="yta-watchtime">...</div><div class="kd">horas</div></div>
+    <div class="card" style="text-align:center;"><div class="kl">Views (28d)</div><div class="kv yt" id="yta-views28">...</div></div>
+    <div class="card" style="text-align:center;"><div class="kl">Impresiones CTR</div><div class="kv yt" id="yta-ctr">...</div></div>
+    <div class="card" style="text-align:center;"><div class="kl">Duración prom.</div><div class="kv yt" id="yta-avgdur">...</div><div class="kd">segundos</div></div>
+  </div>
+  <div class="row g2">
+    <div class="card"><h3>Views diarias (últimos 28 días)</h3><canvas id="yta-c-views" height="200"></canvas></div>
+    <div class="card"><h3>Watch Time diario (min)</h3><canvas id="yta-c-watchtime" height="200"></canvas></div>
+  </div>
+  <div class="row g2">
+    <div class="card"><h3>Fuentes de tráfico</h3><canvas id="yta-c-traffic" height="200"></canvas></div>
+    <div class="card"><h3>Top 10 videos (views 28d)</h3><canvas id="yta-c-topvideos" height="200"></canvas></div>
+  </div>
+  <div id="yta-status" class="status" style="font-size:12px;color:#aaa;"></div>
+</div>
+
 <!-- SPOTIFY -->
 <div class="sec">
   <svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4.3-1 8-.6 11 1.2.4.2.5.6.3 1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.7.3 1zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1-.1-1.2-.6-.2-.5.1-1 .6-1.2 4-1.2 10.7-1 14.9 1.5.5.3.6.9.3 1.3-.2.5-.8.6-1.4.3z"/></svg>
@@ -976,6 +995,214 @@ function go() {
   loadOpus();
 
 // go() is called after successful OAuth login
+
+// === YOUTUBE ANALYTICS (OAuth2) ===
+function loadYTAnalytics() {
+  if (!YT_ACCESS_TOKEN) return;
+
+  var section = document.getElementById('yt-analytics-section');
+  section.style.display = 'block';
+  var statusEl = document.getElementById('yta-status');
+  statusEl.textContent = 'Cargando YouTube Analytics...';
+
+  var CH = 'UCm7TaLFmuImm2wfhCHJJehw';
+  var today = new Date();
+  var end = today.toISOString().split('T')[0];
+  var d28 = new Date(today); d28.setDate(d28.getDate() - 28);
+  var start = d28.toISOString().split('T')[0];
+
+  var headers = { 'Authorization': 'Bearer ' + YT_ACCESS_TOKEN };
+
+  // 1) KPIs: views, watchTime, impressions, CTR, avg view duration
+  var kpiUrl = 'https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==' + CH +
+    '&startDate=' + start + '&endDate=' + end +
+    '&metrics=views,estimatedMinutesWatched,averageViewDuration,impressions,impressionClickThroughRate';
+
+  // 2) Daily views + watchTime
+  var dailyUrl = 'https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==' + CH +
+    '&startDate=' + start + '&endDate=' + end +
+    '&dimensions=day&metrics=views,estimatedMinutesWatched&sort=day';
+
+  // 3) Traffic sources
+  var trafficUrl = 'https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==' + CH +
+    '&startDate=' + start + '&endDate=' + end +
+    '&dimensions=insightTrafficSourceType&metrics=views&sort=-views&maxResults=8';
+
+  // 4) Top videos
+  var topVidsUrl = 'https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==' + CH +
+    '&startDate=' + start + '&endDate=' + end +
+    '&dimensions=video&metrics=views,estimatedMinutesWatched&sort=-views&maxResults=10';
+
+  Promise.all([
+    fetch(kpiUrl, { headers: headers }).then(function(r) { return r.json(); }),
+    fetch(dailyUrl, { headers: headers }).then(function(r) { return r.json(); }),
+    fetch(trafficUrl, { headers: headers }).then(function(r) { return r.json(); }),
+    fetch(topVidsUrl, { headers: headers }).then(function(r) { return r.json(); })
+  ]).then(function(results) {
+    var kpi = results[0];
+    var daily = results[1];
+    var traffic = results[2];
+    var topVids = results[3];
+
+    // Check for auth errors
+    if (kpi.error) {
+      statusEl.textContent = 'Error: ' + (kpi.error.message || 'No autorizado');
+      if (kpi.error.code === 401 || kpi.error.code === 403) {
+        sessionStorage.removeItem('ea_yt_token');
+        sessionStorage.removeItem('ea_yt_token_exp');
+        YT_ACCESS_TOKEN = null;
+        statusEl.textContent += ' — Refresca la página para re-autorizar.';
+      }
+      return;
+    }
+
+    // KPIs
+    if (kpi.rows && kpi.rows[0]) {
+      var row = kpi.rows[0];
+      var views28 = row[0] || 0;
+      var watchMin = row[1] || 0;
+      var avgDur = row[2] || 0;
+      var impressions = row[3] || 0;
+      var ctr = row[4] || 0;
+
+      document.getElementById('yta-views28').textContent = parseInt(views28).toLocaleString();
+      document.getElementById('yta-watchtime').textContent = (watchMin / 60).toFixed(1);
+      document.getElementById('yta-avgdur').textContent = Math.round(avgDur);
+      document.getElementById('yta-ctr').textContent = (ctr * 100).toFixed(1) + '%';
+    }
+
+    // Daily charts
+    if (daily.rows && daily.rows.length > 0) {
+      var dLabels = [], dViews = [], dWatch = [];
+      for (var i = 0; i < daily.rows.length; i++) {
+        var dayStr = daily.rows[i][0]; // YYYY-MM-DD
+        dLabels.push(dayStr.substring(5)); // MM-DD
+        dViews.push(daily.rows[i][1]);
+        dWatch.push(daily.rows[i][2]);
+      }
+      ytaChart('yta-c-views', 'line', dLabels, [{
+        label: 'Views', data: dViews,
+        borderColor: '#FF0000', backgroundColor: 'rgba(255,0,0,0.08)',
+        fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#FF0000'
+      }]);
+      ytaChart('yta-c-watchtime', 'line', dLabels, [{
+        label: 'Minutos', data: dWatch,
+        borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.12)',
+        fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#c9a84c'
+      }]);
+    }
+
+    // Traffic sources
+    if (traffic.rows && traffic.rows.length > 0) {
+      var tLabels = [], tData = [];
+      var trafficColors = ['#FF0000','#c9a84c','#4a7fc4','#7b5ea7','#1DB954','#E37400','#e74c3c','#3498db'];
+      for (var i = 0; i < traffic.rows.length; i++) {
+        tLabels.push(ytaTrafficLabel(traffic.rows[i][0]));
+        tData.push(traffic.rows[i][1]);
+      }
+      new Chart(document.getElementById('yta-c-traffic'), {
+        type: 'doughnut',
+        data: {
+          labels: tLabels,
+          datasets: [{ data: tData, backgroundColor: trafficColors.slice(0, tData.length), borderWidth: 0 }]
+        },
+        options: {
+          responsive: true, cutout: '60%',
+          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 8, usePointStyle: true } } }
+        }
+      });
+    }
+
+    // Top videos — need video titles from YouTube Data API
+    if (topVids.rows && topVids.rows.length > 0) {
+      var videoIds = [];
+      var vViews = [], vWatch = [];
+      for (var i = 0; i < topVids.rows.length; i++) {
+        videoIds.push(topVids.rows[i][0]);
+        vViews.push(topVids.rows[i][1]);
+        vWatch.push(topVids.rows[i][2]);
+      }
+      // Fetch titles from Data API
+      var AK = 'AIzaSyCGX-QSET9JcUVPLYetbxVTuKI7ZPhlWvY';
+      fetch('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + videoIds.join(',') + '&key=' + AK)
+        .then(function(r) { return r.json(); })
+        .then(function(vd) {
+          var titleMap = {};
+          if (vd.items) {
+            for (var i = 0; i < vd.items.length; i++) {
+              titleMap[vd.items[i].id] = vd.items[i].snippet.title;
+            }
+          }
+          var vLabels = [];
+          for (var i = 0; i < videoIds.length; i++) {
+            var t = titleMap[videoIds[i]] || videoIds[i];
+            vLabels.push(t.length > 30 ? t.substring(0, 30) + '...' : t);
+          }
+          ytaChart('yta-c-topvideos', 'bar', vLabels, [{
+            label: 'Views', data: vViews, backgroundColor: '#FF0000', borderRadius: 4
+          }], { horizontal: true });
+        })
+        .catch(function() {
+          ytaChart('yta-c-topvideos', 'bar', videoIds, [{
+            label: 'Views', data: vViews, backgroundColor: '#FF0000', borderRadius: 4
+          }], { horizontal: true });
+        });
+    }
+
+    statusEl.textContent = 'YouTube Analytics API · Últimos 28 días · ' + new Date().toLocaleString('es-MX');
+
+  }).catch(function(err) {
+    statusEl.textContent = 'Error al cargar YouTube Analytics: ' + (err.message || err);
+  });
+}
+
+function ytaChart(id, type, labels, datasets, opts) {
+  opts = opts || {};
+  var gridC = '#f0ede8';
+  var cfg = {
+    type: type,
+    data: { labels: labels, datasets: datasets },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: !!opts.legend, position: 'top', labels: { font: { size: 11 }, usePointStyle: true } } },
+      scales: {
+        y: { grid: { color: gridC }, ticks: { font: { size: 11 } } },
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 45 } }
+      }
+    }
+  };
+  if (opts.horizontal) {
+    cfg.options.indexAxis = 'y';
+    cfg.options.scales = {
+      x: { grid: { color: gridC }, ticks: { font: { size: 11 } } },
+      y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    };
+  }
+  new Chart(document.getElementById(id), cfg);
+}
+
+function ytaTrafficLabel(source) {
+  var map = {
+    'YT_SEARCH': 'Búsqueda YT',
+    'SUGGESTED': 'Sugeridos',
+    'BROWSE': 'Browse / Home',
+    'EXT_URL': 'Links externos',
+    'YT_OTHER_PAGE': 'Otras páginas YT',
+    'NOTIFICATION': 'Notificaciones',
+    'YT_CHANNEL': 'Página del canal',
+    'SUBSCRIBER': 'Suscriptores',
+    'SHORTS': 'Shorts feed',
+    'NO_LINK_OTHER': 'Otro',
+    'PLAYLIST': 'Playlists',
+    'END_SCREEN': 'Pantalla final',
+    'YT_PLAYLIST_PAGE': 'Página de playlist',
+    'CAMPAIGN_CARD': 'Cards',
+    'HASHTAGS': 'Hashtags',
+    'LIVE_REDIRECT': 'Live redirect',
+    'RELATED_VIDEO': 'Videos relacionados'
+  };
+  return map[source] || source;
+}
 </script>
 
 </body>
