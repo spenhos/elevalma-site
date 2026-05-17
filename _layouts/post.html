@@ -155,7 +155,7 @@
 
     <div class="blog-cta">
       <p>¿Te resonó este contenido? Agenda una consulta personalizada.</p>
-      <a href="/consultas/" class="btn-primary">Agendar consulta</a>
+      <a href="/consultas/" class="btn-primary" onclick="gtag('event','click_agendar_sesion',{event_category:'conversion',event_label:'blog_post_cta'});">Agendar consulta</a>
     </div>
 
     <div class="blog-nav">
@@ -193,7 +193,7 @@
 </script>
 
 <div class="mobile-float-cta">
-  <a href="/consultas/">Agendar consulta</a>
+  <a href="/consultas/" onclick="gtag('event','click_agendar_sesion',{event_category:'conversion',event_label:'mobile_float_blog'});">Agendar consulta</a>
 </div>
 
 </body>

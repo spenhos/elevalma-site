@@ -156,7 +156,7 @@
         <h1 class="heading-xl reveal stagger-1" id="hero-rotating"></h1>
         <p class="body-text" id="hero-subtitle"></p>
         <div class="hero-buttons reveal stagger-3">
-          <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="btn-primary">Agendar consulta</a>
+          <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="btn-primary" onclick="gtag('event','click_agendar_sesion',{event_category:'conversion',event_label:'hero_cta',value:80});">Agendar consulta</a>
         </div>
 
         <!-- FEATURED VIDEO CARD -->
@@ -307,7 +307,7 @@
             <li>Orientación personalizada</li>
             <li>Material de estudio</li>
           </ul>
-          <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="service-cta">Agendar sesión</a>
+          <a href="https://cal.com/elevalma/consulta-individual-elevalma" target="_blank" rel="noopener" class="service-cta" onclick="gtag('event','click_agendar_sesion',{event_category:'conversion',event_label:'home_servicios',value:80});">Agendar sesión</a>
         </div>
 
         <!-- Service 3: Mentoría mensual -->
@@ -327,7 +327,7 @@
             <li>Material exclusivo</li>
             <li>Acceso a grupo privado</li>
           </ul>
-          <a href="https://cal.com/elevalma/mentoria-mensual-programa-de-acompanamiento" target="_blank" rel="noopener" class="service-cta">Comenzar mentoría</a>
+          <a href="https://cal.com/elevalma/mentoria-mensual-programa-de-acompanamiento" target="_blank" rel="noopener" class="service-cta" onclick="gtag('event','click_comenzar_mentoria',{event_category:'conversion',event_label:'home_servicios',value:250});">Comenzar mentoría</a>
         </div>
 
       </div>
@@ -598,7 +598,7 @@
     <div class="mobile-scroll-hint">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
-    <a href="/consultas/">Agendar consulta</a>
+    <a href="/consultas/" onclick="gtag('event','click_agendar_sesion',{event_category:'conversion',event_label:'mobile_float_home'});">Agendar consulta</a>
   </div>
 
   <!-- SCRIPTS -->
