@@ -121,7 +121,7 @@ tr:last-child td { border-bottom: none; }
   <div id="g_id_onload"
     data-client_id="550617854024-rbuu9tca5rt168m6i80l10u3ccunerso.apps.googleusercontent.com"
     data-callback="handleCredentialResponse"
-    data-auto_prompt="false">
+    data-auto_prompt="true">
   </div>
   <div class="g_id_signin"
     data-type="standard"
@@ -309,19 +309,47 @@ tr:last-child td { border-bottom: none; }
 // === AUTH ===
 var ALLOWED_EMAIL = 'spenhos@gmail.com';
 
+function unlockDashboard(email) {
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('user-email').textContent = email;
+  go();
+}
+
 function handleCredentialResponse(response) {
   var payload = JSON.parse(atob(response.credential.split('.')[1]));
   if (payload.email === ALLOWED_EMAIL) {
-    document.getElementById('auth-gate').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('user-email').textContent = payload.email;
-    go();
+    // Store token for session persistence
+    try { sessionStorage.setItem('ea_token', response.credential); } catch(e) {}
+    unlockDashboard(payload.email);
   } else {
     document.getElementById('auth-error').style.display = 'block';
   }
 }
 
+// Check for existing session on page load
+(function checkSession() {
+  try {
+    var token = sessionStorage.getItem('ea_token');
+    if (token) {
+      var parts = token.split('.');
+      if (parts.length === 3) {
+        var payload = JSON.parse(atob(parts[1]));
+        // Check token not expired and correct email
+        var now = Math.floor(Date.now() / 1000);
+        if (payload.exp && payload.exp > now && payload.email === ALLOWED_EMAIL) {
+          unlockDashboard(payload.email);
+          return;
+        }
+      }
+      // Token invalid or expired — clear it
+      sessionStorage.removeItem('ea_token');
+    }
+  } catch(e) { /* no session, show login */ }
+})();
+
 function handleSignOut() {
+  try { sessionStorage.removeItem('ea_token'); } catch(e) {}
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('auth-gate').style.display = 'flex';
   document.getElementById('auth-error').style.display = 'none';
@@ -628,22 +656,7 @@ function go() {
   function calNext() { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(calMonth,calYear); }
 
   function renderOpusCharts(sched) {
-    if (typeof Chart === 'undefined') return;
-    new Chart(document.getElementById('c-opus-platform'), {
-      type: 'doughnut',
-      data: { labels: ['TikTok','Instagram','YouTube Shorts'], datasets: [{ data: [sched.length, sched.length, sched.length], backgroundColor: ['#1a1a1a','#d6249f','#FF0000'], borderWidth: 0 }] },
-      options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { font: { size: 13 }, padding: 12, usePointStyle: true } } } }
-    });
-
-    var weeks = [0,0,0,0,0,0];
-    for (var i = 0; i < sched.length; i++) {
-      var start = new Date(2026, 4, 17);
-      var diff = Math.floor((sched[i].date - start) / (7*24*60*60*1000));
-      if (diff >= 0 && diff < 6) weeks[diff]++;
-    }
-    mkChart('c-opus-weekly', 'bar', ['Sem 1','Sem 2','Sem 3','Sem 4','Sem 5','Sem 6'],
-      [{ data: weeks.map(function(w){return w*3;}), backgroundColor: gold, borderRadius: 6, label: 'Posts totales (3 plataformas)' }]);
-
+    // Update cascade summary FIRST (before charts, so it always renders)
     var totalPosts = sched.length * 3;
     var lastDate = sched.length > 0 ? sched[sched.length-1].dateStr : '—';
     var hooks = sched.filter(function(s){return s.cat==='Hook';}).length;
@@ -656,6 +669,24 @@ function go() {
       '<div><div class="kl">Clips</div><div class="kv" style="font-size:22px;">'+sched.length+'</div><div class="kd">'+hooks+' hooks &middot; '+historias+' hist &middot; '+reflexiones+' refl</div></div>' +
       '<div><div class="kl">Estrategia</div><div class="kv" style="font-size:16px;">Cascada</div><div class="kd">3&rarr;3&rarr;2&rarr;2&rarr;1&rarr;1 /semana</div></div>' +
       '</div>';
+
+    // Now render charts (optional, depends on Chart.js loading)
+    if (typeof Chart === 'undefined') return;
+    try {
+      new Chart(document.getElementById('c-opus-platform'), {
+        type: 'doughnut',
+        data: { labels: ['TikTok','Instagram','YouTube Shorts'], datasets: [{ data: [sched.length, sched.length, sched.length], backgroundColor: ['#1a1a1a','#d6249f','#FF0000'], borderWidth: 0 }] },
+        options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { font: { size: 13 }, padding: 12, usePointStyle: true } } } }
+      });
+      var weeks = [0,0,0,0,0,0];
+      for (var i = 0; i < sched.length; i++) {
+        var start = new Date(2026, 4, 17);
+        var diff = Math.floor((sched[i].date - start) / (7*24*60*60*1000));
+        if (diff >= 0 && diff < 6) weeks[diff]++;
+      }
+      mkChart('c-opus-weekly', 'bar', ['Sem 1','Sem 2','Sem 3','Sem 4','Sem 5','Sem 6'],
+        [{ data: weeks.map(function(w){return w*3;}), backgroundColor: gold, borderRadius: 6, label: 'Posts totales (3 plataformas)' }]);
+    } catch(e) { console.log('Chart render error:', e); }
   }
 
   // Embedded clip data — updated by opus-content skill
