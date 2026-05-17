@@ -275,6 +275,7 @@ tr:last-child td { border-bottom: none; }
 <div class="card" style="margin-bottom:16px; background: linear-gradient(135deg, #fff, #f8f5ef);">
   <h3>Clips del Video Actual</h3>
   <div id="opus-clips-info" class="opus-status">Cargando clips desde OpusClip API...</div>
+  <div id="opus-api-status" class="opus-status" style="font-size:12px;color:#aaa;"></div>
   <table class="clip-table" id="clips-table" style="display:none;">
     <thead><tr><th>#</th><th>Score</th><th>Título</th><th>Duración</th><th>Tipo</th><th>Estado</th></tr></thead>
     <tbody id="clips-tbody"></tbody>
@@ -778,21 +779,9 @@ function go() {
     {id:"P3051714CLWg.ADURt7fOF1",clipId:"ADURt7fOF1",score:89,title:"El Timing de Rashi: ¿Cuándo es tarde para ayudar?",durationMs:20479}
   ];
 
-  // Real schedule from Opus API — status updated by skill after each run
-  var OPUS_POSTS = [
-    {clipId:'LenSym0Ur2',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-17T18:30:00Z'},{p:'instagram',s:'posted',t:'2026-05-17T17:00:00Z',url:'https://www.instagram.com/reel/DYcojQ2gPAz/'},{p:'youtube',s:'scheduled',t:'2026-05-18T01:00:00Z'}]},
-    {clipId:'jF9vRpLm1T',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-18T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-18T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-19T01:00:00Z'}]},
-    {clipId:'FXWLkf7AdT',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-19T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-19T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-20T01:00:00Z'}]},
-    {clipId:'SnpfmmpGVR',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-20T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-20T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-21T01:00:00Z'}]},
-    {clipId:'bLTRMZo49f',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-25T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-25T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-26T01:00:00Z'}]},
-    {clipId:'LU1NX1yNpZ',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-26T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-26T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-27T01:00:00Z'}]},
-    {clipId:'V5oHSCi6j7',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-27T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-27T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-28T01:00:00Z'}]},
-    {clipId:'Q928Bz3nnC',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-01T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-01T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-02T01:00:00Z'}]},
-    {clipId:'RjgEpmFjlu',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-02T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-02T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-03T01:00:00Z'}]},
-    {clipId:'A8PJ6zAFWP',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-08T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-08T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-09T01:00:00Z'}]},
-    {clipId:'omGLICOLcK',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-09T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-09T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-10T01:00:00Z'}]},
-    {clipId:'ADURt7fOF1',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-15T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-15T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-16T01:00:00Z'}]}
-  ];
+  // Post data — fetched live from API, with static fallback
+  var OPUS_POSTS = [];
+  var ELEVALMA_API = 'https://elevalma-api.vercel.app';
 
   currentProjectThumb = 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg';
 
@@ -849,10 +838,26 @@ function go() {
   }
 
   function loadOpus() {
-    renderClipsTable(OPUS_CLIPS);
-    scheduleData = buildCascade(OPUS_CLIPS);
-    renderCalendar(calMonth, calYear);
-    renderOpusCharts(scheduleData);
+    // Fetch live post data from API
+    var projectId = 'P3051714CLWg';
+    fetch(ELEVALMA_API + '/api/opus-posts?projectId=' + projectId)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.clips && data.clips.length > 0) {
+          OPUS_POSTS = data.clips;
+          document.getElementById('opus-api-status').textContent = 'API en vivo · ' + new Date(data.updatedAt).toLocaleString('es-MX');
+        }
+      })
+      .catch(function(err) {
+        console.log('API fetch failed, using static data:', err);
+        document.getElementById('opus-api-status').textContent = 'Datos estáticos (API no disponible)';
+      })
+      .finally(function() {
+        renderClipsTable(OPUS_CLIPS);
+        scheduleData = buildCascade(OPUS_CLIPS);
+        renderCalendar(calMonth, calYear);
+        renderOpusCharts(scheduleData);
+      });
   }
 
   loadOpus();
