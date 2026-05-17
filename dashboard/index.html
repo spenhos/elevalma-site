@@ -484,22 +484,21 @@ function go() {
   // Shabbat = every Friday sunset to Saturday night
   // Yom Tov dates 2026 (no publicar). Format: 'YYYY-MM-DD'
   var YOM_TOV = [
-    // Shavuot 2026
-    '2026-05-22','2026-05-23', // Erev Shavuot + Shavuot (this Friday + Shabbat)
-    // Rosh Hashana 2026
-    '2026-09-11','2026-09-12','2026-09-13',
+    // Shavuot 5786 (diaspora = 2 dias)
+    '2026-05-22','2026-05-23',
+    // Rosh Hashana 5787
+    '2026-09-12','2026-09-13',
     // Yom Kippur
-    '2026-09-20',
-    // Sucot
-    '2026-09-25','2026-09-26',
-    // Shemini Atzeret / Simjat Torah
-    '2026-10-02','2026-10-03'
+    '2026-09-21',
+    // Sucot (diaspora = primeros 2 dias)
+    '2026-09-26','2026-09-27',
+    // Shemini Atzeret / Simjat Torah (diaspora = 2 dias)
+    '2026-10-03','2026-10-04'
   ];
 
   function isNoPublish(dateStr, dow) {
-    // Saturday (Shabbat) or Yom Tov
+    // Only block Shabbat (Saturday) and Yom Tov
     if (dow === 6) return true; // Saturday
-    if (dow === 5) return true; // Friday (erev Shabbat from sunset)
     if (YOM_TOV.indexOf(dateStr) >= 0) return true;
     return false;
   }
@@ -509,7 +508,7 @@ function go() {
     // Target pattern: week 1-2 = 3/week, week 3-4 = 2/week, week 5-6 = 1/week
     var pattern = [3,3,2,2,1,1]; // clips per week
     var start = new Date(2026, 4, 17); // Today, Sat May 17 (exception)
-    var validDays = [0,1,2,3,4]; // Sun-Thu normally (no Fri/Sat)
+    var validDays = [0,1,2,3,4,5]; // Sun-Fri (only Sat blocked)
     var sched = [];
     var clipIdx = 0;
     var currentDate = new Date(start);
