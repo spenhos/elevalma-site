@@ -72,6 +72,22 @@ canvas { width: 100% !important; max-height: 200px; }
 .clip-table th { text-align: left; padding: 8px 10px; border-bottom: 2px solid #e8e5df; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #999; }
 .clip-table td { padding: 8px 10px; border-bottom: 1px solid #f0ede8; }
 .clip-table tr:last-child td { border-bottom: none; }
+.clip-table tr.clip-row { cursor: pointer; transition: background 0.15s; }
+.clip-table tr.clip-row:hover { background: #faf8f4; }
+.clip-detail { display: none; }
+.clip-detail.open { display: table-row; }
+.clip-detail td { padding: 12px 10px 16px 10px; background: #faf8f4; border-bottom: 2px solid #e8e5df; }
+.clip-links { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+.clip-link-card { flex: 1; min-width: 180px; background: #fff; border: 1px solid #e8e5df; border-radius: 10px; padding: 12px; font-size: 13px; }
+.clip-link-card .cl-platform { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.clip-link-card .cl-platform.tt { color: #1a1a1a; }
+.clip-link-card .cl-platform.ig { color: #d6249f; }
+.clip-link-card .cl-platform.yt { color: #FF0000; }
+.clip-link-card .cl-status { font-size: 12px; margin-bottom: 6px; }
+.clip-link-card a { display: inline-block; padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; color: #fff; }
+.clip-link-card a.pub-link { background: #1DB954; }
+.clip-link-card a.sched-link { background: #b8941f; }
+.clip-link-card .cl-date { font-size: 11px; color: #999; margin-top: 4px; }
 .cat-hook { background: #fff3e0; color: #e65100; padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
 .cat-hist { background: #e3f2fd; color: #1565c0; padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
 .cat-refl { background: #f3e5f5; color: #7b1fa2; padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
@@ -140,6 +156,28 @@ tr:last-child td { border-bottom: none; }
 
 <h1>Elev<span class="gold">Alma</span> — Analytics Dashboard</h1>
 <p class="sub">Métricas de contenido, publicación y rendimiento · Mayo 2026</p>
+
+<!-- SOCIAL LINKS BAR (sticky) -->
+<div id="social-bar" style="position:sticky;top:0;z-index:100;display:flex;gap:10px;flex-wrap:wrap;padding:12px 0;margin:0 0 20px 0;background:#faf8f4;border-bottom:1px solid #e8e5df;">
+  <a href="https://www.youtube.com/@ElevAlma" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;background:#FF0000;color:#fff;text-decoration:none;font-size:14px;font-weight:600;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8z"/><polygon points="9.6 15.6 15.9 12 9.6 8.4" fill="#FF0000"/></svg>
+    YouTube</a>
+  <a href="https://open.spotify.com/show/054bnaJPZCms5gtcxLjVkB" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;background:#1DB954;color:#fff;text-decoration:none;font-size:14px;font-weight:600;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.8-.2-.8-.6-.1-.4.2-.8.6-.8 4.3-1 8.1-.6 11.1 1.2.3.2.4.7.1 1.1zm1.5-3.3c-.3.4-.8.5-1.2.3-3.1-1.9-7.7-2.4-11.3-1.3-.5.1-1-.1-1.1-.6-.1-.5.1-1 .6-1.1 4.1-1.3 9.2-.7 12.7 1.5.4.2.5.8.3 1.2zm.1-3.4c-3.7-2.2-9.8-2.4-13.3-1.3-.5.2-1.1-.1-1.3-.6-.2-.5.1-1.1.6-1.3 4.1-1.2 10.8-1 15 1.5.5.3.6.9.3 1.4-.2.5-.9.6-1.3.3z"/></svg>
+    Spotify</a>
+  <a href="https://www.tiktok.com/@elevalma" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;background:#1a1a1a;color:#fff;text-decoration:none;font-size:14px;font-weight:600;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.3 0 .59.05.87.13V9.03a6.27 6.27 0 0 0-.87-.06 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V9.05a8.27 8.27 0 0 0 4.85 1.56V7.16a4.83 4.83 0 0 1-1.09-.47z"/></svg>
+    TikTok</a>
+  <a href="https://www.instagram.com/elevalma.oficial/" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;text-decoration:none;font-size:14px;font-weight:600;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85 0-3.2.01-3.58.07-4.85C2.38 3.86 3.9 2.31 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.63-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm6.41-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>
+    Instagram</a>
+  <a href="https://www.facebook.com/profile.php?id=61574729498209" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;background:#1877F2;color:#fff;text-decoration:none;font-size:14px;font-weight:600;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
+    Facebook</a>
+  <a href="https://elevalma.com" target="_blank" style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;background:#b8941f;color:#fff;text-decoration:none;font-size:14px;font-weight:600;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+    Web</a>
+</div>
 
 <!-- YOUTUBE -->
 <div class="sec">
@@ -527,6 +565,7 @@ function go() {
     var tbody = document.getElementById('clips-tbody');
     var top = clips.sort(function(a,b){ return (b.score||0)-(a.score||0); }).slice(0, 12);
     tbody.innerHTML = '';
+    var projectId = 'P3051714CLWg';
     for (var i = 0; i < top.length; i++) {
       var c = top[i];
       var dur = (c.durationMs||0)/1000;
@@ -534,7 +573,6 @@ function go() {
       var catCls = dur <= 20 ? 'cat-hook' : dur <= 50 ? 'cat-hist' : 'cat-refl';
       var sc = c.score || 0;
       var barW = Math.max(20, sc);
-      // Find posting status for this clip
       var clipKey = (c.id||'').split('.')[1] || c.clipId || '';
       var postInfo = getClipPostStatus(clipKey);
       var statusHtml = postInfo.published > 0
@@ -542,14 +580,86 @@ function go() {
         : postInfo.total > 0
           ? '<span style="color:#b8941f;">'+postInfo.total+' programado</span>'
           : '<span style="color:#999;">Sin programar</span>';
+
+      // Main row
       var tr = document.createElement('tr');
-      tr.innerHTML = '<td style="font-size:14px;">'+(i+1)+'</td>' +
+      tr.className = 'clip-row';
+      tr.setAttribute('data-detail', 'detail-'+i);
+      tr.innerHTML = '<td style="font-size:14px;">'+(i+1)+' <span style="font-size:10px;color:#ccc;">&#9660;</span></td>' +
         '<td><span class="score-bar" style="width:'+barW+'px"></span> '+sc+'</td>' +
         '<td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(c.title||'Sin titulo')+'</td>' +
         '<td>'+Math.round(dur)+'s</td>' +
         '<td><span class="'+catCls+'">'+cat+'</span></td>' +
         '<td>'+statusHtml+'</td>';
       tbody.appendChild(tr);
+
+      // Detail row (hidden by default)
+      var detailTr = document.createElement('tr');
+      detailTr.className = 'clip-detail';
+      detailTr.id = 'detail-'+i;
+
+      // Build platform cards
+      var opusUrl = 'https://www.opus.pro/projects/'+projectId+'/clips/'+clipKey;
+      var postEntry = null;
+      for (var pi = 0; pi < OPUS_POSTS.length; pi++) {
+        if (OPUS_POSTS[pi].clipId === clipKey) { postEntry = OPUS_POSTS[pi]; break; }
+      }
+      var platformDefs = [
+        {key:'tiktok', label:'TikTok', cls:'tt', icon:'&#9835;'},
+        {key:'instagram', label:'Instagram', cls:'ig', icon:'&#9733;'},
+        {key:'youtube', label:'YouTube Shorts', cls:'yt', icon:'&#9654;'}
+      ];
+      var cardsHtml = '';
+      for (var pd = 0; pd < platformDefs.length; pd++) {
+        var plat = platformDefs[pd];
+        var post = null;
+        if (postEntry) {
+          for (var pp = 0; pp < postEntry.posts.length; pp++) {
+            if (postEntry.posts[pp].p === plat.key) { post = postEntry.posts[pp]; break; }
+          }
+        }
+        var isPub = post && isPostPublished(clipKey, plat.key, post ? post.t.split('T')[0] : '');
+        var schedDate = post ? new Date(post.t).toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+        // Platform profile URLs
+        var platformUrls = {
+          tiktok: 'https://www.tiktok.com/@elevalma',
+          instagram: 'https://www.instagram.com/elevalma.oficial/',
+          youtube: 'https://www.youtube.com/@ElevAlma/shorts'
+        };
+        var statusText, linkHtml;
+        if (isPub) {
+          // If post has a direct URL use it, otherwise link to platform profile
+          var pubUrl = (post && post.url) ? post.url : platformUrls[plat.key];
+          statusText = '<span style="color:#1DB954;">&#10003; Publicado</span>';
+          linkHtml = '<a class="pub-link" href="'+pubUrl+'" target="_blank">Ver en '+plat.label+' &rarr;</a>';
+        } else if (post) {
+          statusText = '<span style="color:#b8941f;">&#9679; Programado — se publica automáticamente</span>';
+          linkHtml = '<a class="sched-link" href="'+opusUrl+'" target="_blank">Ver clip en Opus &rarr;</a>';
+        } else {
+          statusText = '<span style="color:#999;">No programado</span>';
+          linkHtml = '<a class="sched-link" href="'+opusUrl+'" target="_blank" style="background:#999;">Ver clip en Opus &rarr;</a>';
+        }
+        cardsHtml += '<div class="clip-link-card">' +
+          '<div class="cl-platform '+plat.cls+'">'+plat.icon+' '+plat.label+'</div>' +
+          '<div class="cl-status">'+statusText+'</div>' +
+          linkHtml +
+          (schedDate ? '<div class="cl-date">'+schedDate+'</div>' : '') +
+          '</div>';
+      }
+
+      detailTr.innerHTML = '<td colspan="6"><div class="clip-links">'+cardsHtml+'</div>' +
+        '<div style="margin-top:8px;font-size:11px;color:#aaa;">&#9679; Publicado → te lleva directo a la plataforma (TikTok, Instagram o YouTube). &#9679; Programado → te lleva a Opus para previsualizar el clip antes de que se publique.</div></td>';
+      tbody.appendChild(detailTr);
+
+      // Toggle handler
+      (function(rowEl, detailId) {
+        rowEl.addEventListener('click', function() {
+          var det = document.getElementById(detailId);
+          det.classList.toggle('open');
+          var arrow = rowEl.querySelector('td:first-child span');
+          if (arrow) arrow.innerHTML = det.classList.contains('open') ? '&#9650;' : '&#9660;';
+        });
+      })(tr, 'detail-'+i);
     }
     document.getElementById('clips-table').style.display = 'table';
     document.getElementById('opus-clips-info').innerHTML = '<b>'+clips.length+'</b> clips generados &middot; <b>'+top.length+'</b> seleccionados (score &ge; 83)';
