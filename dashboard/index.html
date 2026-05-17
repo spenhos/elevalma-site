@@ -350,6 +350,12 @@ function handleCredentialResponse(response) {
         var now = Math.floor(Date.now() / 1000);
         if (payload.exp && payload.exp > now && payload.email === ALLOWED_EMAIL) {
           unlockDashboard(payload.email);
+          // Cancel Google One Tap prompt since we already have a session
+          setTimeout(function() {
+            if (window.google && google.accounts && google.accounts.id) {
+              google.accounts.id.cancel();
+            }
+          }, 500);
           return;
         }
       }
