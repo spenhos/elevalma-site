@@ -319,18 +319,53 @@ tr:last-child td { border-bottom: none; }
 <script>
 // === AUTH ===
 var ALLOWED_EMAIL = 'spenhos@gmail.com';
+var YT_ACCESS_TOKEN = null;
+var CLIENT_ID = '550617854024-rbuu9tca5rt168m6i80l10u3ccunerso.apps.googleusercontent.com';
+var YT_SCOPES = 'https://www.googleapis.com/auth/yt-analytics.readonly https://www.googleapis.com/auth/youtube.readonly';
 
 function unlockDashboard(email) {
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
   document.getElementById('user-email').textContent = email;
   go();
+  // Request YouTube Analytics access token
+  requestYTToken();
+}
+
+function requestYTToken() {
+  // Check if we already have a valid token
+  var stored = sessionStorage.getItem('ea_yt_token');
+  var storedExp = sessionStorage.getItem('ea_yt_token_exp');
+  if (stored && storedExp && Date.now() < parseInt(storedExp)) {
+    YT_ACCESS_TOKEN = stored;
+    loadYTAnalytics();
+    return;
+  }
+  // Request new token via Google Identity Services OAuth2
+  if (window.google && google.accounts && google.accounts.oauth2) {
+    var tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: YT_SCOPES,
+      prompt: '',  // silent if already granted
+      callback: function(tokenResponse) {
+        if (tokenResponse && tokenResponse.access_token) {
+          YT_ACCESS_TOKEN = tokenResponse.access_token;
+          var expiresIn = (tokenResponse.expires_in || 3600) * 1000;
+          try {
+            sessionStorage.setItem('ea_yt_token', tokenResponse.access_token);
+            sessionStorage.setItem('ea_yt_token_exp', String(Date.now() + expiresIn));
+          } catch(e) {}
+          loadYTAnalytics();
+        }
+      }
+    });
+    tokenClient.requestAccessToken();
+  }
 }
 
 function handleCredentialResponse(response) {
   var payload = JSON.parse(atob(response.credential.split('.')[1]));
   if (payload.email === ALLOWED_EMAIL) {
-    // Store token for session persistence
     try { sessionStorage.setItem('ea_token', response.credential); } catch(e) {}
     unlockDashboard(payload.email);
   } else {
@@ -485,7 +520,7 @@ function go() {
   var calMonth = 4; // 0-indexed, May=4
   var calYear = 2026;
   var scheduleData = [];
-  var currentProjectThumb = '';
+  // Thumbnails are now per-clip via getClipThumb()
 
   // Shabbat = every Friday sunset to Saturday night
   // Yom Tov dates 2026 (no publicar). Format: 'YYYY-MM-DD'
@@ -714,7 +749,7 @@ function go() {
       for (var s = 0; s < scheduleData.length; s++) {
         if (scheduleData[s].dateStr === dateStr) {
           var platforms = scheduleData[s].platforms;
-          var thumbUrl = currentProjectThumb || '';
+          var thumbUrl = getClipThumb(scheduleData[s].clip);
           for (var p = 0; p < platforms.length; p++) {
             // Check real post status from OPUS_POSTS
             var clipKey = scheduleData[s].clip.clipId || (scheduleData[s].clip.id||'').split('.')[1] || '';
@@ -802,7 +837,15 @@ function go() {
   var ELEVALMA_API = 'https://elevalma-api.vercel.app';
   var ALL_PROJECT_IDS = 'P3051714CLWg,P3051717x6De'; // ANDA + Yitro
 
-  currentProjectThumb = 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg';
+  var PROJECT_THUMBS = {
+    'P3051714CLWg': 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg',  // ANDA
+    'P3051717x6De': 'https://i.ytimg.com/vi/MNOZIM5ZGLQ/maxresdefault.jpg'   // Yitro
+  };
+
+  function getClipThumb(clip) {
+    var projId = (clip.id || '').split('.')[0] || '';
+    return PROJECT_THUMBS[projId] || PROJECT_THUMBS['P3051714CLWg'] || '';
+  }
 
   function getClipPostStatus(clipId) {
     var total = 0, published = 0;
@@ -888,8 +931,9 @@ function go() {
           var timeStr = new Date(pp.t).toLocaleTimeString('es-MX', {hour:'numeric', minute:'2-digit', hour12:true}).toUpperCase();
           platforms.push({ name: pp.p, time: timeStr, cls: pp.p });
         }
+        var clipObj = clipMeta || { clipId: clipId, id: clipData.projectId + '.' + clipId, title: title };
         sched.push({
-          clip: clipMeta || { clipId: clipId, title: title },
+          clip: clipObj,
           date: dateObj,
           dateStr: dateStr,
           cat: cat,
