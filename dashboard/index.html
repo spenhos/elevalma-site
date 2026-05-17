@@ -137,7 +137,7 @@ tr:last-child td { border-bottom: none; }
   <div id="g_id_onload"
     data-client_id="550617854024-rbuu9tca5rt168m6i80l10u3ccunerso.apps.googleusercontent.com"
     data-callback="handleCredentialResponse"
-    data-auto_prompt="true">
+    data-auto_prompt="false">
   </div>
   <div class="g_id_signin"
     data-type="standard"
@@ -363,6 +363,12 @@ function handleCredentialResponse(response) {
       sessionStorage.removeItem('ea_token');
     }
   } catch(e) { /* no session, show login */ }
+  // No valid session — trigger Google One Tap after library loads
+  window.addEventListener('load', function() {
+    if (window.google && google.accounts && google.accounts.id) {
+      google.accounts.id.prompt();
+    }
+  });
 })();
 
 function handleSignOut() {
