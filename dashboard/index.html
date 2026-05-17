@@ -61,6 +61,10 @@ canvas { width: 100% !important; max-height: 200px; }
 .cal-tooltip img { width: 100%; border-radius: 6px; margin-bottom: 6px; }
 .cal-tooltip .tt-title { font-size: 12px; font-weight: 600; margin-bottom: 3px; white-space: normal; }
 .cal-tooltip .tt-meta { font-size: 11px; color: #aaa; }
+.cal-pill.published { opacity: 0.55; text-decoration: line-through; }
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+.status-dot.sched { background: #b8941f; }
+.status-dot.pub { background: #1DB954; }
 .cal-legend { display: flex; gap: 20px; margin: 14px 0; font-size: 14px; flex-wrap: wrap; }
 .cal-legend span { display: flex; align-items: center; gap: 6px; }
 .cal-legend .dot { width: 12px; height: 12px; border-radius: 3px; }
@@ -539,13 +543,21 @@ function go() {
       var catCls = dur <= 20 ? 'cat-hook' : dur <= 50 ? 'cat-hist' : 'cat-refl';
       var sc = c.score || 0;
       var barW = Math.max(20, sc);
+      // Find posting status for this clip
+      var clipKey = (c.id||'').split('.')[1] || c.clipId || '';
+      var postInfo = getClipPostStatus(clipKey);
+      var statusHtml = postInfo.published > 0
+        ? '<span style="color:#1DB954;">'+postInfo.published+'/'+postInfo.total+' publicado</span>'
+        : postInfo.total > 0
+          ? '<span style="color:#b8941f;">'+postInfo.total+' programado</span>'
+          : '<span style="color:#999;">Sin programar</span>';
       var tr = document.createElement('tr');
       tr.innerHTML = '<td style="font-size:14px;">'+(i+1)+'</td>' +
         '<td><span class="score-bar" style="width:'+barW+'px"></span> '+sc+'</td>' +
         '<td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(c.title||'Sin titulo')+'</td>' +
         '<td>'+Math.round(dur)+'s</td>' +
         '<td><span class="'+catCls+'">'+cat+'</span></td>' +
-        '<td style="color:#1DB954;">Listo</td>';
+        '<td>'+statusHtml+'</td>';
       tbody.appendChild(tr);
     }
     document.getElementById('clips-table').style.display = 'table';
@@ -589,16 +601,19 @@ function go() {
       for (var s = 0; s < scheduleData.length; s++) {
         if (scheduleData[s].dateStr === dateStr) {
           var platforms = scheduleData[s].platforms;
-          var clipTitle = (scheduleData[s].clip.title || '').substring(0, 20);
-          var thumbUrl = scheduleData[s].clip.uriForThumbnail || currentProjectThumb || '';
-          var previewUrl = scheduleData[s].clip.uriForPreview || '';
+          var thumbUrl = currentProjectThumb || '';
           for (var p = 0; p < platforms.length; p++) {
-            pills += '<div class="cal-pill '+platforms[p].cls+'">' +
-              platforms[p].time +
+            // Check real post status from OPUS_POSTS
+            var clipKey = scheduleData[s].clip.clipId || (scheduleData[s].clip.id||'').split('.')[1] || '';
+            var isPub = isPostPublished(clipKey, platforms[p].cls, dateStr);
+            var pubCls = isPub ? ' published' : '';
+            var statusIcon = isPub ? '<span class="status-dot pub"></span>' : '<span class="status-dot sched"></span>';
+            pills += '<div class="cal-pill '+platforms[p].cls+pubCls+'">' +
+              statusIcon + platforms[p].time +
               '<div class="cal-tooltip">' +
               (thumbUrl ? '<img src="'+thumbUrl+'" alt="preview">' : '') +
               '<div class="tt-title">'+(scheduleData[s].clip.title||'')+'</div>' +
-              '<div class="tt-meta">'+platforms[p].name+' &middot; '+platforms[p].time+' &middot; '+scheduleData[s].cat+' &middot; Score '+(scheduleData[s].clip.score||'?')+'</div>' +
+              '<div class="tt-meta">'+platforms[p].name+' &middot; '+platforms[p].time+' &middot; '+scheduleData[s].cat+' &middot; '+(isPub?'Publicado':'Programado')+'</div>' +
               '</div>' +
               '</div>';
           }
@@ -643,24 +658,84 @@ function go() {
       '</div>';
   }
 
-  // Embedded clip data (Opus API is server-only, no CORS for browser calls)
-  // Updated by opus-content skill when new videos are processed
+  // Embedded clip data — updated by opus-content skill
   var OPUS_CLIPS = [
-    {id:"P3051714CLWg.LenSym0Ur2",score:99,title:"25 Años de Trabajo: El Colapso que Lo Cambió Todo",durationMs:70530},
-    {id:"P3051714CLWg.jF9vRpLm1T",score:98,title:"Mi Mayor Lección: Presencia Sobre Riqueza",durationMs:9834},
-    {id:"P3051714CLWg.FXWLkf7AdT",score:97,title:"Decisión Transformadora: Soltar Antes Que Te Obliguen",durationMs:14912},
-    {id:"P3051714CLWg.SnpfmmpGVR",score:96,title:"Encuentra la Bendición: Vive el Proceso, No el Resultado",durationMs:51802},
-    {id:"P3051714CLWg.bLTRMZo49f",score:95,title:"La Torá y la Shemitá: Enseñanzas Profundas Reveladas",durationMs:28112},
-    {id:"P3051714CLWg.LU1NX1yNpZ",score:94,title:"Caminar: El Valor está en el Movimiento, No la Meta",durationMs:14056},
-    {id:"P3051714CLWg.V5oHSCi6j7",score:93,title:"La Torá: ¿Cuándo Paras? El Acto Revolucionario de Soltar",durationMs:24554},
-    {id:"P3051714CLWg.Q928Bz3nnC",score:92,title:"La vida ciega: El significado del Talmud",durationMs:38372},
-    {id:"P3051714CLWg.RjgEpmFjlu",score:92,title:"El Tiempo Vuela: Reflexiones sobre la Familia y la Vida",durationMs:29905},
-    {id:"P3051714CLWg.A8PJ6zAFWP",score:91,title:"El Peligroso Tercer Síntoma: ¡No Lo Ignoraras!",durationMs:19861},
-    {id:"P3051714CLWg.omGLICOLcK",score:90,title:"Guiar vs. Educar: El Arte de Acompañar a tus Hijos",durationMs:46058},
-    {id:"P3051714CLWg.ADURt7fOF1",score:89,title:"El Timing de Rashi: ¿Cuándo es tarde para ayudar?",durationMs:20479}
+    {id:"P3051714CLWg.LenSym0Ur2",clipId:"LenSym0Ur2",score:99,title:"25 Años de Trabajo: El Colapso que Lo Cambió Todo",durationMs:70530},
+    {id:"P3051714CLWg.jF9vRpLm1T",clipId:"jF9vRpLm1T",score:98,title:"Mi Mayor Lección: Presencia Sobre Riqueza",durationMs:9834},
+    {id:"P3051714CLWg.FXWLkf7AdT",clipId:"FXWLkf7AdT",score:97,title:"Decisión Transformadora: Soltar Antes Que Te Obliguen",durationMs:14912},
+    {id:"P3051714CLWg.SnpfmmpGVR",clipId:"SnpfmmpGVR",score:96,title:"Encuentra la Bendición: Vive el Proceso",durationMs:51802},
+    {id:"P3051714CLWg.bLTRMZo49f",clipId:"bLTRMZo49f",score:95,title:"La Torá y la Shemitá: Enseñanzas Profundas Reveladas",durationMs:28112},
+    {id:"P3051714CLWg.LU1NX1yNpZ",clipId:"LU1NX1yNpZ",score:94,title:"Caminar: El Valor está en el Movimiento, No la Meta",durationMs:14056},
+    {id:"P3051714CLWg.V5oHSCi6j7",clipId:"V5oHSCi6j7",score:93,title:"La Torá: ¿Cuándo Paras? El Acto Revolucionario de Soltar",durationMs:24554},
+    {id:"P3051714CLWg.Q928Bz3nnC",clipId:"Q928Bz3nnC",score:92,title:"La vida ciega: El significado del Talmud",durationMs:38372},
+    {id:"P3051714CLWg.RjgEpmFjlu",clipId:"RjgEpmFjlu",score:92,title:"El Tiempo Vuela: Reflexiones sobre la Familia",durationMs:29905},
+    {id:"P3051714CLWg.A8PJ6zAFWP",clipId:"A8PJ6zAFWP",score:91,title:"El Peligroso Tercer Síntoma: No Lo Ignoraras",durationMs:19861},
+    {id:"P3051714CLWg.omGLICOLcK",clipId:"omGLICOLcK",score:90,title:"Guiar vs. Educar: El Arte de Acompañar a tus Hijos",durationMs:46058},
+    {id:"P3051714CLWg.ADURt7fOF1",clipId:"ADURt7fOF1",score:89,title:"El Timing de Rashi: ¿Cuándo es tarde para ayudar?",durationMs:20479}
+  ];
+
+  // Real schedule from Opus API — status updated by skill after each run
+  var OPUS_POSTS = [
+    {clipId:'LenSym0Ur2',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-17T18:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-17T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-18T01:00:00Z'}]},
+    {clipId:'jF9vRpLm1T',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-18T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-18T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-19T01:00:00Z'}]},
+    {clipId:'FXWLkf7AdT',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-19T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-19T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-20T01:00:00Z'}]},
+    {clipId:'SnpfmmpGVR',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-20T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-20T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-21T01:00:00Z'}]},
+    {clipId:'bLTRMZo49f',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-25T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-25T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-26T01:00:00Z'}]},
+    {clipId:'LU1NX1yNpZ',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-26T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-26T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-27T01:00:00Z'}]},
+    {clipId:'V5oHSCi6j7',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-27T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-27T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-28T01:00:00Z'}]},
+    {clipId:'Q928Bz3nnC',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-01T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-01T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-02T01:00:00Z'}]},
+    {clipId:'RjgEpmFjlu',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-02T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-02T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-03T01:00:00Z'}]},
+    {clipId:'A8PJ6zAFWP',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-08T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-08T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-09T01:00:00Z'}]},
+    {clipId:'omGLICOLcK',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-09T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-09T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-10T01:00:00Z'}]},
+    {clipId:'ADURt7fOF1',posts:[{p:'tiktok',s:'scheduled',t:'2026-06-15T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-06-15T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-06-16T01:00:00Z'}]}
   ];
 
   currentProjectThumb = 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg';
+
+  function getClipPostStatus(clipId) {
+    var total = 0, published = 0;
+    for (var i = 0; i < OPUS_POSTS.length; i++) {
+      if (OPUS_POSTS[i].clipId === clipId) {
+        var posts = OPUS_POSTS[i].posts;
+        total = posts.length;
+        for (var j = 0; j < posts.length; j++) {
+          if (posts[j].s === 'published' || posts[j].s === 'posted') published++;
+          // Also mark as published if date has passed
+          if (new Date(posts[j].t) < new Date()) published++;
+        }
+        // Deduplicate (in case both conditions match)
+        if (published > total) published = total;
+        break;
+      }
+    }
+    // Sum across all entries for same clipId
+    if (total === 0) {
+      for (var i = 0; i < OPUS_POSTS.length; i++) {
+        if (OPUS_POSTS[i].clipId === clipId) {
+          total += OPUS_POSTS[i].posts.length;
+          for (var j = 0; j < OPUS_POSTS[i].posts.length; j++) {
+            if (OPUS_POSTS[i].posts[j].s === 'published' || new Date(OPUS_POSTS[i].posts[j].t) < new Date()) published++;
+          }
+        }
+      }
+      if (published > total) published = total;
+    }
+    return { total: total, published: published };
+  }
+
+  function isPostPublished(clipId, platformCls, dateStr) {
+    // Check if a specific post has been published (status or date passed)
+    for (var i = 0; i < OPUS_POSTS.length; i++) {
+      if (OPUS_POSTS[i].clipId === clipId) {
+        for (var j = 0; j < OPUS_POSTS[i].posts.length; j++) {
+          var post = OPUS_POSTS[i].posts[j];
+          if (post.p === platformCls && new Date(post.t) < new Date()) return true;
+          if (post.p === platformCls && (post.s === 'published' || post.s === 'posted')) return true;
+        }
+      }
+    }
+    return false;
+  }
 
   function loadOpus() {
     renderClipsTable(OPUS_CLIPS);
