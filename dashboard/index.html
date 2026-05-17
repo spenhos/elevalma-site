@@ -41,6 +41,37 @@ h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
 .g2 { grid-template-columns: 1fr 1fr; }
 .full { grid-column: 1 / -1; }
 canvas { width: 100% !important; max-height: 200px; }
+/* Calendar */
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; font-size: 11px; }
+.cal-hdr { text-align: center; font-weight: 700; color: #999; padding: 6px 0; font-size: 10px; text-transform: uppercase; }
+.cal-day { background: #fff; border: 1px solid #e8e5df; border-radius: 8px; min-height: 70px; padding: 6px; position: relative; }
+.cal-day.empty { background: transparent; border-color: transparent; }
+.cal-day .dn { font-size: 11px; font-weight: 600; color: #666; margin-bottom: 4px; }
+.cal-day.today { border-color: #b8941f; box-shadow: 0 0 0 2px rgba(184,148,31,0.15); }
+.cal-day.shabbat { background: #f8f5ef; }
+.cal-pill { display: block; font-size: 9px; padding: 2px 4px; border-radius: 4px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: default; }
+.cal-pill.tiktok { background: #ffe8ec; color: #333; }
+.cal-pill.instagram { background: #fce4ec; color: #8e24aa; }
+.cal-pill.youtube { background: #ffebee; color: #c62828; }
+.cal-legend { display: flex; gap: 16px; margin: 12px 0; font-size: 12px; flex-wrap: wrap; }
+.cal-legend span { display: flex; align-items: center; gap: 4px; }
+.cal-legend .dot { width: 10px; height: 10px; border-radius: 3px; }
+.clip-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+.clip-table th { text-align: left; padding: 6px 8px; border-bottom: 2px solid #e8e5df; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #999; }
+.clip-table td { padding: 6px 8px; border-bottom: 1px solid #f0ede8; }
+.clip-table tr:last-child td { border-bottom: none; }
+.cat-hook { background: #fff3e0; color: #e65100; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+.cat-hist { background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+.cat-refl { background: #f3e5f5; color: #7b1fa2; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+.score-bar { display: inline-block; height: 6px; border-radius: 3px; background: #b8941f; }
+.opus-status { font-size: 12px; color: #888; margin-top: 8px; }
+.opus-btn { background: #1a1a1a; color: #fff; border: none; padding: 8px 18px; border-radius: 8px; font-size: 13px; cursor: pointer; margin-top: 12px; }
+.opus-btn:hover { background: #333; }
+.opus-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.nav-month { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.nav-month button { background: none; border: 1px solid #ddd; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 13px; }
+.nav-month button:hover { background: #f0ede8; }
+.nav-month span { font-weight: 600; font-size: 14px; }
 .epi { list-style: none; }
 .epi li { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0ede8; }
 .epi li:last-child { border-bottom: none; }
@@ -213,6 +244,53 @@ tr:last-child td { border-bottom: none; }
   </table>
 </div>
 
+<!-- OPUS CONTENT CALENDAR -->
+<div class="sec">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#b8941f" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+  Calendario de Publicación — OpusClip
+</div>
+
+<div class="card" style="margin-bottom:16px; background: linear-gradient(135deg, #fff, #f8f5ef);">
+  <h3>Clips del Video Actual</h3>
+  <div id="opus-clips-info" class="opus-status">Cargando clips desde OpusClip API...</div>
+  <table class="clip-table" id="clips-table" style="display:none;">
+    <thead><tr><th>#</th><th>Score</th><th>Título</th><th>Duración</th><th>Tipo</th><th>Estado</th></tr></thead>
+    <tbody id="clips-tbody"></tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h3>Calendario Mensual</h3>
+  <div class="nav-month">
+    <button onclick="calPrev()">&larr;</button>
+    <span id="cal-month-label">Mayo 2026</span>
+    <button onclick="calNext()">&rarr;</button>
+  </div>
+  <div class="cal-legend">
+    <span><div class="dot" style="background:#ffe8ec;"></div> TikTok 7:30 AM</span>
+    <span><div class="dot" style="background:#fce4ec;"></div> Instagram 12:00 PM</span>
+    <span><div class="dot" style="background:#ffebee;"></div> YouTube 8:00 PM</span>
+    <span><div class="dot" style="background:#f8f5ef; border:1px solid #ddd;"></div> Shabat</span>
+  </div>
+  <div class="cal-grid" id="cal-grid"></div>
+</div>
+
+<div class="row g2">
+  <div class="card">
+    <h3>Distribución por Plataforma</h3>
+    <canvas id="c-opus-platform" height="200"></canvas>
+  </div>
+  <div class="card">
+    <h3>Publicaciones por Semana</h3>
+    <canvas id="c-opus-weekly" height="200"></canvas>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:16px;">
+  <h3>Resumen de Cascada</h3>
+  <div id="cascade-summary" class="opus-status">Calculando...</div>
+</div>
+
 </div><!-- end #dashboard -->
 
 <script>
@@ -347,6 +425,182 @@ function go() {
     new Chart(document.getElementById(id), cfg);
   }
 }
+
+// === OPUS CONTENT CALENDAR ===
+  var OPUS_KEY = 'sk-2O3pCjewxK639_knO_zRdeW2TrSj4mXn89n99XIG';
+  var calMonth = 4; // 0-indexed, May=4
+  var calYear = 2026;
+  var scheduleData = []; // populated after API call
+
+  // Cascade schedule: clip assignments with dates
+  function buildCascade(clips) {
+    var start = new Date(2026, 4, 18); // May 18
+    var offsets = [0,2,4, 7,9,11, 16,18, 23,25, 31, 38];
+    var sched = [];
+    for (var i = 0; i < Math.min(clips.length, offsets.length); i++) {
+      var d = new Date(start);
+      d.setDate(d.getDate() + offsets[i]);
+      var dur = (clips[i].durationMs || 0) / 1000;
+      var cat = dur <= 20 ? 'Hook' : dur <= 50 ? 'Historia' : 'Reflexion';
+      sched.push({
+        date: d,
+        dateStr: d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),
+        clip: clips[i],
+        cat: cat,
+        platforms: [
+          { name: 'TikTok', time: '7:30 AM', cls: 'tiktok' },
+          { name: 'Instagram', time: '12:00 PM', cls: 'instagram' },
+          { name: 'YouTube', time: '8:00 PM', cls: 'youtube' }
+        ]
+      });
+    }
+    return sched;
+  }
+
+  function renderClipsTable(clips) {
+    var tbody = document.getElementById('clips-tbody');
+    var top = clips.sort(function(a,b){ return (b.score||0)-(a.score||0); }).slice(0, 12);
+    tbody.innerHTML = '';
+    for (var i = 0; i < top.length; i++) {
+      var c = top[i];
+      var dur = (c.durationMs||0)/1000;
+      var cat = dur <= 20 ? 'Hook' : dur <= 50 ? 'Historia' : 'Reflexion';
+      var catCls = dur <= 20 ? 'cat-hook' : dur <= 50 ? 'cat-hist' : 'cat-refl';
+      var sc = c.score || 0;
+      var barW = Math.max(20, sc);
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+(i+1)+'</td>' +
+        '<td><span class="score-bar" style="width:'+barW+'px"></span> '+sc+'</td>' +
+        '<td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(c.title||'Sin título')+'</td>' +
+        '<td>'+Math.round(dur)+'s</td>' +
+        '<td><span class="'+catCls+'">'+cat+'</span></td>' +
+        '<td style="color:#1DB954;">Listo</td>';
+      tbody.appendChild(tr);
+    }
+    document.getElementById('clips-table').style.display = 'table';
+    document.getElementById('opus-clips-info').innerHTML = '<b>'+clips.length+'</b> clips generados · <b>'+top.length+'</b> seleccionados (score &ge; 83)';
+    return top;
+  }
+
+  function renderCalendar(month, year) {
+    var grid = document.getElementById('cal-grid');
+    var months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    document.getElementById('cal-month-label').textContent = months[month] + ' ' + year;
+
+    grid.innerHTML = '';
+    var days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+    for (var h = 0; h < 7; h++) {
+      grid.innerHTML += '<div class="cal-hdr">'+days[h]+'</div>';
+    }
+
+    var first = new Date(year, month, 1);
+    var startDay = first.getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var today = new Date();
+    var todayStr = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+
+    // Empty cells before first day
+    for (var e = 0; e < startDay; e++) {
+      grid.innerHTML += '<div class="cal-day empty"></div>';
+    }
+
+    for (var d = 1; d <= daysInMonth; d++) {
+      var dateObj = new Date(year, month, d);
+      var dateStr = year+'-'+String(month+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      var dow = dateObj.getDay();
+      var isShabbat = (dow === 6); // Saturday
+      var isToday = (dateStr === todayStr);
+
+      var cls = 'cal-day';
+      if (isShabbat) cls += ' shabbat';
+      if (isToday) cls += ' today';
+
+      var pills = '';
+      for (var s = 0; s < scheduleData.length; s++) {
+        if (scheduleData[s].dateStr === dateStr) {
+          var platforms = scheduleData[s].platforms;
+          for (var p = 0; p < platforms.length; p++) {
+            var clipTitle = (scheduleData[s].clip.title || '').substring(0, 18);
+            pills += '<div class="cal-pill '+platforms[p].cls+'" title="'+platforms[p].name+' '+platforms[p].time+' — '+(scheduleData[s].clip.title||'')+'">'+platforms[p].time+' '+clipTitle+'</div>';
+          }
+        }
+      }
+
+      grid.innerHTML += '<div class="'+cls+'"><div class="dn">'+d+'</div>'+pills+'</div>';
+    }
+  }
+
+  function calPrev() { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(calMonth,calYear); }
+  function calNext() { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(calMonth,calYear); }
+
+  function renderOpusCharts(sched) {
+    if (typeof Chart === 'undefined') return;
+    // Platform distribution
+    new Chart(document.getElementById('c-opus-platform'), {
+      type: 'doughnut',
+      data: { labels: ['TikTok','Instagram','YouTube Shorts'], datasets: [{ data: [sched.length, sched.length, sched.length], backgroundColor: ['#ff2d55','#c13584','#FF0000'], borderWidth: 0 }] },
+      options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10, usePointStyle: true } } } }
+    });
+
+    // Weekly breakdown
+    var weeks = [0,0,0,0,0,0];
+    for (var i = 0; i < sched.length; i++) {
+      var start = new Date(2026, 4, 18);
+      var diff = Math.floor((sched[i].date - start) / (7*24*60*60*1000));
+      if (diff >= 0 && diff < 6) weeks[diff]++;
+    }
+    mkChart('c-opus-weekly', 'bar', ['Sem 1','Sem 2','Sem 3','Sem 4','Sem 5','Sem 6'],
+      [{ data: weeks.map(function(w){return w*3;}), backgroundColor: gold, borderRadius: 6, label: 'Posts totales (3 plataformas)' }]);
+
+    // Summary
+    var totalPosts = sched.length * 3;
+    var lastDate = sched.length > 0 ? sched[sched.length-1].dateStr : '—';
+    var hooks = sched.filter(function(s){return s.cat==='Hook';}).length;
+    var historias = sched.filter(function(s){return s.cat==='Historia';}).length;
+    var reflexiones = sched.filter(function(s){return s.cat==='Reflexion';}).length;
+    document.getElementById('cascade-summary').innerHTML =
+      '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;margin-top:8px;">' +
+      '<div><div class="kl">Total Posts</div><div class="kv" style="font-size:22px;">'+totalPosts+'</div><div class="kd">3 plataformas</div></div>' +
+      '<div><div class="kl">Período</div><div class="kv" style="font-size:18px;">45 días</div><div class="kd">Hasta '+lastDate+'</div></div>' +
+      '<div><div class="kl">Clips</div><div class="kv" style="font-size:18px;">'+sched.length+'</div><div class="kd">'+hooks+' hooks · '+historias+' hist · '+reflexiones+' refl</div></div>' +
+      '<div><div class="kl">Estrategia</div><div class="kv" style="font-size:14px;">Cascada</div><div class="kd">3→3→2→2→1→1 /semana</div></div>' +
+      '</div>';
+  }
+
+  // Load Opus data
+  function loadOpus() {
+    fetch('https://api.opus.pro/api/clip-projects', { headers: { 'Authorization': 'Bearer ' + OPUS_KEY } })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var projects = d.list || [];
+        if (projects.length === 0) {
+          document.getElementById('opus-clips-info').textContent = 'No hay proyectos en OpusClip';
+          return;
+        }
+        // Use the most recent COMPLETE project
+        var proj = projects.find(function(p){ return p.stage === 'COMPLETE'; });
+        if (!proj) {
+          document.getElementById('opus-clips-info').textContent = 'No hay proyectos completados';
+          return;
+        }
+        return fetch('https://api.opus.pro/api/exportable-clips?q=findByProjectId&projectId=' + proj.projectId, { headers: { 'Authorization': 'Bearer ' + OPUS_KEY } })
+          .then(function(r2){ return r2.json(); })
+          .then(function(d2){
+            var allClips = d2.data || [];
+            var topClips = allClips.filter(function(c){ return (c.score||0) >= 83; }).sort(function(a,b){ return (b.score||0)-(a.score||0); }).slice(0,12);
+            renderClipsTable(allClips.filter(function(c){ return (c.score||0) >= 83; }));
+            scheduleData = buildCascade(topClips);
+            renderCalendar(calMonth, calYear);
+            renderOpusCharts(scheduleData);
+          });
+      })
+      .catch(function(err) {
+        document.getElementById('opus-clips-info').textContent = 'Error cargando OpusClip: ' + err.message;
+        renderCalendar(calMonth, calYear);
+      });
+  }
+
+  loadOpus();
 
 // go() is called after successful OAuth login
 </script>
