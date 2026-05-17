@@ -50,13 +50,14 @@ canvas { width: 100% !important; max-height: 200px; }
 .cal-day.today { border-color: #b8941f; box-shadow: 0 0 0 2px rgba(184,148,31,0.25); }
 .cal-day.no-publish { background: repeating-linear-gradient(135deg, #f5f0e5, #f5f0e5 4px, #ede8d8 4px, #ede8d8 8px); }
 .cal-day.no-publish .dn::after { content: ' (no publicar)'; font-size: 9px; font-weight: 400; color: #b8941f; }
-.cal-pill { display: block; font-size: 11px; padding: 3px 6px; border-radius: 4px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; position: relative; }
+.cal-pill { display: block; font-size: 11px; padding: 3px 6px; border-radius: 4px; margin-bottom: 3px; white-space: nowrap; text-overflow: ellipsis; cursor: pointer; position: relative; overflow: visible; }
 .cal-pill.tiktok { background: #1a1a1a; color: #fff; }
 .cal-pill.instagram { background: #d6249f; color: #fff; }
 .cal-pill.youtube { background: #FF0000; color: #fff; }
 /* Hover tooltip with thumbnail */
-.cal-tooltip { display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; border-radius: 10px; padding: 10px; z-index: 100; width: 240px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); pointer-events: none; }
+.cal-tooltip { display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; border-radius: 10px; padding: 10px; z-index: 9999; width: 240px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); pointer-events: none; }
 .cal-pill:hover .cal-tooltip { display: block; }
+.cal-day { overflow: visible; }
 .cal-tooltip img { width: 100%; border-radius: 6px; margin-bottom: 6px; }
 .cal-tooltip .tt-title { font-size: 12px; font-weight: 600; margin-bottom: 3px; white-space: normal; }
 .cal-tooltip .tt-meta { font-size: 11px; color: #aaa; }
@@ -434,7 +435,7 @@ function go() {
 }
 
 // === OPUS CONTENT CALENDAR ===
-  var OPUS_KEY = 'sk-2O3pCjewxK639_knO_zRdeW2TrSj4mXn89n99XIG';
+  // API key removed from client — Opus API calls are server-side only (via skill)
   var calMonth = 4; // 0-indexed, May=4
   var calYear = 2026;
   var scheduleData = [];
@@ -642,38 +643,30 @@ function go() {
       '</div>';
   }
 
+  // Embedded clip data (Opus API is server-only, no CORS for browser calls)
+  // Updated by opus-content skill when new videos are processed
+  var OPUS_CLIPS = [
+    {id:"P3051714CLWg.LenSym0Ur2",score:99,title:"25 Años de Trabajo: El Colapso que Lo Cambió Todo",durationMs:70530},
+    {id:"P3051714CLWg.jF9vRpLm1T",score:98,title:"Mi Mayor Lección: Presencia Sobre Riqueza",durationMs:9834},
+    {id:"P3051714CLWg.FXWLkf7AdT",score:97,title:"Decisión Transformadora: Soltar Antes Que Te Obliguen",durationMs:14912},
+    {id:"P3051714CLWg.SnpfmmpGVR",score:96,title:"Encuentra la Bendición: Vive el Proceso, No el Resultado",durationMs:51802},
+    {id:"P3051714CLWg.bLTRMZo49f",score:95,title:"La Torá y la Shemitá: Enseñanzas Profundas Reveladas",durationMs:28112},
+    {id:"P3051714CLWg.LU1NX1yNpZ",score:94,title:"Caminar: El Valor está en el Movimiento, No la Meta",durationMs:14056},
+    {id:"P3051714CLWg.V5oHSCi6j7",score:93,title:"La Torá: ¿Cuándo Paras? El Acto Revolucionario de Soltar",durationMs:24554},
+    {id:"P3051714CLWg.Q928Bz3nnC",score:92,title:"La vida ciega: El significado del Talmud",durationMs:38372},
+    {id:"P3051714CLWg.RjgEpmFjlu",score:92,title:"El Tiempo Vuela: Reflexiones sobre la Familia y la Vida",durationMs:29905},
+    {id:"P3051714CLWg.A8PJ6zAFWP",score:91,title:"El Peligroso Tercer Síntoma: ¡No Lo Ignoraras!",durationMs:19861},
+    {id:"P3051714CLWg.omGLICOLcK",score:90,title:"Guiar vs. Educar: El Arte de Acompañar a tus Hijos",durationMs:46058},
+    {id:"P3051714CLWg.ADURt7fOF1",score:89,title:"El Timing de Rashi: ¿Cuándo es tarde para ayudar?",durationMs:20479}
+  ];
+
+  currentProjectThumb = 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg';
+
   function loadOpus() {
-    fetch('https://api.opus.pro/api/clip-projects', { headers: { 'Authorization': 'Bearer ' + OPUS_KEY } })
-      .then(function(r) { return r.json(); })
-      .then(function(d) {
-        var projects = d.list || [];
-        if (projects.length === 0) {
-          document.getElementById('opus-clips-info').textContent = 'No hay proyectos en OpusClip';
-          renderCalendar(calMonth, calYear);
-          return;
-        }
-        var proj = projects.find(function(p){ return p.stage === 'COMPLETE'; });
-        if (!proj) {
-          document.getElementById('opus-clips-info').textContent = 'No hay proyectos completados';
-          renderCalendar(calMonth, calYear);
-          return;
-        }
-        currentProjectThumb = proj.sourceInfo ? proj.sourceInfo.thumbnailUrl : '';
-        return fetch('https://api.opus.pro/api/exportable-clips?q=findByProjectId&projectId=' + proj.projectId, { headers: { 'Authorization': 'Bearer ' + OPUS_KEY } })
-          .then(function(r2){ return r2.json(); })
-          .then(function(d2){
-            var allClips = d2.data || [];
-            var topClips = allClips.filter(function(c){ return (c.score||0) >= 83; }).sort(function(a,b){ return (b.score||0)-(a.score||0); }).slice(0,12);
-            renderClipsTable(allClips.filter(function(c){ return (c.score||0) >= 83; }));
-            scheduleData = buildCascade(topClips);
-            renderCalendar(calMonth, calYear);
-            renderOpusCharts(scheduleData);
-          });
-      })
-      .catch(function(err) {
-        document.getElementById('opus-clips-info').textContent = 'Error cargando OpusClip: ' + err.message;
-        renderCalendar(calMonth, calYear);
-      });
+    renderClipsTable(OPUS_CLIPS);
+    scheduleData = buildCascade(OPUS_CLIPS);
+    renderCalendar(calMonth, calYear);
+    renderOpusCharts(scheduleData);
   }
 
   loadOpus();
