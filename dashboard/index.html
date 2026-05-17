@@ -1,0 +1,355 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElevAlma Analytics Dashboard</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f7f4; color: #1a1a1a; padding: 20px; }
+/* Auth gate */
+#auth-gate { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; }
+#auth-gate h2 { font-size: 24px; margin-bottom: 8px; }
+#auth-gate .gold { color: #b8941f; }
+#auth-gate p { color: #888; font-size: 14px; margin-bottom: 32px; }
+#auth-gate .auth-error { color: #c0392b; font-size: 13px; margin-top: 16px; display: none; }
+#dashboard { display: none; }
+.auth-user { font-size: 12px; color: #888; text-align: right; margin-bottom: 12px; }
+.auth-user a { color: #b8941f; cursor: pointer; text-decoration: none; }
+h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.sub { font-size: 13px; color: #888; margin-bottom: 24px; }
+.gold { color: #b8941f; }
+.sec { font-size: 16px; font-weight: 700; margin: 28px 0 14px; padding-bottom: 8px; border-bottom: 2px solid #e8e5df; display: flex; align-items: center; gap: 8px; }
+.sec svg { width: 20px; height: 20px; flex-shrink: 0; }
+.row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.row3 { grid-template-columns: repeat(3, 1fr); }
+.card { background: #fff; border-radius: 12px; padding: 16px; border: 1px solid #e8e5df; }
+.card h3 { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+.kl { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 4px; }
+.kv { font-size: 26px; font-weight: 700; }
+.kd { font-size: 12px; color: #888; margin-top: 3px; }
+.kv .u { font-size: 13px; font-weight: 400; color: #999; }
+.yt { color: #FF0000; }
+.sp { color: #1DB954; }
+.ga { color: #E37400; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.full { grid-column: 1 / -1; }
+canvas { width: 100% !important; max-height: 200px; }
+.epi { list-style: none; }
+.epi li { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0ede8; }
+.epi li:last-child { border-bottom: none; }
+.epi img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+.epi .t { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.epi .m { font-size: 12px; color: #888; margin-top: 2px; }
+.epi a { font-size: 12px; color: #1DB954; text-decoration: none; font-weight: 500; flex-shrink: 0; }
+.chk { list-style: none; }
+.chk li { padding: 6px 0; border-bottom: 1px solid #f0ede8; font-size: 13px; color: #555; display: flex; gap: 8px; }
+.chk li:last-child { border-bottom: none; }
+.ok { color: #1DB954; font-weight: 700; }
+.pend { color: #E37400; font-weight: 700; }
+.tip { background: #FFF8F0; border: 1px solid #F0E0C8; border-radius: 10px; padding: 14px; margin-top: 12px; font-size: 13px; color: #555; line-height: 1.6; }
+.tip b { color: #E37400; }
+.status { font-size: 11px; color: #aaa; text-align: right; margin-top: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px; border-bottom: 2px solid #e8e5df; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #999; }
+td { padding: 8px; border-bottom: 1px solid #f0ede8; }
+tr:last-child td { border-bottom: none; }
+.tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+.tp { background: #f0e6c8; color: #8a6d1b; }
+.to { background: #dce8f8; color: #2c5aa0; }
+.ins { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.ins .card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #b8941f; }
+.ins .card p { font-size: 13px; line-height: 1.6; color: #555; }
+@media (max-width: 700px) { .row, .g2, .ins { grid-template-columns: 1fr; } .row3 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div id="auth-gate">
+  <h2>Elev<span class="gold">Alma</span> Analytics</h2>
+  <p>Dashboard privado — inicia sesión para continuar</p>
+  <div id="g_id_onload"
+    data-client_id="550617854024-rbuu9tca5rt168m6i80l10u3ccunerso.apps.googleusercontent.com"
+    data-callback="handleCredentialResponse"
+    data-auto_prompt="false">
+  </div>
+  <div class="g_id_signin"
+    data-type="standard"
+    data-size="large"
+    data-theme="outline"
+    data-text="sign_in_with"
+    data-shape="rectangular"
+    data-logo_alignment="left">
+  </div>
+  <div id="auth-error" class="auth-error">Acceso denegado — solo el administrador puede ver este dashboard.</div>
+</div>
+
+<!-- DASHBOARD (hidden until auth) -->
+<div id="dashboard">
+<div class="auth-user">Sesión: <span id="user-email"></span> · <a onclick="handleSignOut()">Cerrar sesión</a></div>
+
+<h1>Elev<span class="gold">Alma</span> — Analytics Dashboard</h1>
+<p class="sub">Métricas de contenido, publicación y rendimiento · Mayo 2026</p>
+
+<!-- YOUTUBE -->
+<div class="sec">
+  <svg viewBox="0 0 24 24" fill="#FF0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8z"/><polygon points="9.6 15.6 15.9 12 9.6 8.4" fill="#fff"/></svg>
+  YouTube
+</div>
+
+<div class="row row3">
+  <div class="card" style="text-align:center;"><div class="kl">Suscriptores</div><div class="kv yt" id="yt-subs">...</div></div>
+  <div class="card" style="text-align:center;"><div class="kl">Views totales</div><div class="kv yt" id="yt-views">...</div></div>
+  <div class="card" style="text-align:center;"><div class="kl">Videos publicados</div><div class="kv yt" id="yt-vids">...</div></div>
+</div>
+<div id="yt-status" class="status">Cargando...</div>
+
+<div class="row g2">
+  <div class="card full"><h3>Rendimiento de videos recientes</h3><canvas id="c1" height="180"></canvas></div>
+</div>
+
+<!-- SPOTIFY -->
+<div class="sec">
+  <svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.5 17.3c-.2.3-.6.4-1 .2-2.7-1.6-6-2-10-1.1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 4.3-1 8-.6 11 1.2.4.2.5.6.3 1zm1.5-3.3c-.3.4-.8.5-1.2.3-3-1.9-7.7-2.4-11.3-1.3-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 4.1-1.3 9.2-.7 12.7 1.5.3.2.5.7.3 1zm.1-3.4c-3.7-2.2-9.7-2.4-13.2-1.3-.5.2-1-.1-1.2-.6-.2-.5.1-1 .6-1.2 4-1.2 10.7-1 14.9 1.5.5.3.6.9.3 1.3-.2.5-.8.6-1.4.3z"/></svg>
+  Spotify — ElevAlma Podcast
+</div>
+
+<div class="card" style="margin-bottom:20px;">
+  <h3>Episodios recientes</h3>
+  <ul class="epi">
+    <li><img src="https://i.scdn.co/image/ab67656300005f1fa8c48112193f2b5ec78af909" alt=""><div style="flex:1;min-width:0;"><div class="t">ANDA — Dio de Todo Menos su Presencia | Behar Bejukotay 5786</div><div class="m">13 May 2026 · 30 min</div></div><a href="https://open.spotify.com/episode/2U7YmWkHXqeYdJKzKGHBZ5" target="_blank">Abrir</a></li>
+    <li><img src="https://i.scdn.co/image/ab67656300005f1fe0404fbceb2b6779937c866c" alt=""><div style="flex:1;min-width:0;"><div class="t">LIMPIA TAHOR — ¿Y Si Tú Causaste El Daño? | Emor 5786</div><div class="m">30 Abr 2026 · 23 min</div></div><a href="https://open.spotify.com/episode/6yci8wS9Psg3rmWrrTijZU" target="_blank">Abrir</a></li>
+    <li><img src="https://i.scdn.co/image/ab67656300005f1faf0eab00f912fcfbe647bd52" alt=""><div style="flex:1;min-width:0;"><div class="t">YA — 24,000 Errores, Ni Uno Más | Tzav 5786</div><div class="m">27 Mar 2026 · 23 min</div></div><a href="https://open.spotify.com/episode/3QrC3lXM8v0jAIKwbYe7iv" target="_blank">Abrir</a></li>
+    <li><img src="https://i.scdn.co/image/ab67656300005f1fe6e716d14da6eca1958e4313" alt=""><div style="flex:1;min-width:0;"><div class="t">EN TI — Perashat Terumá 5786</div><div class="m">18 Feb 2026 · 28 min</div></div><a href="https://open.spotify.com/episode/6vkU89cwZnm4tqYKfBJboX" target="_blank">Abrir</a></li>
+  </ul>
+  <div class="status"><a href="https://open.spotify.com/show/054bnaJPZCms5gtcxLjVkB" target="_blank" style="color:#1DB954;">Ver show completo en Spotify</a></div>
+</div>
+
+<div class="row g2">
+  <div class="card"><h3>Duración de episodios (min)</h3><canvas id="c2" height="200"></canvas></div>
+  <div class="card"><h3>Frecuencia de publicación</h3><canvas id="c3" height="200"></canvas></div>
+</div>
+
+<!-- GA -->
+<div class="sec">
+  <svg viewBox="0 0 24 24"><rect x="4" y="14" width="4" height="6" rx="1" fill="#E37400"/><rect x="10" y="9" width="4" height="11" rx="1" fill="#E37400"/><rect x="16" y="4" width="4" height="16" rx="1" fill="#E37400"/></svg>
+  Google Analytics — elevalma.com
+</div>
+
+<div class="card" style="margin-bottom:20px; background: linear-gradient(135deg, #fff, #fff8f0);">
+  <h3>Estado de implementación GA4</h3>
+  <ul class="chk">
+    <li><span class="ok">&#10003;</span> <b>GA4 instalado</b> — Tag G-7TTW2CM2MZ activo</li>
+    <li><span class="ok">&#10003;</span> <b>Tracking en homepage, blog, /consultas/, /omer/</b></li>
+    <li><span class="ok">&#10003;</span> <b>Eventos de conversión</b> — click_agendar_sesion, click_escribir_consulta, click_comenzar_mentoria, form_submit_consulta</li>
+    <li><span class="pend">!</span> <b>Search Console</b> — Pendiente vincular con GA4</li>
+  </ul>
+  <div class="tip">
+    <b>Próximos pasos:</b><br><br>
+    1. En GA4 → Admin → Events, marca los eventos como "key events"<br>
+    2. Conecta Search Console: GA4 → Admin → Product Links<br>
+    3. Crea reporte en lookerstudio.google.com con GA4 + Search Console<br>
+    4. Crea audiencias: "visitó /consultas/" y "visitó /blog/"
+  </div>
+</div>
+
+<div class="row g2">
+  <div class="card"><h3>Páginas trackeadas</h3><canvas id="c4" height="200"></canvas></div>
+  <div class="card"><h3>Eventos de conversión (prioridad)</h3><canvas id="c5" height="200"></canvas></div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="sec">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#b8941f" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+  Contenido del Blog
+</div>
+
+<div class="row">
+  <div class="card"><div class="kl">Blog Posts</div><div class="kv">84</div><div class="kd">Desde agosto 2025</div></div>
+  <div class="card"><div class="kl">Videos en sitio</div><div class="kv">34</div><div class="kd">Indexados en videos.js</div></div>
+  <div class="card"><div class="kl">Cadencia</div><div class="kv">9.3 <span class="u">posts/mes</span></div><div class="kd">Últimos 9 meses</div></div>
+  <div class="card"><div class="kl">Series activas</div><div class="kv">3</div><div class="kd">Parashá · Omer · 13 Atributos</div></div>
+</div>
+
+<div class="row g2">
+  <div class="card"><h3>Publicaciones por mes</h3><canvas id="c6" height="200"></canvas></div>
+  <div class="card"><h3>Contenido por categoría</h3><canvas id="c7" height="200"></canvas></div>
+</div>
+
+<div class="row g2">
+  <div class="card"><h3>Series con más contenido</h3><canvas id="c8" height="200"></canvas></div>
+  <div class="card"><h3>Tags más frecuentes</h3><canvas id="c9" height="200"></canvas></div>
+</div>
+
+<div class="ins">
+  <div class="card"><h4>Mejor mes</h4><p>Sep 2025 con 21 posts (13 Atributos). Abr 2026 segundo con 19 posts (Omer + parashá).</p></div>
+  <div class="card"><h4>Oportunidad</h4><p>Solo 1 post de festividades. Contenido permanente de Rosh Hashaná, Sucot, Janucá puede rankear cada año.</p></div>
+  <div class="card"><h4>SEO</h4><p>"Musar" y "Transformación" en 10+ posts. Unificar "Kabbalá"/"Kabalá" (2 tags distintos).</p></div>
+</div>
+
+<div class="card">
+  <h3>Últimos 10 posts</h3>
+  <table>
+    <thead><tr><th>Fecha</th><th>Título</th><th>Min</th><th>Cat</th></tr></thead>
+    <tbody>
+      <tr><td>13 May</td><td>CEGUERA EXISTENCIAL — ¿Quién eres cuando te quitan lo que creías?</td><td>28</td><td><span class="tag tp">parashá</span></td></tr>
+      <tr><td>05 May</td><td>DÍA 33 — Lag BaOmer: Hod she-be-Hod</td><td>20</td><td><span class="tag to">omer</span></td></tr>
+      <tr><td>30 Abr</td><td>EMOR — La destrucción que nace de la buena intención</td><td>23</td><td><span class="tag tp">parashá</span></td></tr>
+      <tr><td>27 Abr</td><td>DÍA 15 — La Mishnáh: Estructura y Amor</td><td>21</td><td><span class="tag to">omer</span></td></tr>
+      <tr><td>25 Abr</td><td>KADOSH — ¿Qué haces con lo que te está permitido?</td><td>27</td><td><span class="tag tp">parashá</span></td></tr>
+      <tr><td>24 Abr</td><td>DÍA 12 — Pilpul: El Estudiante Enseña al Maestro</td><td>24</td><td><span class="tag to">omer</span></td></tr>
+      <tr><td>23 Abr</td><td>DÍA 11 — Precisión con Compañeros</td><td>20</td><td><span class="tag to">omer</span></td></tr>
+      <tr><td>22 Abr</td><td>DÍA 10 — Servir al Sabio</td><td>25</td><td><span class="tag to">omer</span></td></tr>
+      <tr><td>21 Abr</td><td>DÍA 9 — La Alegría Violenta</td><td>22</td><td><span class="tag to">omer</span></td></tr>
+      <tr><td>18 Abr</td><td>DÍA 6 — Temor Reverencial</td><td>11</td><td><span class="tag to">omer</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- end #dashboard -->
+
+<script>
+// === AUTH ===
+var ALLOWED_EMAIL = 'spenhos@gmail.com';
+
+function handleCredentialResponse(response) {
+  var payload = JSON.parse(atob(response.credential.split('.')[1]));
+  if (payload.email === ALLOWED_EMAIL) {
+    document.getElementById('auth-gate').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('user-email').textContent = payload.email;
+    go();
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+  }
+}
+
+function handleSignOut() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('auth-gate').style.display = 'flex';
+  document.getElementById('auth-error').style.display = 'none';
+  google.accounts.id.disableAutoSelect();
+}
+
+// === DASHBOARD ===
+function go() {
+  if (typeof Chart === 'undefined') {
+    document.getElementById('yt-status').textContent = 'Chart.js no cargó — revisa tu conexión a internet';
+    return;
+  }
+
+  var gold = '#c9a84c', gL = 'rgba(201,168,76,0.15)', blue = '#4a7fc4', purple = '#7b5ea7';
+  var green = '#1DB954', gR = 'rgba(29,185,84,0.15)', orange = '#E37400', oL = 'rgba(227,116,0,0.15)';
+  var gridC = '#f0ede8';
+
+  // YouTube API
+  var AK = 'AIzaSyCGX-QSET9JcUVPLYetbxVTuKI7ZPhlWvY';
+  var CH = 'UCm7TaLFmuImm2wfhCHJJehw';
+
+  fetch('https://www.googleapis.com/youtube/v3/channels?part=statistics&id=' + CH + '&key=' + AK)
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.items && d.items[0]) {
+        var s = d.items[0].statistics;
+        document.getElementById('yt-subs').textContent = parseInt(s.subscriberCount).toLocaleString();
+        document.getElementById('yt-views').textContent = parseInt(s.viewCount).toLocaleString();
+        document.getElementById('yt-vids').textContent = parseInt(s.videoCount).toLocaleString();
+        document.getElementById('yt-status').textContent = 'YouTube API · ' + new Date().toLocaleString('es-MX');
+      } else {
+        document.getElementById('yt-status').textContent = 'API respondió sin datos';
+      }
+    })
+    .catch(function() {
+      document.getElementById('yt-subs').textContent = '—';
+      document.getElementById('yt-views').textContent = '—';
+      document.getElementById('yt-vids').textContent = '—';
+      document.getElementById('yt-status').textContent = 'YouTube API no accesible';
+    });
+
+  var vids = ['PqosbXntkuQ','Ek--ojUjyoE','eos_HsCnMf8','xfxI4PNxGBk','sUPWPjjlJ7c','1anr7UjUkuc'];
+  fetch('https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=' + vids.join(',') + '&key=' + AK)
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.items && d.items.length) {
+        var lb = [], vw = [], lk = [], cm = [];
+        for (var i = 0; i < d.items.length; i++) {
+          var v = d.items[i];
+          var t = v.snippet.title;
+          lb.push(t.length > 28 ? t.substring(0, 28) + '...' : t);
+          vw.push(parseInt(v.statistics.viewCount || 0));
+          lk.push(parseInt(v.statistics.likeCount || 0));
+          cm.push(parseInt(v.statistics.commentCount || 0));
+        }
+        mkChart('c1', 'bar', lb, [
+          { label: 'Views', data: vw, backgroundColor: gold, borderRadius: 4 },
+          { label: 'Likes', data: lk, backgroundColor: blue, borderRadius: 4 },
+          { label: 'Comentarios', data: cm, backgroundColor: purple, borderRadius: 4 }
+        ], { legend: true });
+      } else { mkChart('c1', 'bar', ['Sin datos'], [{ data: [0], backgroundColor: '#ddd' }]); }
+    })
+    .catch(function() {
+      mkChart('c1', 'bar', ['Behar-Bej.','Lag BaOmer','Emor','Kedoshim','Ajarei Mot','Tazría'], [{ label:'Sin conexión', data:[0,0,0,0,0,0], backgroundColor:'#ddd' }]);
+    });
+
+  // Spotify
+  mkChart('c2', 'bar', ['Behar-Bej.','Emor','Tzav','Terumá'], [{ data: [30,23,23,28], backgroundColor: green, borderRadius: 6 }]);
+  mkChart('c3', 'line', ['Ene','Feb','Mar','Abr','May'], [{ data: [4,5,6,8,2], borderColor: green, backgroundColor: gR, fill: true, tension: 0.4, pointBackgroundColor: green, pointRadius: 5 }]);
+
+  // GA
+  new Chart(document.getElementById('c4'), {
+    type: 'doughnut',
+    data: { labels: ['Homepage','Blog (84)','Omer','Etz Jaim','Consultas','Redirects'], datasets: [{ data: [1,84,1,1,1,4], backgroundColor: [orange,gold,blue,purple,green,'#ddd'], borderWidth: 0 }] },
+    options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10, usePointStyle: true } } } }
+  });
+
+  mkChart('c5', 'bar', ['agendar_sesion','form_submit','escribir_consulta','comenzar_mentoria','scroll_servicios','click_youtube'], [{ data: [10,9,9,8,7,6], backgroundColor: [orange,orange,orange,orange,oL,oL], borderRadius: 6 }], { horizontal: true });
+
+  // Content
+  mkChart('c6', 'bar', ['Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr','May'], [{ data: [1,21,5,4,2,5,7,18,19,2], backgroundColor: [gL,gold,gL,gL,gL,gL,gL,gold,gold,gL], borderColor: gold, borderWidth: 1, borderRadius: 6 }]);
+
+  new Chart(document.getElementById('c7'), {
+    type: 'doughnut',
+    data: { labels: ['Parashá (68)','Omer (15)','Festividad (1)'], datasets: [{ data: [68,15,1], backgroundColor: [gold,blue,purple], borderWidth: 0 }] },
+    options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10, usePointStyle: true } } } }
+  });
+
+  mkChart('c8', 'bar', ['13 Atributos','Omer 5786','Parashá','Transformación','Teshuvá','Estudio'], [{ data: [17,15,8,2,2,2], backgroundColor: gold, borderRadius: 6 }], { horizontal: true });
+  mkChart('c9', 'bar', ['13 Atributos','Omer','Musar','Transformación','Shemot','Sefirot','Kabbalá','Vayikrá'], [{ data: [17,15,11,10,10,9,9,5], backgroundColor: blue, borderRadius: 6 }], { horizontal: true });
+
+  function mkChart(id, type, labels, datasets, opts) {
+    opts = opts || {};
+    var cfg = {
+      type: type,
+      data: { labels: labels, datasets: datasets },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: !!opts.legend, position: 'top', labels: { font: { size: 11 }, usePointStyle: true, padding: 14 } } },
+        scales: {
+          y: { grid: { color: gridC }, ticks: { font: { size: 11 } } },
+          x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } }
+        }
+      }
+    };
+    if (opts.horizontal) {
+      cfg.options.indexAxis = 'y';
+      cfg.options.scales = {
+        x: { grid: { color: gridC }, ticks: { font: { size: 11 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+      };
+    }
+    new Chart(document.getElementById(id), cfg);
+  }
+}
+
+// go() is called after successful OAuth login
+</script>
+
+</body>
+</html>
