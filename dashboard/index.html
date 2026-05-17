@@ -183,6 +183,10 @@ tr:last-child td { border-bottom: none; }
 <div class="sec">
   <svg viewBox="0 0 24 24" fill="#FF0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8z"/><polygon points="9.6 15.6 15.9 12 9.6 8.4" fill="#fff"/></svg>
   YouTube
+  <select id="yt-channel-select" style="margin-left:auto;font-size:13px;padding:4px 10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;" onchange="switchYTChannel(this.value)">
+    <option value="UCm7TaLFmuImm2wfhCHJJehw">ElevAlma</option>
+  </select>
+  <span id="yt-channel-loading" style="font-size:11px;color:#aaa;display:none;">cargando canales...</span>
 </div>
 
 <div class="row row3">
@@ -196,8 +200,8 @@ tr:last-child td { border-bottom: none; }
   <div class="card full"><h3>Rendimiento de videos recientes</h3><canvas id="c1" height="180"></canvas></div>
 </div>
 
-<!-- YOUTUBE ANALYTICS (OAuth2) -->
-<div id="yt-analytics-section" style="display:none;">
+<!-- YOUTUBE ANALYTICS (via API proxy) -->
+<div id="yt-analytics-section">
   <div class="row">
     <div class="card" style="text-align:center;"><div class="kl">Watch Time (28d)</div><div class="kv yt" id="yta-watchtime">...</div><div class="kd">horas</div></div>
     <div class="card" style="text-align:center;"><div class="kl">Views (28d)</div><div class="kv yt" id="yta-views28">...</div></div>
@@ -338,48 +342,14 @@ tr:last-child td { border-bottom: none; }
 <script>
 // === AUTH ===
 var ALLOWED_EMAIL = 'spenhos@gmail.com';
-var YT_ACCESS_TOKEN = null;
-var CLIENT_ID = '550617854024-rbuu9tca5rt168m6i80l10u3ccunerso.apps.googleusercontent.com';
-var YT_SCOPES = 'https://www.googleapis.com/auth/yt-analytics.readonly https://www.googleapis.com/auth/youtube.readonly';
+// YouTube Analytics now runs via server proxy (no browser OAuth needed)
 
 function unlockDashboard(email) {
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
   document.getElementById('user-email').textContent = email;
   go();
-  // Request YouTube Analytics access token
-  requestYTToken();
-}
-
-function requestYTToken() {
-  // Check if we already have a valid token
-  var stored = sessionStorage.getItem('ea_yt_token');
-  var storedExp = sessionStorage.getItem('ea_yt_token_exp');
-  if (stored && storedExp && Date.now() < parseInt(storedExp)) {
-    YT_ACCESS_TOKEN = stored;
-    loadYTAnalytics();
-    return;
-  }
-  // Request new token via Google Identity Services OAuth2
-  if (window.google && google.accounts && google.accounts.oauth2) {
-    var tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: CLIENT_ID,
-      scope: YT_SCOPES,
-      prompt: '',  // silent if already granted
-      callback: function(tokenResponse) {
-        if (tokenResponse && tokenResponse.access_token) {
-          YT_ACCESS_TOKEN = tokenResponse.access_token;
-          var expiresIn = (tokenResponse.expires_in || 3600) * 1000;
-          try {
-            sessionStorage.setItem('ea_yt_token', tokenResponse.access_token);
-            sessionStorage.setItem('ea_yt_token_exp', String(Date.now() + expiresIn));
-          } catch(e) {}
-          loadYTAnalytics();
-        }
-      }
-    });
-    tokenClient.requestAccessToken();
-  }
+  loadYTChannels();
 }
 
 function handleCredentialResponse(response) {
@@ -996,164 +966,137 @@ function go() {
 
 // go() is called after successful OAuth login
 
-// === YOUTUBE ANALYTICS (OAuth2) ===
-function loadYTAnalytics() {
-  if (!YT_ACCESS_TOKEN) return;
+// === YOUTUBE ANALYTICS (via Vercel proxy) ===
+var ytaChartInstances = {};
 
-  var section = document.getElementById('yt-analytics-section');
-  section.style.display = 'block';
+function loadYTAnalytics(channelId) {
+  channelId = channelId || 'UCm7TaLFmuImm2wfhCHJJehw';
   var statusEl = document.getElementById('yta-status');
   statusEl.textContent = 'Cargando YouTube Analytics...';
 
-  var CH = 'UCm7TaLFmuImm2wfhCHJJehw';
-  var today = new Date();
-  var end = today.toISOString().split('T')[0];
-  var d28 = new Date(today); d28.setDate(d28.getDate() - 28);
-  var start = d28.toISOString().split('T')[0];
+  // Reset KPIs
+  document.getElementById('yta-views28').textContent = '...';
+  document.getElementById('yta-watchtime').textContent = '...';
+  document.getElementById('yta-avgdur').textContent = '...';
+  document.getElementById('yta-ctr').textContent = '...';
 
-  var headers = { 'Authorization': 'Bearer ' + YT_ACCESS_TOKEN };
-
-  // 1) KPIs: views, watchTime, impressions, CTR, avg view duration
-  var kpiUrl = 'https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==' + CH +
-    '&startDate=' + start + '&endDate=' + end +
-    '&metrics=views,estimatedMinutesWatched,averageViewDuration,impressions,impressionClickThroughRate';
-
-  // 2) Daily views + watchTime
-  var dailyUrl = 'https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==' + CH +
-    '&startDate=' + start + '&endDate=' + end +
-    '&dimensions=day&metrics=views,estimatedMinutesWatched&sort=day';
-
-  // 3) Traffic sources
-  var trafficUrl = 'https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==' + CH +
-    '&startDate=' + start + '&endDate=' + end +
-    '&dimensions=insightTrafficSourceType&metrics=views&sort=-views&maxResults=8';
-
-  // 4) Top videos
-  var topVidsUrl = 'https://youtubeanalytics.googleapis.com/v2/reports?ids=channel==' + CH +
-    '&startDate=' + start + '&endDate=' + end +
-    '&dimensions=video&metrics=views,estimatedMinutesWatched&sort=-views&maxResults=10';
-
-  Promise.all([
-    fetch(kpiUrl, { headers: headers }).then(function(r) { return r.json(); }),
-    fetch(dailyUrl, { headers: headers }).then(function(r) { return r.json(); }),
-    fetch(trafficUrl, { headers: headers }).then(function(r) { return r.json(); }),
-    fetch(topVidsUrl, { headers: headers }).then(function(r) { return r.json(); })
-  ]).then(function(results) {
-    var kpi = results[0];
-    var daily = results[1];
-    var traffic = results[2];
-    var topVids = results[3];
-
-    // Check for auth errors
-    if (kpi.error) {
-      statusEl.textContent = 'Error: ' + (kpi.error.message || 'No autorizado');
-      if (kpi.error.code === 401 || kpi.error.code === 403) {
-        sessionStorage.removeItem('ea_yt_token');
-        sessionStorage.removeItem('ea_yt_token_exp');
-        YT_ACCESS_TOKEN = null;
-        statusEl.textContent += ' — Refresca la página para re-autorizar.';
-      }
-      return;
-    }
-
-    // KPIs
-    if (kpi.rows && kpi.rows[0]) {
-      var row = kpi.rows[0];
-      var views28 = row[0] || 0;
-      var watchMin = row[1] || 0;
-      var avgDur = row[2] || 0;
-      var impressions = row[3] || 0;
-      var ctr = row[4] || 0;
-
-      document.getElementById('yta-views28').textContent = parseInt(views28).toLocaleString();
-      document.getElementById('yta-watchtime').textContent = (watchMin / 60).toFixed(1);
-      document.getElementById('yta-avgdur').textContent = Math.round(avgDur);
-      document.getElementById('yta-ctr').textContent = (ctr * 100).toFixed(1) + '%';
-    }
-
-    // Daily charts
-    if (daily.rows && daily.rows.length > 0) {
-      var dLabels = [], dViews = [], dWatch = [];
-      for (var i = 0; i < daily.rows.length; i++) {
-        var dayStr = daily.rows[i][0]; // YYYY-MM-DD
-        dLabels.push(dayStr.substring(5)); // MM-DD
-        dViews.push(daily.rows[i][1]);
-        dWatch.push(daily.rows[i][2]);
-      }
-      ytaChart('yta-c-views', 'line', dLabels, [{
-        label: 'Views', data: dViews,
-        borderColor: '#FF0000', backgroundColor: 'rgba(255,0,0,0.08)',
-        fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#FF0000'
-      }]);
-      ytaChart('yta-c-watchtime', 'line', dLabels, [{
-        label: 'Minutos', data: dWatch,
-        borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.12)',
-        fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#c9a84c'
-      }]);
-    }
-
-    // Traffic sources
-    if (traffic.rows && traffic.rows.length > 0) {
-      var tLabels = [], tData = [];
-      var trafficColors = ['#FF0000','#c9a84c','#4a7fc4','#7b5ea7','#1DB954','#E37400','#e74c3c','#3498db'];
-      for (var i = 0; i < traffic.rows.length; i++) {
-        tLabels.push(ytaTrafficLabel(traffic.rows[i][0]));
-        tData.push(traffic.rows[i][1]);
-      }
-      new Chart(document.getElementById('yta-c-traffic'), {
-        type: 'doughnut',
-        data: {
-          labels: tLabels,
-          datasets: [{ data: tData, backgroundColor: trafficColors.slice(0, tData.length), borderWidth: 0 }]
-        },
-        options: {
-          responsive: true, cutout: '60%',
-          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 8, usePointStyle: true } } }
-        }
-      });
-    }
-
-    // Top videos — need video titles from YouTube Data API
-    if (topVids.rows && topVids.rows.length > 0) {
-      var videoIds = [];
-      var vViews = [], vWatch = [];
-      for (var i = 0; i < topVids.rows.length; i++) {
-        videoIds.push(topVids.rows[i][0]);
-        vViews.push(topVids.rows[i][1]);
-        vWatch.push(topVids.rows[i][2]);
-      }
-      // Fetch titles from Data API
-      var AK = 'AIzaSyCGX-QSET9JcUVPLYetbxVTuKI7ZPhlWvY';
-      fetch('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + videoIds.join(',') + '&key=' + AK)
-        .then(function(r) { return r.json(); })
-        .then(function(vd) {
-          var titleMap = {};
-          if (vd.items) {
-            for (var i = 0; i < vd.items.length; i++) {
-              titleMap[vd.items[i].id] = vd.items[i].snippet.title;
-            }
-          }
-          var vLabels = [];
-          for (var i = 0; i < videoIds.length; i++) {
-            var t = titleMap[videoIds[i]] || videoIds[i];
-            vLabels.push(t.length > 30 ? t.substring(0, 30) + '...' : t);
-          }
-          ytaChart('yta-c-topvideos', 'bar', vLabels, [{
-            label: 'Views', data: vViews, backgroundColor: '#FF0000', borderRadius: 4
-          }], { horizontal: true });
-        })
-        .catch(function() {
-          ytaChart('yta-c-topvideos', 'bar', videoIds, [{
-            label: 'Views', data: vViews, backgroundColor: '#FF0000', borderRadius: 4
-          }], { horizontal: true });
-        });
-    }
-
-    statusEl.textContent = 'YouTube Analytics API · Últimos 28 días · ' + new Date().toLocaleString('es-MX');
-
-  }).catch(function(err) {
-    statusEl.textContent = 'Error al cargar YouTube Analytics: ' + (err.message || err);
+  // Destroy existing charts before redrawing
+  ['yta-c-views','yta-c-watchtime','yta-c-traffic','yta-c-topvideos'].forEach(function(id) {
+    if (ytaChartInstances[id]) { ytaChartInstances[id].destroy(); delete ytaChartInstances[id]; }
   });
+
+  fetch(ELEVALMA_API + '/api/yt-analytics?channelId=' + channelId)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        statusEl.textContent = 'Error: ' + data.error;
+        return;
+      }
+
+      // KPIs
+      if (data.kpi) {
+        var views28 = data.kpi[0] || 0;
+        var watchMin = data.kpi[1] || 0;
+        var avgDur = data.kpi[2] || 0;
+        var ctr = data.kpi[4] || 0;
+
+        document.getElementById('yta-views28').textContent = parseInt(views28).toLocaleString();
+        document.getElementById('yta-watchtime').textContent = (watchMin / 60).toFixed(1);
+        document.getElementById('yta-avgdur').textContent = Math.round(avgDur);
+        document.getElementById('yta-ctr').textContent = (ctr * 100).toFixed(1) + '%';
+      }
+
+      // Daily charts
+      if (data.daily && data.daily.length > 0) {
+        var dLabels = [], dViews = [], dWatch = [];
+        for (var i = 0; i < data.daily.length; i++) {
+          dLabels.push(data.daily[i][0].substring(5));
+          dViews.push(data.daily[i][1]);
+          dWatch.push(data.daily[i][2]);
+        }
+        ytaChartInstances['yta-c-views'] = ytaChart('yta-c-views', 'line', dLabels, [{
+          label: 'Views', data: dViews,
+          borderColor: '#FF0000', backgroundColor: 'rgba(255,0,0,0.08)',
+          fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#FF0000'
+        }]);
+        ytaChartInstances['yta-c-watchtime'] = ytaChart('yta-c-watchtime', 'line', dLabels, [{
+          label: 'Minutos', data: dWatch,
+          borderColor: '#c9a84c', backgroundColor: 'rgba(201,168,76,0.12)',
+          fill: true, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#c9a84c'
+        }]);
+      }
+
+      // Traffic sources
+      if (data.traffic && data.traffic.length > 0) {
+        var tLabels = [], tData = [];
+        var trafficColors = ['#FF0000','#c9a84c','#4a7fc4','#7b5ea7','#1DB954','#E37400','#e74c3c','#3498db'];
+        for (var i = 0; i < data.traffic.length; i++) {
+          tLabels.push(ytaTrafficLabel(data.traffic[i][0]));
+          tData.push(data.traffic[i][1]);
+        }
+        ytaChartInstances['yta-c-traffic'] = new Chart(document.getElementById('yta-c-traffic'), {
+          type: 'doughnut',
+          data: {
+            labels: tLabels,
+            datasets: [{ data: tData, backgroundColor: trafficColors.slice(0, tData.length), borderWidth: 0 }]
+          },
+          options: {
+            responsive: true, cutout: '60%',
+            plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 8, usePointStyle: true } } }
+          }
+        });
+      }
+
+      // Top videos (titles already resolved by backend)
+      if (data.topVideos && data.topVideos.length > 0) {
+        var vLabels = [], vViews = [];
+        for (var i = 0; i < data.topVideos.length; i++) {
+          var t = data.topVideos[i].title;
+          vLabels.push(t.length > 30 ? t.substring(0, 30) + '...' : t);
+          vViews.push(data.topVideos[i].views);
+        }
+        ytaChartInstances['yta-c-topvideos'] = ytaChart('yta-c-topvideos', 'bar', vLabels, [{
+          label: 'Views', data: vViews, backgroundColor: '#FF0000', borderRadius: 4
+        }], { horizontal: true });
+      }
+
+      statusEl.textContent = 'YouTube Analytics API · Últimos 28 días · ' + new Date().toLocaleString('es-MX');
+
+    }).catch(function(err) {
+      statusEl.textContent = 'Error al cargar YouTube Analytics: ' + (err.message || err);
+    });
+}
+
+function switchYTChannel(channelId) {
+  loadYTAnalytics(channelId);
+}
+
+function loadYTChannels() {
+  var sel = document.getElementById('yt-channel-select');
+  var loading = document.getElementById('yt-channel-loading');
+  loading.style.display = 'inline';
+  fetch(ELEVALMA_API + '/api/yt-analytics?report=channels')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.items && data.items.length > 0) {
+        sel.innerHTML = '';
+        for (var i = 0; i < data.items.length; i++) {
+          var ch = data.items[i];
+          var opt = document.createElement('option');
+          opt.value = ch.id;
+          opt.textContent = ch.snippet.title;
+          sel.appendChild(opt);
+        }
+        // Load analytics for first channel
+        loadYTAnalytics(data.items[0].id);
+      }
+      loading.style.display = 'none';
+    })
+    .catch(function() {
+      loading.style.display = 'none';
+      // Fallback: use default channel
+      loadYTAnalytics();
+    });
 }
 
 function ytaChart(id, type, labels, datasets, opts) {
@@ -1178,7 +1121,7 @@ function ytaChart(id, type, labels, datasets, opts) {
       y: { grid: { display: false }, ticks: { font: { size: 10 } } }
     };
   }
-  new Chart(document.getElementById(id), cfg);
+  return new Chart(document.getElementById(id), cfg);
 }
 
 function ytaTrafficLabel(source) {
