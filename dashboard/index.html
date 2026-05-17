@@ -780,7 +780,7 @@ function go() {
 
   // Real schedule from Opus API — status updated by skill after each run
   var OPUS_POSTS = [
-    {clipId:'LenSym0Ur2',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-17T18:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-17T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-18T01:00:00Z'}]},
+    {clipId:'LenSym0Ur2',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-17T18:30:00Z'},{p:'instagram',s:'posted',t:'2026-05-17T17:00:00Z',url:'https://www.instagram.com/reel/DYcojQ2gPAz/'},{p:'youtube',s:'scheduled',t:'2026-05-18T01:00:00Z'}]},
     {clipId:'jF9vRpLm1T',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-18T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-18T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-19T01:00:00Z'}]},
     {clipId:'FXWLkf7AdT',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-19T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-19T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-20T01:00:00Z'}]},
     {clipId:'SnpfmmpGVR',posts:[{p:'tiktok',s:'scheduled',t:'2026-05-20T12:30:00Z'},{p:'instagram',s:'scheduled',t:'2026-05-20T17:00:00Z'},{p:'youtube',s:'scheduled',t:'2026-05-21T01:00:00Z'}]},
@@ -804,11 +804,7 @@ function go() {
         total = posts.length;
         for (var j = 0; j < posts.length; j++) {
           if (posts[j].s === 'published' || posts[j].s === 'posted') published++;
-          // Also mark as published if date has passed
-          if (new Date(posts[j].t) < new Date()) published++;
         }
-        // Deduplicate (in case both conditions match)
-        if (published > total) published = total;
         break;
       }
     }
@@ -828,17 +824,28 @@ function go() {
   }
 
   function isPostPublished(clipId, platformCls, dateStr) {
-    // Check if a specific post has been published (status or date passed)
+    // Only trust Opus API status — NOT date-based guessing
     for (var i = 0; i < OPUS_POSTS.length; i++) {
       if (OPUS_POSTS[i].clipId === clipId) {
         for (var j = 0; j < OPUS_POSTS[i].posts.length; j++) {
           var post = OPUS_POSTS[i].posts[j];
-          if (post.p === platformCls && new Date(post.t) < new Date()) return true;
           if (post.p === platformCls && (post.s === 'published' || post.s === 'posted')) return true;
         }
       }
     }
     return false;
+  }
+
+  function getPostData(clipId, platformKey) {
+    // Get the raw post object for a clip+platform
+    for (var i = 0; i < OPUS_POSTS.length; i++) {
+      if (OPUS_POSTS[i].clipId === clipId) {
+        for (var j = 0; j < OPUS_POSTS[i].posts.length; j++) {
+          if (OPUS_POSTS[i].posts[j].p === platformKey) return OPUS_POSTS[i].posts[j];
+        }
+      }
+    }
+    return null;
   }
 
   function loadOpus() {
