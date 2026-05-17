@@ -787,12 +787,20 @@ function go() {
     {id:"P3051714CLWg.RjgEpmFjlu",clipId:"RjgEpmFjlu",score:92,title:"El Tiempo Vuela: Reflexiones sobre la Familia",durationMs:29905},
     {id:"P3051714CLWg.A8PJ6zAFWP",clipId:"A8PJ6zAFWP",score:91,title:"El Peligroso Tercer Síntoma: No Lo Ignoraras",durationMs:19861},
     {id:"P3051714CLWg.omGLICOLcK",clipId:"omGLICOLcK",score:90,title:"Guiar vs. Educar: El Arte de Acompañar a tus Hijos",durationMs:46058},
-    {id:"P3051714CLWg.ADURt7fOF1",clipId:"ADURt7fOF1",score:89,title:"El Timing de Rashi: ¿Cuándo es tarde para ayudar?",durationMs:20479}
+    {id:"P3051714CLWg.ADURt7fOF1",clipId:"ADURt7fOF1",score:89,title:"El Timing de Rashi: ¿Cuándo es tarde para ayudar?",durationMs:20479},
+    // Yitro - Shavuot campaign
+    {id:"P3051717x6De.FPBM40C1PB",clipId:"FPBM40C1PB",score:95,title:"EL SINAI ARDE! Dios Habla en Medio del Caos Absoluto",durationMs:29000},
+    {id:"P3051717x6De.V8HfWkded5",clipId:"V8HfWkded5",score:94,title:"EL SECRETO de Sinai: El Error Que Tu Tambien Cometes",durationMs:17000},
+    {id:"P3051717x6De.rdruWrfiFT",clipId:"rdruWrfiFT",score:93,title:"ANOKHI: TODO viene de DIOS, hasta el dolor y el fracaso",durationMs:16000},
+    {id:"P3051717x6De.YWoxzIRhoQ",clipId:"YWoxzIRhoQ",score:92,title:"DEJA DE buscar aprobacion: Tu valor no depende de otros",durationMs:38000},
+    {id:"P3051717x6De.opTbsF7DBz",clipId:"opTbsF7DBz",score:91,title:"DIOS ACTUA por ti o a traves de otros? Suelta el control!",durationMs:44000},
+    {id:"P3051717x6De.Zb12xWf3tp",clipId:"Zb12xWf3tp",score:90,title:"ANOJI: LA Presencia Divina Incondicional en Tu Vida",durationMs:51000}
   ];
 
-  // Post data — fetched live from API, with static fallback
+  // Post data — fetched live from API
   var OPUS_POSTS = [];
   var ELEVALMA_API = 'https://elevalma-api.vercel.app';
+  var ALL_PROJECT_IDS = 'P3051714CLWg,P3051717x6De'; // ANDA + Yitro
 
   currentProjectThumb = 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg';
 
@@ -848,24 +856,74 @@ function go() {
     return null;
   }
 
+  // Build schedule from live API data (real dates, not theoretical cascade)
+  function buildScheduleFromAPI() {
+    var sched = [];
+    for (var i = 0; i < OPUS_POSTS.length; i++) {
+      var clipData = OPUS_POSTS[i];
+      var clipId = clipData.clipId;
+      // Find clip metadata
+      var clipMeta = null;
+      for (var c = 0; c < OPUS_CLIPS.length; c++) {
+        if (OPUS_CLIPS[c].clipId === clipId) { clipMeta = OPUS_CLIPS[c]; break; }
+      }
+      // Group posts by date (the TikTok time determines the "day")
+      var postsByDate = {};
+      for (var j = 0; j < clipData.posts.length; j++) {
+        var post = clipData.posts[j];
+        var d = new Date(post.t);
+        var dateStr = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+        if (!postsByDate[dateStr]) postsByDate[dateStr] = [];
+        postsByDate[dateStr].push(post);
+      }
+      // Create schedule entries per date
+      for (var dateStr in postsByDate) {
+        var dateObj = new Date(dateStr + 'T12:00:00Z');
+        var dur = clipMeta ? (clipMeta.durationMs || 0) / 1000 : 30;
+        var cat = dur <= 20 ? 'Hook' : dur <= 50 ? 'Historia' : 'Reflexion';
+        var title = clipMeta ? clipMeta.title : (clipData.posts[0] && clipData.posts[0].title) || clipId;
+        var platforms = [];
+        for (var k = 0; k < postsByDate[dateStr].length; k++) {
+          var pp = postsByDate[dateStr][k];
+          var timeStr = new Date(pp.t).toLocaleTimeString('es-MX', {hour:'numeric', minute:'2-digit', hour12:true}).toUpperCase();
+          platforms.push({ name: pp.p, time: timeStr, cls: pp.p });
+        }
+        sched.push({
+          clip: clipMeta || { clipId: clipId, title: title },
+          date: dateObj,
+          dateStr: dateStr,
+          cat: cat,
+          platforms: platforms
+        });
+      }
+    }
+    // Sort by date
+    sched.sort(function(a, b) { return a.date - b.date; });
+    return sched;
+  }
+
   function loadOpus() {
-    // Fetch live post data from API
-    var projectId = 'P3051714CLWg';
-    fetch(ELEVALMA_API + '/api/opus-posts?projectId=' + projectId)
+    // Fetch live post data from API (all projects)
+    fetch(ELEVALMA_API + '/api/opus-posts?projectIds=' + ALL_PROJECT_IDS)
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (data.clips && data.clips.length > 0) {
           OPUS_POSTS = data.clips;
-          document.getElementById('opus-api-status').textContent = 'API en vivo · ' + new Date(data.updatedAt).toLocaleString('es-MX');
+          document.getElementById('opus-api-status').textContent = 'API en vivo · ' + new Date(data.updatedAt).toLocaleString('es-MX') + ' · ' + data.clips.length + ' clips';
         }
       })
       .catch(function(err) {
-        console.log('API fetch failed, using static data:', err);
-        document.getElementById('opus-api-status').textContent = 'Datos estáticos (API no disponible)';
+        console.log('API fetch failed:', err);
+        document.getElementById('opus-api-status').textContent = 'API no disponible';
       })
       .finally(function() {
         renderClipsTable(OPUS_CLIPS);
-        scheduleData = buildCascade(OPUS_CLIPS);
+        // Build schedule from real API data if available, fallback to cascade
+        if (OPUS_POSTS.length > 0) {
+          scheduleData = buildScheduleFromAPI();
+        } else {
+          scheduleData = buildCascade(OPUS_CLIPS);
+        }
         renderCalendar(calMonth, calYear);
         renderOpusCharts(scheduleData);
       });
