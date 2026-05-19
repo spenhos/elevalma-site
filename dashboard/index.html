@@ -62,6 +62,25 @@ canvas { width: 100% !important; max-height: 200px; }
 .cal-tooltip .tt-title { font-size: 12px; font-weight: 600; margin-bottom: 3px; white-space: normal; }
 .cal-tooltip .tt-meta { font-size: 11px; color: #aaa; }
 .cal-pill.published { opacity: 0.55; text-decoration: line-through; }
+/* Drag & drop */
+.cal-pill[draggable="true"] { cursor: grab; }
+.cal-pill[draggable="true"]:active { cursor: grabbing; }
+.cal-pill.dragging { opacity: 0.35; transform: scale(0.95); }
+.cal-day.drag-over { background: #fff8e1; border-color: #b8941f; box-shadow: 0 0 0 2px rgba(184,148,31,0.35); }
+.cal-day.no-publish.drag-over { background: repeating-linear-gradient(135deg,#ffe0e0,#ffe0e0 4px,#ffd0d0 4px,#ffd0d0 8px); border-color: #c0392b; }
+.reschedule-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.reschedule-modal .rm-box { background: #fff; border-radius: 16px; padding: 28px; max-width: 400px; width: 90%; box-shadow: 0 12px 48px rgba(0,0,0,0.2); }
+.reschedule-modal h3 { font-size: 18px; margin-bottom: 12px; }
+.reschedule-modal .rm-info { font-size: 14px; color: #666; margin-bottom: 16px; line-height: 1.6; }
+.reschedule-modal .rm-time { display: flex; gap: 8px; align-items: center; margin-bottom: 16px; }
+.reschedule-modal .rm-time input { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
+.reschedule-modal .rm-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.reschedule-modal .rm-btn { padding: 8px 20px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 600; }
+.reschedule-modal .rm-confirm { background: #b8941f; color: #fff; }
+.reschedule-modal .rm-confirm:hover { background: #a07d15; }
+.reschedule-modal .rm-cancel { background: #f0ede8; color: #666; }
+.reschedule-modal .rm-cancel:hover { background: #e5e0d5; }
+.reschedule-modal .rm-status { font-size: 13px; color: #888; margin-top: 8px; }
 .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
 .status-dot.sched { background: #b8941f; }
 .status-dot.pub { background: #1DB954; }
@@ -335,6 +354,81 @@ tr:last-child td { border-bottom: none; }
 <div class="card" style="margin-bottom:16px;">
   <h3>Resumen de Cascada</h3>
   <div id="cascade-summary" class="opus-status">Calculando...</div>
+</div>
+
+<!-- OPUS WORKFLOW -->
+<div class="card" style="margin-bottom:16px; border: 2px solid #b8941f; background: linear-gradient(135deg, #fffcf5, #fff8e8);">
+  <h3 style="display:flex;align-items:center;gap:8px;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b8941f" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Nuevo Clip Pipeline
+  </h3>
+
+  <!-- Step 1: YouTube Link -->
+  <div id="wf-step1" style="margin-top:16px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span style="background:#b8941f;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">1</span>
+      <b>Pega el link de YouTube</b>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <input type="text" id="wf-yt-url" placeholder="https://www.youtube.com/watch?v=..." style="flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+      <button class="opus-btn" style="margin:0;padding:10px 20px;font-size:14px;" onclick="wfFetchVideo()">Buscar</button>
+    </div>
+    <div id="wf-video-info" style="display:none;margin-top:12px;padding:12px;background:#fff;border-radius:10px;border:1px solid #e8e5df;">
+      <div style="display:flex;gap:12px;align-items:center;">
+        <img id="wf-thumb" src="" style="width:120px;border-radius:8px;">
+        <div>
+          <div id="wf-title" style="font-weight:600;font-size:15px;"></div>
+          <div id="wf-meta" style="font-size:13px;color:#888;margin-top:4px;"></div>
+          <a id="wf-opus-link" href="#" target="_blank" class="opus-btn" style="display:inline-block;margin-top:8px;padding:8px 16px;font-size:13px;text-decoration:none;">
+            Abrir en Opus &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Project ID -->
+  <div id="wf-step2" style="margin-top:20px;opacity:0.4;pointer-events:none;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span style="background:#b8941f;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">2</span>
+      <b>Ingresa el Project ID de Opus</b>
+      <span style="font-size:12px;color:#999;">(cópialo de la URL: opus.pro/projects/<b>PROJECT_ID</b>)</span>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <input type="text" id="wf-project-id" placeholder="P3051714CLWg" style="flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:monospace;">
+      <button class="opus-btn" style="margin:0;padding:10px 20px;font-size:14px;" onclick="wfFetchClips()">Cargar Clips</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Select clips & schedule -->
+  <div id="wf-step3" style="margin-top:20px;opacity:0.4;pointer-events:none;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span style="background:#b8941f;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">3</span>
+      <b>Selecciona clips y programa</b>
+    </div>
+    <div id="wf-clips-list" style="margin-bottom:12px;"></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+      <label style="font-size:14px;">Fecha inicio:</label>
+      <input type="date" id="wf-start-date" style="padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+      <label style="font-size:14px;">Patrón:</label>
+      <select id="wf-pattern" style="padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+        <option value="cascade">Cascada (3→3→2→2→1→1)</option>
+        <option value="daily">Diario</option>
+        <option value="eod">Cada 2 días</option>
+        <option value="custom">Personalizado</option>
+      </select>
+      <label style="font-size:14px;">Plataformas:</label>
+      <label style="font-size:13px;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="wf-p-tt" checked> TikTok</label>
+      <label style="font-size:13px;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="wf-p-ig" checked> Instagram</label>
+      <label style="font-size:13px;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="wf-p-yt" checked> YouTube</label>
+    </div>
+    <div id="wf-preview" style="display:none;margin-bottom:12px;padding:12px;background:#fff;border-radius:10px;border:1px solid #e8e5df;max-height:300px;overflow-y:auto;font-size:13px;"></div>
+    <div style="display:flex;gap:8px;">
+      <button class="opus-btn" style="margin:0;padding:10px 20px;font-size:14px;background:#666;" onclick="wfPreviewSchedule()">Vista previa</button>
+      <button class="opus-btn" style="margin:0;padding:10px 20px;font-size:14px;background:#1DB954;" id="wf-schedule-btn" onclick="wfExecuteSchedule()" disabled>Programar todo</button>
+    </div>
+    <div id="wf-schedule-status" style="margin-top:8px;font-size:13px;"></div>
+  </div>
 </div>
 
 </div><!-- end #dashboard -->
@@ -745,7 +839,20 @@ function go() {
             var isPub = isPostPublished(clipKey, platforms[p].cls, dateStr);
             var pubCls = isPub ? ' published' : '';
             var statusIcon = isPub ? '<span class="status-dot pub"></span>' : '<span class="status-dot sched"></span>';
-            pills += '<div class="cal-pill '+platforms[p].cls+pubCls+'">' +
+            // Get schedule metadata for drag & drop
+            var postObj = getPostData(clipKey, platforms[p].cls);
+            var dragAttr = '';
+            if (!isPub && postObj && postObj.scheduleId) {
+              dragAttr = ' draggable="true" data-schedule-id="'+postObj.scheduleId+'"' +
+                ' data-clip-id="'+clipKey+'"' +
+                ' data-project-id="'+(scheduleData[s].clip.id||'').split('.')[0]+'"' +
+                ' data-platform="'+postObj.platformRaw+'"' +
+                ' data-post-detail=\''+JSON.stringify(postObj.postDetail||{})+'\'' +
+                ' data-sub-account="'+(postObj.subAccountId||'')+'"' +
+                ' data-original-time="'+postObj.t+'"' +
+                ' data-platform-cls="'+platforms[p].cls+'"';
+            }
+            pills += '<div class="cal-pill '+platforms[p].cls+pubCls+'"'+dragAttr+'>' +
               statusIcon + platforms[p].time +
               '<div class="cal-tooltip">' +
               (thumbUrl ? '<img src="'+thumbUrl+'" alt="preview">' : '') +
@@ -757,7 +864,7 @@ function go() {
         }
       }
 
-      grid.innerHTML += '<div class="'+cls+'"><div class="dn">'+d+'</div>'+pills+'</div>';
+      grid.innerHTML += '<div class="'+cls+'" data-date="'+dateStr+'"><div class="dn">'+d+'</div>'+pills+'</div>';
     }
   }
 
@@ -1123,6 +1230,178 @@ function ytaChart(id, type, labels, datasets, opts) {
   return new Chart(document.getElementById(id), cfg);
 }
 
+// === DRAG & DROP RESCHEDULING ===
+var dragData = null;
+
+document.addEventListener('dragstart', function(e) {
+  var pill = e.target.closest('.cal-pill[draggable="true"]');
+  if (!pill) return;
+  pill.classList.add('dragging');
+  dragData = {
+    scheduleId: pill.dataset.scheduleId,
+    clipId: pill.dataset.clipId,
+    projectId: pill.dataset.projectId,
+    platform: pill.dataset.platform,
+    postDetail: JSON.parse(pill.dataset.postDetail || '{}'),
+    subAccount: pill.dataset.subAccount,
+    originalTime: pill.dataset.originalTime,
+    platformCls: pill.dataset.platformCls
+  };
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', dragData.scheduleId);
+});
+
+document.addEventListener('dragend', function(e) {
+  var pill = e.target.closest('.cal-pill');
+  if (pill) pill.classList.remove('dragging');
+  // Remove all drag-over states
+  var overs = document.querySelectorAll('.cal-day.drag-over');
+  for (var i = 0; i < overs.length; i++) overs[i].classList.remove('drag-over');
+  dragData = null;
+});
+
+document.addEventListener('dragover', function(e) {
+  var day = e.target.closest('.cal-day:not(.empty)');
+  if (!day || !dragData) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  // Clear other highlights
+  var overs = document.querySelectorAll('.cal-day.drag-over');
+  for (var i = 0; i < overs.length; i++) {
+    if (overs[i] !== day) overs[i].classList.remove('drag-over');
+  }
+  day.classList.add('drag-over');
+});
+
+document.addEventListener('dragleave', function(e) {
+  var day = e.target.closest('.cal-day');
+  if (day && !day.contains(e.relatedTarget)) {
+    day.classList.remove('drag-over');
+  }
+});
+
+document.addEventListener('drop', function(e) {
+  e.preventDefault();
+  var day = e.target.closest('.cal-day:not(.empty)');
+  if (!day || !dragData) return;
+  day.classList.remove('drag-over');
+
+  var targetDate = day.dataset.date;
+  if (!targetDate) return;
+
+  // Extract original time (hour:minute) from the original ISO string
+  var origDate = new Date(dragData.originalTime);
+  var hours = origDate.getUTCHours();
+  var mins = origDate.getUTCMinutes();
+
+  showRescheduleModal(dragData, targetDate, hours, mins);
+});
+
+function showRescheduleModal(data, targetDate, defaultHour, defaultMin) {
+  // Remove existing modal
+  var existing = document.getElementById('reschedule-modal');
+  if (existing) existing.remove();
+
+  var dateParts = targetDate.split('-');
+  var dateLabel = parseInt(dateParts[2]) + '/' + parseInt(dateParts[1]) + '/' + dateParts[0];
+  var platformLabel = {
+    'YOUTUBE': 'YouTube', 'TIKTOK_BUSINESS': 'TikTok', 'INSTAGRAM_BUSINESS': 'Instagram', 'FACEBOOK': 'Facebook'
+  }[data.platform] || data.platform;
+  var timeVal = String(defaultHour).padStart(2,'0') + ':' + String(defaultMin).padStart(2,'0');
+
+  var modal = document.createElement('div');
+  modal.id = 'reschedule-modal';
+  modal.className = 'reschedule-modal';
+  modal.innerHTML =
+    '<div class="rm-box">' +
+    '<h3>Reprogramar publicación</h3>' +
+    '<div class="rm-info">' +
+    '<b>' + platformLabel + '</b><br>' +
+    'Clip: ' + (data.clipId || '—') + '<br>' +
+    'Nueva fecha: <b>' + dateLabel + '</b>' +
+    '</div>' +
+    '<div class="rm-time">' +
+    '<label>Hora (UTC):</label>' +
+    '<input type="time" id="rm-time-input" value="' + timeVal + '">' +
+    '</div>' +
+    '<div class="rm-actions">' +
+    '<button class="rm-btn rm-cancel" onclick="closeRescheduleModal()">Cancelar</button>' +
+    '<button class="rm-btn rm-confirm" id="rm-confirm-btn" onclick="confirmReschedule()">Reprogramar</button>' +
+    '</div>' +
+    '<div class="rm-status" id="rm-status"></div>' +
+    '</div>';
+
+  document.body.appendChild(modal);
+
+  // Store data for confirm
+  window._rescheduleData = data;
+  window._rescheduleDate = targetDate;
+
+  // Close on backdrop click
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeRescheduleModal();
+  });
+}
+
+function closeRescheduleModal() {
+  var m = document.getElementById('reschedule-modal');
+  if (m) m.remove();
+  window._rescheduleData = null;
+  window._rescheduleDate = null;
+}
+
+function confirmReschedule() {
+  var data = window._rescheduleData;
+  var targetDate = window._rescheduleDate;
+  if (!data || !targetDate) return;
+
+  var timeInput = document.getElementById('rm-time-input').value;
+  var statusEl = document.getElementById('rm-status');
+  var btn = document.getElementById('rm-confirm-btn');
+
+  if (!timeInput) { statusEl.textContent = 'Selecciona una hora'; return; }
+
+  var publishAt = targetDate + 'T' + timeInput + ':00.000Z';
+
+  btn.disabled = true;
+  btn.textContent = 'Reprogramando...';
+  statusEl.textContent = '';
+
+  fetch(ELEVALMA_API + '/api/opus-reschedule', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      scheduleId: data.scheduleId,
+      projectId: data.projectId,
+      clipId: data.clipId,
+      platform: data.platform,
+      publishAt: publishAt,
+      postDetail: data.postDetail,
+      subAccountId: data.subAccount || undefined
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(result) {
+    if (result.success) {
+      statusEl.innerHTML = '<span style="color:#1DB954;">Reprogramado exitosamente</span>';
+      // Reload calendar after short delay
+      setTimeout(function() {
+        closeRescheduleModal();
+        loadOpus(); // Refresh data from API
+      }, 1200);
+    } else {
+      statusEl.innerHTML = '<span style="color:#c0392b;">Error: ' + (result.error || 'Falló la reprogramación') + '</span>';
+      btn.disabled = false;
+      btn.textContent = 'Reprogramar';
+    }
+  })
+  .catch(function(err) {
+    statusEl.innerHTML = '<span style="color:#c0392b;">Error de red: ' + err.message + '</span>';
+    btn.disabled = false;
+    btn.textContent = 'Reprogramar';
+  });
+}
+
 function ytaTrafficLabel(source) {
   var map = {
     'YT_SEARCH': 'Búsqueda YT',
@@ -1144,6 +1423,279 @@ function ytaTrafficLabel(source) {
     'RELATED_VIDEO': 'Videos relacionados'
   };
   return map[source] || source;
+}
+
+// === OPUS WORKFLOW ===
+var wfVideoId = '';
+var wfClips = [];
+var wfSchedulePlan = [];
+
+function wfExtractVideoId(url) {
+  var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+function wfFetchVideo() {
+  var url = document.getElementById('wf-yt-url').value.trim();
+  var videoId = wfExtractVideoId(url);
+  if (!videoId) { alert('URL de YouTube no válida'); return; }
+
+  wfVideoId = videoId;
+  var AK = 'AIzaSyCGX-QSET9JcUVPLYetbxVTuKI7ZPhlWvY';
+
+  fetch('https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=' + videoId + '&key=' + AK)
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (!d.items || !d.items.length) { alert('Video no encontrado'); return; }
+      var v = d.items[0];
+      document.getElementById('wf-thumb').src = v.snippet.thumbnails.medium.url;
+      document.getElementById('wf-title').textContent = v.snippet.title;
+      document.getElementById('wf-meta').textContent = v.snippet.channelTitle + ' · ' + v.snippet.publishedAt.split('T')[0];
+      document.getElementById('wf-opus-link').href = 'https://www.opus.pro/?url=https://www.youtube.com/watch?v=' + videoId;
+      document.getElementById('wf-video-info').style.display = 'block';
+
+      // Unlock step 2
+      var step2 = document.getElementById('wf-step2');
+      step2.style.opacity = '1';
+      step2.style.pointerEvents = 'auto';
+
+      // Set default start date to tomorrow
+      var tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('wf-start-date').value = tomorrow.toISOString().split('T')[0];
+    })
+    .catch(function(err) { alert('Error al buscar video: ' + err.message); });
+}
+
+function wfFetchClips() {
+  var projectId = document.getElementById('wf-project-id').value.trim();
+  if (!projectId) { alert('Ingresa un Project ID'); return; }
+
+  fetch(ELEVALMA_API + '/api/opus-posts?projectIds=' + projectId)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.clips || data.clips.length === 0) {
+        document.getElementById('wf-clips-list').innerHTML = '<div style="color:#c0392b;">No se encontraron clips para este proyecto. Verifica que el Project ID sea correcto y que los clips estén generados en Opus.</div>';
+        return;
+      }
+
+      wfClips = data.clips.map(function(c) {
+        var title = '';
+        if (c.posts && c.posts.length > 0 && c.posts[0].title) title = c.posts[0].title;
+        return {
+          clipId: c.clipId,
+          projectId: projectId,
+          title: title || c.clipId,
+          selected: true,
+          posts: c.posts || []
+        };
+      });
+
+      var html = '<div style="font-size:13px;color:#888;margin-bottom:8px;">'+wfClips.length+' clips encontrados — desmarca los que no quieras programar:</div>';
+      for (var i = 0; i < wfClips.length; i++) {
+        var c = wfClips[i];
+        var hasPosts = c.posts.length > 0;
+        var statusTag = hasPosts ? '<span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:10px;font-size:11px;">Ya tiene '+c.posts.length+' posts</span>' : '';
+        html += '<label style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0ede8;font-size:14px;">' +
+          '<input type="checkbox" class="wf-clip-check" data-idx="'+i+'" '+(c.selected?'checked':'')+'>' +
+          '<span style="font-family:monospace;font-size:12px;color:#999;">'+c.clipId.substring(0,8)+'</span>' +
+          '<span style="flex:1;">'+c.title+'</span>' +
+          statusTag +
+          '</label>';
+      }
+      document.getElementById('wf-clips-list').innerHTML = html;
+
+      // Add thumbnail to PROJECT_THUMBS if we have the video
+      if (wfVideoId) {
+        PROJECT_THUMBS[projectId] = 'https://i.ytimg.com/vi/'+wfVideoId+'/maxresdefault.jpg';
+      }
+
+      // Unlock step 3
+      var step3 = document.getElementById('wf-step3');
+      step3.style.opacity = '1';
+      step3.style.pointerEvents = 'auto';
+
+      // Sync checkboxes
+      document.querySelectorAll('.wf-clip-check').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+          wfClips[parseInt(this.dataset.idx)].selected = this.checked;
+        });
+      });
+    })
+    .catch(function(err) {
+      document.getElementById('wf-clips-list').innerHTML = '<div style="color:#c0392b;">Error: '+err.message+'</div>';
+    });
+}
+
+function wfBuildSchedulePlan() {
+  var selected = wfClips.filter(function(c) { return c.selected; });
+  if (selected.length === 0) return [];
+
+  var startDate = new Date(document.getElementById('wf-start-date').value + 'T12:00:00Z');
+  var pattern = document.getElementById('wf-pattern').value;
+  var useTT = document.getElementById('wf-p-tt').checked;
+  var useIG = document.getElementById('wf-p-ig').checked;
+  var useYT = document.getElementById('wf-p-yt').checked;
+
+  // Platform times (UTC)
+  var platforms = [];
+  if (useTT) platforms.push({ platform: 'TIKTOK_BUSINESS', hour: 13, min: 30, label: 'TikTok 7:30 AM CST' });
+  if (useIG) platforms.push({ platform: 'INSTAGRAM_BUSINESS', hour: 18, min: 0, label: 'Instagram 12:00 PM CST' });
+  if (useYT) platforms.push({ platform: 'YOUTUBE', hour: 2, min: 0, label: 'YouTube 8:00 PM CST (+1d)' });
+
+  // Generate dates based on pattern
+  var dates = [];
+  var current = new Date(startDate);
+
+  if (pattern === 'cascade') {
+    var weekPattern = [3,3,2,2,1,1];
+    var clipIdx = 0;
+    for (var w = 0; w < weekPattern.length && clipIdx < selected.length; w++) {
+      var postsThisWeek = 0;
+      for (var dayOff = 0; dayOff < 7 && postsThisWeek < weekPattern[w] && clipIdx < selected.length; dayOff++) {
+        var d = new Date(current);
+        d.setDate(d.getDate() + dayOff);
+        var ds = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+        var dow = d.getDay();
+        if (isNoPublish(ds, dow)) continue;
+        dates.push(ds);
+        clipIdx++;
+        postsThisWeek++;
+      }
+      current.setDate(current.getDate() + 7);
+    }
+  } else if (pattern === 'daily') {
+    for (var i = 0; i < selected.length; i++) {
+      var d = new Date(startDate);
+      d.setDate(d.getDate() + i);
+      var ds = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      while (isNoPublish(ds, d.getDay())) {
+        d.setDate(d.getDate() + 1);
+        ds = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      }
+      dates.push(ds);
+    }
+  } else if (pattern === 'eod') {
+    var dayCount = 0;
+    for (var i = 0; i < selected.length; i++) {
+      var d = new Date(startDate);
+      d.setDate(d.getDate() + dayCount);
+      var ds = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      while (isNoPublish(ds, d.getDay())) {
+        d.setDate(d.getDate() + 1);
+        ds = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      }
+      dates.push(ds);
+      dayCount += 2;
+    }
+  }
+
+  // Build plan
+  var plan = [];
+  for (var i = 0; i < Math.min(selected.length, dates.length); i++) {
+    for (var p = 0; p < platforms.length; p++) {
+      var publishDate = dates[i];
+      // For YouTube (2:00 UTC), it's actually next day
+      var adjustDay = (platforms[p].platform === 'YOUTUBE') ? 1 : 0;
+      var d = new Date(publishDate + 'T00:00:00Z');
+      d.setDate(d.getDate() + adjustDay);
+      var publishAt = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0') +
+        'T'+String(platforms[p].hour).padStart(2,'0')+':'+String(platforms[p].min).padStart(2,'0')+':00.000Z';
+
+      plan.push({
+        clipId: selected[i].clipId,
+        projectId: selected[i].projectId,
+        platform: platforms[p].platform,
+        publishAt: publishAt,
+        postDetail: { title: selected[i].title },
+        label: platforms[p].label,
+        clipTitle: selected[i].title,
+        dateLabel: dates[i]
+      });
+    }
+  }
+  return plan;
+}
+
+function wfPreviewSchedule() {
+  var plan = wfBuildSchedulePlan();
+  if (plan.length === 0) {
+    document.getElementById('wf-preview').innerHTML = '<span style="color:#c0392b;">Selecciona al menos un clip.</span>';
+    document.getElementById('wf-preview').style.display = 'block';
+    return;
+  }
+
+  wfSchedulePlan = plan;
+
+  var html = '<table style="width:100%;font-size:13px;border-collapse:collapse;">' +
+    '<tr style="border-bottom:2px solid #e8e5df;"><th style="text-align:left;padding:4px 8px;">Fecha</th><th style="text-align:left;padding:4px 8px;">Plataforma</th><th style="text-align:left;padding:4px 8px;">Hora UTC</th><th style="text-align:left;padding:4px 8px;">Clip</th></tr>';
+
+  for (var i = 0; i < plan.length; i++) {
+    var p = plan[i];
+    var platColor = p.platform === 'TIKTOK_BUSINESS' ? '#1a1a1a' : p.platform === 'INSTAGRAM_BUSINESS' ? '#d6249f' : '#FF0000';
+    html += '<tr style="border-bottom:1px solid #f0ede8;">' +
+      '<td style="padding:4px 8px;">' + p.dateLabel + '</td>' +
+      '<td style="padding:4px 8px;color:'+platColor+';font-weight:600;">' + p.label.split(' ')[0] + '</td>' +
+      '<td style="padding:4px 8px;">' + p.publishAt.split('T')[1].substring(0,5) + '</td>' +
+      '<td style="padding:4px 8px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (p.clipTitle||p.clipId) + '</td>' +
+      '</tr>';
+  }
+  html += '</table>';
+  html += '<div style="margin-top:8px;font-weight:600;">Total: ' + plan.length + ' publicaciones</div>';
+
+  document.getElementById('wf-preview').innerHTML = html;
+  document.getElementById('wf-preview').style.display = 'block';
+  document.getElementById('wf-schedule-btn').disabled = false;
+}
+
+function wfExecuteSchedule() {
+  if (wfSchedulePlan.length === 0) return;
+
+  var btn = document.getElementById('wf-schedule-btn');
+  var statusEl = document.getElementById('wf-schedule-status');
+  btn.disabled = true;
+  btn.textContent = 'Programando...';
+  statusEl.textContent = 'Enviando ' + wfSchedulePlan.length + ' publicaciones a Opus...';
+
+  var posts = wfSchedulePlan.map(function(p) {
+    return {
+      projectId: p.projectId,
+      clipId: p.clipId,
+      platform: p.platform,
+      publishAt: p.publishAt,
+      postDetail: p.postDetail
+    };
+  });
+
+  fetch(ELEVALMA_API + '/api/opus-schedule', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ posts: posts })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var ok = 0, fail = 0;
+    if (data.results) {
+      for (var i = 0; i < data.results.length; i++) {
+        if (data.results[i].success) ok++; else fail++;
+      }
+    }
+    if (fail === 0) {
+      statusEl.innerHTML = '<span style="color:#1DB954;font-weight:600;">'+ok+' publicaciones programadas exitosamente</span>';
+      btn.textContent = 'Listo';
+      // Refresh calendar
+      setTimeout(function() { loadOpus(); }, 2000);
+    } else {
+      statusEl.innerHTML = '<span style="color:#E37400;">'+ok+' exitosas, '+fail+' fallaron</span>';
+      btn.disabled = false;
+      btn.textContent = 'Reintentar';
+    }
+  })
+  .catch(function(err) {
+    statusEl.innerHTML = '<span style="color:#c0392b;">Error: '+err.message+'</span>';
+    btn.disabled = false;
+    btn.textContent = 'Programar todo';
+  });
 }
 </script>
 
