@@ -388,14 +388,14 @@ tr:last-child td { border-bottom: none; }
   </div>
 
   <!-- Step 2: Project ID -->
-  <div id="wf-step2" style="margin-top:20px;opacity:0.4;pointer-events:none;">
+  <div id="wf-step2" style="margin-top:20px;">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
       <span style="background:#b8941f;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">2</span>
       <b>Ingresa el Project ID de Opus</b>
-      <span style="font-size:12px;color:#999;">(cópialo de la URL: opus.pro/projects/<b>PROJECT_ID</b>)</span>
+      <span style="font-size:12px;color:#999;">(pega la URL o solo el ID, ej: clip.opus.pro/clip/<b>P30526...</b>)</span>
     </div>
     <div style="display:flex;gap:8px;">
-      <input type="text" id="wf-project-id" placeholder="P3051714CLWg" style="flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:monospace;">
+      <input type="text" id="wf-project-id" placeholder="P3051714CLWg o https://clip.opus.pro/clip/P3051714CLWg" style="flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:monospace;">
       <button class="opus-btn" style="margin:0;padding:10px 20px;font-size:14px;" onclick="wfFetchClips()">Cargar Clips</button>
     </div>
   </div>
@@ -1457,7 +1457,7 @@ function wfFetchVideo() {
       document.getElementById('wf-thumb').src = v.snippet.thumbnails.medium.url;
       document.getElementById('wf-title').textContent = v.snippet.title;
       document.getElementById('wf-meta').textContent = v.snippet.channelTitle + ' · ' + v.snippet.publishedAt.split('T')[0];
-      document.getElementById('wf-opus-link').href = 'https://www.opus.pro/?url=https://www.youtube.com/watch?v=' + videoId;
+      document.getElementById('wf-opus-link').href = 'https://clip.opus.pro/dashboard';
       document.getElementById('wf-video-info').style.display = 'block';
 
       // Unlock step 2
@@ -1474,39 +1474,60 @@ function wfFetchVideo() {
 }
 
 function wfFetchClips() {
-  var projectId = document.getElementById('wf-project-id').value.trim();
-  if (!projectId) { alert('Ingresa un Project ID'); return; }
+  var rawInput = document.getElementById('wf-project-id').value.trim();
+  if (!rawInput) { alert('Ingresa un Project ID o URL'); return; }
 
-  fetch(ELEVALMA_API + '/api/opus-posts?projectIds=' + projectId)
+  // Extract project ID from URL if pasted full URL
+  var urlMatch = rawInput.match(/clip\.opus\.pro\/clip\/([A-Za-z0-9]+)/);
+  var projectId = urlMatch ? urlMatch[1] : rawInput;
+
+  // Update the input to show the clean ID
+  document.getElementById('wf-project-id').value = projectId;
+
+  document.getElementById('wf-clips-list').innerHTML = '<div style="color:#888;">Cargando clips de Opus...</div>';
+
+  fetch(ELEVALMA_API + '/api/opus-clips?projectId=' + encodeURIComponent(projectId) + '&_t=' + Date.now())
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      if (!data.clips || data.clips.length === 0) {
-        document.getElementById('wf-clips-list').innerHTML = '<div style="color:#c0392b;">No se encontraron clips para este proyecto. Verifica que el Project ID sea correcto y que los clips estén generados en Opus.</div>';
+      console.log('opus-clips response:', data);
+
+      if (data.error) {
+        document.getElementById('wf-clips-list').innerHTML = '<div style="color:#c0392b;">Error: ' + (data.details || data.error) + '</div>';
         return;
       }
 
-      wfClips = data.clips.map(function(c) {
-        var title = '';
-        if (c.posts && c.posts.length > 0 && c.posts[0].title) title = c.posts[0].title;
+      var rawClips = data.clips || [];
+
+      if (rawClips.length === 0) {
+        document.getElementById('wf-clips-list').innerHTML = '<div style="color:#c0392b;">No se encontraron clips. Verifica que el Project ID sea correcto y que los clips ya estén generados en Opus.</div>';
+        return;
+      }
+
+      wfClips = rawClips.map(function(c) {
         return {
           clipId: c.clipId,
-          projectId: projectId,
-          title: title || c.clipId,
-          selected: true,
-          posts: c.posts || []
+          projectId: data.projectId || projectId,
+          title: c.title || c.clipId,
+          description: c.description || '',
+          durationMs: c.durationMs || 0,
+          keywords: c.keywords || [],
+          selected: true, // Select all by default
+          posts: []
         };
       });
 
-      var html = '<div style="font-size:13px;color:#888;margin-bottom:8px;">'+wfClips.length+' clips encontrados — desmarca los que no quieras programar:</div>';
+      var html = '<div style="font-size:13px;color:#888;margin-bottom:8px;">' + wfClips.length + ' clips encontrados — desmarca los que no quieras programar:</div>';
       for (var i = 0; i < wfClips.length; i++) {
         var c = wfClips[i];
-        var hasPosts = c.posts.length > 0;
-        var statusTag = hasPosts ? '<span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:10px;font-size:11px;">Ya tiene '+c.posts.length+' posts</span>' : '';
-        html += '<label style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0ede8;font-size:14px;">' +
+        var durSec = Math.round((c.durationMs || 0) / 1000);
+        var durLabel = durSec > 0 ? Math.floor(durSec/60) + ':' + String(durSec%60).padStart(2,'0') : '';
+        var kw = c.keywords.length > 0 ? c.keywords.slice(0,3).join(', ') : '';
+        html += '<label style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0ede8;font-size:14px;">' +
           '<input type="checkbox" class="wf-clip-check" data-idx="'+i+'" '+(c.selected?'checked':'')+'>' +
-          '<span style="font-family:monospace;font-size:12px;color:#999;">'+c.clipId.substring(0,8)+'</span>' +
-          '<span style="flex:1;">'+c.title+'</span>' +
-          statusTag +
+          '<span style="flex:1;"><b>' + c.title + '</b>' +
+          (kw ? '<br><span style="font-size:12px;color:#999;">' + kw + '</span>' : '') +
+          '</span>' +
+          (durLabel ? '<span style="font-size:12px;color:#999;min-width:40px;text-align:right;">' + durLabel + '</span>' : '') +
           '</label>';
       }
       document.getElementById('wf-clips-list').innerHTML = html;
@@ -1521,6 +1542,13 @@ function wfFetchClips() {
       step3.style.opacity = '1';
       step3.style.pointerEvents = 'auto';
 
+      // Set default start date to tomorrow if not set
+      if (!document.getElementById('wf-start-date').value) {
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('wf-start-date').value = tomorrow.toISOString().split('T')[0];
+      }
+
       // Sync checkboxes
       document.querySelectorAll('.wf-clip-check').forEach(function(cb) {
         cb.addEventListener('change', function() {
@@ -1529,7 +1557,7 @@ function wfFetchClips() {
       });
     })
     .catch(function(err) {
-      document.getElementById('wf-clips-list').innerHTML = '<div style="color:#c0392b;">Error: '+err.message+'</div>';
+      document.getElementById('wf-clips-list').innerHTML = '<div style="color:#c0392b;">Error: ' + err.message + '</div>';
     });
 }
 
