@@ -934,13 +934,14 @@ function go() {
   var ALL_PROJECT_IDS = 'P3051714CLWg,P3051717x6De,P30526006dgR'; // ANDA + Yitro + Behar-Bejukotay
 
   var PROJECT_THUMBS = {
-    'P3051714CLWg': 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg',  // ANDA
-    'P3051717x6De': 'https://i.ytimg.com/vi/MNOZIM5ZGLQ/maxresdefault.jpg'   // Yitro
+    'P3051714CLWg': 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg',  // ANDA / Behar-Bejukotay
+    'P3051717x6De': 'https://i.ytimg.com/vi/MNOZIM5ZGLQ/maxresdefault.jpg',  // Yitro
+    'P30526006dgR': 'https://i.ytimg.com/vi/JW9_DzlLex4/maxresdefault.jpg'   // Bamidbar
   };
 
   function getClipThumb(clip) {
-    var projId = (clip.id || '').split('.')[0] || '';
-    return PROJECT_THUMBS[projId] || PROJECT_THUMBS['P3051714CLWg'] || '';
+    var projId = clip.projectId || (clip.id || '').split('.')[0] || '';
+    return PROJECT_THUMBS[projId] || '';
   }
 
   function getClipPostStatus(clipId) {
