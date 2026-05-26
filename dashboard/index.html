@@ -246,13 +246,10 @@ tr:last-child td { border-bottom: none; }
 
 <div class="card" style="margin-bottom:20px;">
   <h3>Episodios recientes</h3>
-  <ul class="epi">
-    <li><img src="https://i.scdn.co/image/ab67656300005f1fa8c48112193f2b5ec78af909" alt=""><div style="flex:1;min-width:0;"><div class="t">ANDA — Dio de Todo Menos su Presencia | Behar Bejukotay 5786</div><div class="m">13 May 2026 · 30 min</div></div><a href="https://open.spotify.com/episode/2U7YmWkHXqeYdJKzKGHBZ5" target="_blank">Abrir</a></li>
-    <li><img src="https://i.scdn.co/image/ab67656300005f1fe0404fbceb2b6779937c866c" alt=""><div style="flex:1;min-width:0;"><div class="t">LIMPIA TAHOR — ¿Y Si Tú Causaste El Daño? | Emor 5786</div><div class="m">30 Abr 2026 · 23 min</div></div><a href="https://open.spotify.com/episode/6yci8wS9Psg3rmWrrTijZU" target="_blank">Abrir</a></li>
-    <li><img src="https://i.scdn.co/image/ab67656300005f1faf0eab00f912fcfbe647bd52" alt=""><div style="flex:1;min-width:0;"><div class="t">YA — 24,000 Errores, Ni Uno Más | Tzav 5786</div><div class="m">27 Mar 2026 · 23 min</div></div><a href="https://open.spotify.com/episode/3QrC3lXM8v0jAIKwbYe7iv" target="_blank">Abrir</a></li>
-    <li><img src="https://i.scdn.co/image/ab67656300005f1fe6e716d14da6eca1958e4313" alt=""><div style="flex:1;min-width:0;"><div class="t">EN TI — Perashat Terumá 5786</div><div class="m">18 Feb 2026 · 28 min</div></div><a href="https://open.spotify.com/episode/6vkU89cwZnm4tqYKfBJboX" target="_blank">Abrir</a></li>
+  <ul class="epi" id="spotify-episodes">
+    <li style="color:#aaa;font-size:14px;">Cargando episodios...</li>
   </ul>
-  <div class="status"><a href="https://open.spotify.com/show/054bnaJPZCms5gtcxLjVkB" target="_blank" style="color:#1DB954;">Ver show completo en Spotify</a></div>
+  <div class="status" id="spotify-status"><a href="https://open.spotify.com/show/054bnaJPZCms5gtcxLjVkB" target="_blank" style="color:#1DB954;">Ver show completo en Spotify</a></div>
 </div>
 
 <div class="row g2">
@@ -267,10 +264,10 @@ tr:last-child td { border-bottom: none; }
 </div>
 
 <div class="row">
-  <div class="card"><div class="kl">Blog Posts</div><div class="kv">84</div><div class="kd">Desde agosto 2025</div></div>
-  <div class="card"><div class="kl">Videos en sitio</div><div class="kv">34</div><div class="kd">Indexados en videos.js</div></div>
-  <div class="card"><div class="kl">Cadencia</div><div class="kv">9.3 <span class="u">posts/mes</span></div><div class="kd">Últimos 9 meses</div></div>
-  <div class="card"><div class="kl">Series activas</div><div class="kv">3</div><div class="kd">Parashá · Omer · 13 Atributos</div></div>
+  <div class="card"><div class="kl">Blog Posts</div><div class="kv" id="kpi-blog-posts">...</div><div class="kd" id="kpi-blog-since">Cargando...</div></div>
+  <div class="card"><div class="kl">Videos en sitio</div><div class="kv" id="kpi-videos">...</div><div class="kd">Indexados en videos.js</div></div>
+  <div class="card"><div class="kl">Cadencia</div><div class="kv" id="kpi-cadencia">... <span class="u">posts/mes</span></div><div class="kd" id="kpi-cadencia-detail">Calculando...</div></div>
+  <div class="card"><div class="kl">Series activas</div><div class="kv" id="kpi-series">...</div><div class="kd" id="kpi-series-detail">Cargando...</div></div>
 </div>
 
 <div class="row g2">
@@ -444,6 +441,8 @@ function unlockDashboard(email) {
   document.getElementById('user-email').textContent = email;
   go();
   loadYTChannels();
+  loadSpotifyEpisodes();
+  loadBlogStats();
 }
 
 function handleCredentialResponse(response) {
@@ -557,9 +556,9 @@ function go() {
       mkChart('c1', 'bar', ['Behar-Bej.','Lag BaOmer','Emor','Kedoshim','Ajarei Mot','Tazría'], [{ label:'Sin conexión', data:[0,0,0,0,0,0], backgroundColor:'#ddd' }]);
     });
 
-  // Spotify
-  mkChart('c2', 'bar', ['Behar-Bej.','Emor','Tzav','Terumá'], [{ data: [30,23,23,28], backgroundColor: green, borderRadius: 6 }]);
-  mkChart('c3', 'line', ['Ene','Feb','Mar','Abr','May'], [{ data: [4,5,6,8,2], borderColor: green, backgroundColor: gR, fill: true, tension: 0.4, pointBackgroundColor: green, pointRadius: 5 }]);
+  // Spotify charts — will be updated dynamically by loadSpotifyEpisodes()
+  mkChart('c2', 'bar', ['Cargando...'], [{ data: [0], backgroundColor: green, borderRadius: 6 }]);
+  mkChart('c3', 'line', ['Cargando...'], [{ data: [0], borderColor: green, backgroundColor: gR, fill: true, tension: 0.4, pointBackgroundColor: green, pointRadius: 5 }]);
 
   // Content
   mkChart('c6', 'bar', ['Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr','May'], [{ data: [1,21,5,4,2,5,7,18,19,2], backgroundColor: [gL,gold,gL,gL,gL,gL,gL,gold,gold,gL], borderColor: gold, borderWidth: 1, borderRadius: 6 }]);
@@ -596,6 +595,145 @@ function go() {
     }
     new Chart(document.getElementById(id), cfg);
   }
+}
+
+// === SPOTIFY DYNAMIC EPISODES ===
+var spotifyChartC2 = null;
+var spotifyChartC3 = null;
+
+function loadSpotifyEpisodes() {
+  fetch('https://elevalma-api.vercel.app/api/spotify-episodes?limit=10')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        document.getElementById('spotify-episodes').innerHTML = '<li style="color:#c0392b;font-size:14px;">Error: ' + data.message + '</li>';
+        return;
+      }
+      var eps = data.episodes || [];
+      if (eps.length === 0) {
+        document.getElementById('spotify-episodes').innerHTML = '<li style="color:#aaa;">No se encontraron episodios</li>';
+        return;
+      }
+      var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      var html = '';
+      // Show first 6 episodes in the list
+      var showEps = eps.slice(0, 6);
+      for (var i = 0; i < showEps.length; i++) {
+        var ep = showEps[i];
+        var dur = Math.round((ep.durationMs || 0) / 60000);
+        var parts = (ep.releaseDate || '').split('-');
+        var dateStr = parts.length >= 3 ? parseInt(parts[2]) + ' ' + months[parseInt(parts[1]) - 1] + ' ' + parts[0] : ep.releaseDate;
+        html += '<li><img src="' + (ep.image || '') + '" alt="">'
+          + '<div style="flex:1;min-width:0;"><div class="t">' + (ep.name || 'Sin título') + '</div>'
+          + '<div class="m">' + dateStr + ' · ' + dur + ' min</div></div>'
+          + '<a href="' + (ep.url || '#') + '" target="_blank">Abrir</a></li>';
+      }
+      document.getElementById('spotify-episodes').innerHTML = html;
+      document.getElementById('spotify-status').innerHTML = '<a href="https://open.spotify.com/show/054bnaJPZCms5gtcxLjVkB" target="_blank" style="color:#1DB954;">Ver show completo en Spotify</a> · ' + (data.totalEpisodes || eps.length) + ' episodios · Actualizado ' + new Date(data.updatedAt).toLocaleString('es-MX');
+
+      // Update Spotify charts with real data
+      var green = '#1DB954', gR = 'rgba(29,185,84,0.15)';
+      // Chart c2: Duration of recent episodes (reverse so oldest first)
+      var chartEps = eps.slice(0, 8).reverse();
+      var durLabels = [], durData = [];
+      for (var j = 0; j < chartEps.length; j++) {
+        var t = chartEps[j].name || '';
+        durLabels.push(t.length > 18 ? t.substring(0, 18) + '...' : t);
+        durData.push(Math.round((chartEps[j].durationMs || 0) / 60000));
+      }
+      if (spotifyChartC2) spotifyChartC2.destroy();
+      spotifyChartC2 = new Chart(document.getElementById('c2'), {
+        type: 'bar',
+        data: { labels: durLabels, datasets: [{ data: durData, backgroundColor: green, borderRadius: 6 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f0ede8' } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } } } }
+      });
+
+      // Chart c3: Publication frequency by month
+      var monthCount = {};
+      for (var k = 0; k < eps.length; k++) {
+        var p = (eps[k].releaseDate || '').split('-');
+        if (p.length >= 2) {
+          var key = p[0] + '-' + p[1];
+          monthCount[key] = (monthCount[key] || 0) + 1;
+        }
+      }
+      var sortedMonths = Object.keys(monthCount).sort();
+      var freqLabels = [], freqData = [];
+      for (var m = 0; m < sortedMonths.length; m++) {
+        var mp = sortedMonths[m].split('-');
+        freqLabels.push(months[parseInt(mp[1]) - 1] + ' ' + mp[0].substring(2));
+        freqData.push(monthCount[sortedMonths[m]]);
+      }
+      if (spotifyChartC3) spotifyChartC3.destroy();
+      spotifyChartC3 = new Chart(document.getElementById('c3'), {
+        type: 'line',
+        data: { labels: freqLabels, datasets: [{ data: freqData, borderColor: green, backgroundColor: gR, fill: true, tension: 0.4, pointBackgroundColor: green, pointRadius: 5 }] },
+        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f0ede8' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } } } }
+      });
+    })
+    .catch(function(err) {
+      document.getElementById('spotify-episodes').innerHTML = '<li style="color:#c0392b;font-size:14px;">No se pudo conectar con Spotify API</li>';
+    });
+}
+
+// === BLOG KPI CARDS (from WordPress REST API) ===
+function loadBlogStats() {
+  // Fetch total post count
+  fetch('https://elevalma.com/wp-json/wp/v2/posts?per_page=1&_fields=id,date')
+    .then(function(r) {
+      var total = r.headers.get('X-WP-Total');
+      if (total) {
+        document.getElementById('kpi-blog-posts').textContent = total;
+        // Calculate cadence (Aug 2025 = start)
+        var now = new Date();
+        var months = (now.getFullYear() - 2025) * 12 + (now.getMonth() - 7); // Aug=7
+        if (months > 0) {
+          document.getElementById('kpi-cadencia').innerHTML = (parseInt(total) / months).toFixed(1) + ' <span class="u">posts/mes</span>';
+          document.getElementById('kpi-cadencia-detail').textContent = 'Últimos ' + months + ' meses';
+        }
+        document.getElementById('kpi-blog-since').textContent = 'Desde agosto 2025';
+      }
+      return r.json();
+    })
+    .catch(function() {
+      document.getElementById('kpi-blog-posts').textContent = '—';
+      document.getElementById('kpi-blog-since').textContent = 'Sin conexión a WordPress';
+    });
+
+  // Fetch categories to count series
+  fetch('https://elevalma.com/wp-json/wp/v2/categories?per_page=100&_fields=id,name,count')
+    .then(function(r) { return r.json(); })
+    .then(function(cats) {
+      var activeSeries = [];
+      for (var i = 0; i < cats.length; i++) {
+        if (cats[i].count >= 3) activeSeries.push(cats[i]);
+      }
+      activeSeries.sort(function(a, b) { return b.count - a.count; });
+      document.getElementById('kpi-series').textContent = activeSeries.length;
+      var topNames = [];
+      for (var j = 0; j < Math.min(3, activeSeries.length); j++) {
+        topNames.push(activeSeries[j].name);
+      }
+      document.getElementById('kpi-series-detail').textContent = topNames.join(' · ');
+    })
+    .catch(function() {
+      document.getElementById('kpi-series').textContent = '—';
+      document.getElementById('kpi-series-detail').textContent = 'Sin conexión';
+    });
+
+  // Count videos — fetch posts tagged as video or with video content
+  fetch('https://elevalma.com/wp-json/wp/v2/tags?search=video&_fields=id,count')
+    .then(function(r) { return r.json(); })
+    .then(function(tags) {
+      var videoCount = 0;
+      for (var i = 0; i < tags.length; i++) {
+        if (tags[i].count) videoCount += tags[i].count;
+      }
+      document.getElementById('kpi-videos').textContent = videoCount || '—';
+    })
+    .catch(function() {
+      document.getElementById('kpi-videos').textContent = '—';
+    });
 }
 
 // === OPUS CONTENT CALENDAR ===
