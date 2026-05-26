@@ -79,7 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---- RENDER VIDEOS FROM DATA ----
   const grid = document.getElementById('videos-grid');
   if (grid && typeof SITE_DATA !== 'undefined') {
-    renderVideos(SITE_DATA.videos, 'all');
+    // Load blog URL mapping then render
+    fetch('/api/video-blog-map.json')
+      .then(r => r.ok ? r.json() : {})
+      .catch(() => ({}))
+      .then(blogMap => {
+        window._blogMap = blogMap;
+        renderVideos(SITE_DATA.videos, 'all');
+      });
   }
 
   // ---- FILTER TABS ----
@@ -259,8 +266,13 @@ function renderVideos(videos, category) {
     ? videos
     : videos.filter(v => v.category === category);
 
-  grid.innerHTML = filtered.map((v, i) => `
-    <a href="https://www.youtube.com/watch?v=${v.youtubeId}" target="_blank" rel="noopener"
+  const blogMap = window._blogMap || {};
+  grid.innerHTML = filtered.map((v, i) => {
+    const blogUrl = blogMap[v.youtubeId];
+    const href = blogUrl ? blogUrl : 'https://www.youtube.com/watch?v=' + v.youtubeId;
+    const target = blogUrl ? '' : ' target="_blank" rel="noopener"';
+    return `
+    <a href="${href}"${target}
        class="video-card reveal stagger-${Math.min(i + 1, 6)}">
       <div class="video-card-thumb">
         <img src="https://img.youtube.com/vi/${v.youtubeId}/mqdefault.jpg" alt="${v.title}" loading="lazy">
@@ -276,7 +288,7 @@ function renderVideos(videos, category) {
         </div>
       </div>
     </a>
-  `).join('');
+  `}).join('');
 
   requestAnimationFrame(() => {
     grid.querySelectorAll('.reveal').forEach(el => {
