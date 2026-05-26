@@ -635,44 +635,49 @@ function loadSpotifyEpisodes() {
       document.getElementById('spotify-status').innerHTML = '<a href="https://open.spotify.com/show/054bnaJPZCms5gtcxLjVkB" target="_blank" style="color:#1DB954;">Ver show completo en Spotify</a> · ' + (data.totalEpisodes || eps.length) + ' episodios · Actualizado ' + new Date(data.updatedAt).toLocaleString('es-MX');
 
       // Update Spotify charts with real data
-      var green = '#1DB954', gR = 'rgba(29,185,84,0.15)';
-      // Chart c2: Duration of recent episodes (reverse so oldest first)
-      var chartEps = eps.slice(0, 8).reverse();
-      var durLabels = [], durData = [];
-      for (var j = 0; j < chartEps.length; j++) {
-        var t = chartEps[j].name || '';
-        durLabels.push(t.length > 18 ? t.substring(0, 18) + '...' : t);
-        durData.push(Math.round((chartEps[j].durationMs || 0) / 60000));
-      }
-      if (spotifyChartC2) spotifyChartC2.destroy();
-      spotifyChartC2 = new Chart(document.getElementById('c2'), {
-        type: 'bar',
-        data: { labels: durLabels, datasets: [{ data: durData, backgroundColor: green, borderRadius: 6 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f0ede8' } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } } } }
-      });
-
-      // Chart c3: Publication frequency by month
-      var monthCount = {};
-      for (var k = 0; k < eps.length; k++) {
-        var p = (eps[k].releaseDate || '').split('-');
-        if (p.length >= 2) {
-          var key = p[0] + '-' + p[1];
-          monthCount[key] = (monthCount[key] || 0) + 1;
+      try {
+        var green = '#1DB954', gR = 'rgba(29,185,84,0.15)';
+        // Chart c2: Duration of recent episodes (reverse so oldest first)
+        var chartEps = eps.slice(0, 8).reverse();
+        var durLabels = [], durData = [];
+        for (var j = 0; j < chartEps.length; j++) {
+          var t = chartEps[j].name || '';
+          durLabels.push(t.length > 18 ? t.substring(0, 18) + '...' : t);
+          durData.push(Math.round((chartEps[j].durationMs || 0) / 60000));
         }
-      }
-      var sortedMonths = Object.keys(monthCount).sort();
-      var freqLabels = [], freqData = [];
-      for (var m = 0; m < sortedMonths.length; m++) {
-        var mp = sortedMonths[m].split('-');
-        freqLabels.push(months[parseInt(mp[1]) - 1] + ' ' + mp[0].substring(2));
-        freqData.push(monthCount[sortedMonths[m]]);
-      }
-      if (spotifyChartC3) spotifyChartC3.destroy();
-      spotifyChartC3 = new Chart(document.getElementById('c3'), {
-        type: 'line',
-        data: { labels: freqLabels, datasets: [{ data: freqData, borderColor: green, backgroundColor: gR, fill: true, tension: 0.4, pointBackgroundColor: green, pointRadius: 5 }] },
-        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f0ede8' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } } } }
-      });
+        // Destroy existing chart on c2 canvas
+        var existC2 = Chart.getChart('c2');
+        if (existC2) existC2.destroy();
+        spotifyChartC2 = new Chart(document.getElementById('c2'), {
+          type: 'bar',
+          data: { labels: durLabels, datasets: [{ data: durData, backgroundColor: green, borderRadius: 6 }] },
+          options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f0ede8' } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } } } }
+        });
+
+        // Chart c3: Publication frequency by month
+        var monthCount = {};
+        for (var k = 0; k < eps.length; k++) {
+          var p = (eps[k].releaseDate || '').split('-');
+          if (p.length >= 2) {
+            var key = p[0] + '-' + p[1];
+            monthCount[key] = (monthCount[key] || 0) + 1;
+          }
+        }
+        var sortedMonths = Object.keys(monthCount).sort();
+        var freqLabels = [], freqData = [];
+        for (var m = 0; m < sortedMonths.length; m++) {
+          var mp = sortedMonths[m].split('-');
+          freqLabels.push(months[parseInt(mp[1]) - 1] + ' ' + mp[0].substring(2));
+          freqData.push(monthCount[sortedMonths[m]]);
+        }
+        var existC3 = Chart.getChart('c3');
+        if (existC3) existC3.destroy();
+        spotifyChartC3 = new Chart(document.getElementById('c3'), {
+          type: 'line',
+          data: { labels: freqLabels, datasets: [{ data: freqData, borderColor: green, backgroundColor: gR, fill: true, tension: 0.4, pointBackgroundColor: green, pointRadius: 5 }] },
+          options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f0ede8' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } } } }
+        });
+      } catch(chartErr) { console.warn('Spotify charts error:', chartErr); }
     })
     .catch(function(err) {
       document.getElementById('spotify-episodes').innerHTML = '<li style="color:#c0392b;font-size:14px;">Spotify: ' + (err.message || 'Error de conexión') + '</li>';
