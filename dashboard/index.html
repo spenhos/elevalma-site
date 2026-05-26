@@ -1509,9 +1509,10 @@ function wfFetchClips() {
           projectId: data.projectId || projectId,
           title: c.title || c.clipId,
           description: c.description || '',
+          hashtags: c.hashtags || '',
           durationMs: c.durationMs || 0,
           keywords: c.keywords || [],
-          selected: true, // Select all by default
+          selected: true,
           posts: []
         };
       });
@@ -1639,7 +1640,14 @@ function wfBuildSchedulePlan() {
         projectId: selected[i].projectId,
         platform: platforms[p].platform,
         publishAt: publishAt,
-        postDetail: { title: selected[i].title },
+        postDetail: {
+          title: selected[i].title,
+          mediaType: 'video',
+          custom: {
+            description: (selected[i].description || selected[i].title) + '\n\n' + (selected[i].hashtags || '#ElevAlma #Torah'),
+            privacy: 'public'
+          }
+        },
         label: platforms[p].label,
         clipTitle: selected[i].title,
         dateLabel: dates[i]
@@ -1691,7 +1699,7 @@ function wfExecuteSchedule() {
   var statusEl = document.getElementById('wf-schedule-status');
   btn.disabled = true;
   btn.textContent = 'Programando...';
-  statusEl.textContent = 'Enviando ' + wfSchedulePlan.length + ' publicaciones a Opus...';
+  statusEl.textContent = 'Enviando ' + wfSchedulePlan.length + ' publicaciones (el servidor las procesa una por una, puede tardar ~' + Math.ceil(wfSchedulePlan.length * 1.5) + 's)...';
 
   var posts = wfSchedulePlan.map(function(p) {
     return {
@@ -1710,25 +1718,29 @@ function wfExecuteSchedule() {
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
-    var ok = 0, fail = 0;
+    var ok = 0, fail = 0, errors = [];
     if (data.results) {
       for (var i = 0; i < data.results.length; i++) {
-        if (data.results[i].success) ok++; else fail++;
+        if (data.results[i].success) ok++;
+        else {
+          fail++;
+          errors.push(data.results[i].error + ' (' + (data.results[i].post?.clipId || '') + ' ' + (data.results[i].post?.platform || '') + ')');
+        }
       }
     }
     if (fail === 0) {
-      statusEl.innerHTML = '<span style="color:#1DB954;font-weight:600;">'+ok+' publicaciones programadas exitosamente</span>';
+      statusEl.innerHTML = '<span style="color:#1DB954;font-weight:600;">' + ok + ' publicaciones programadas exitosamente</span>';
       btn.textContent = 'Listo';
-      // Refresh calendar
       setTimeout(function() { loadOpus(); }, 2000);
     } else {
-      statusEl.innerHTML = '<span style="color:#E37400;">'+ok+' exitosas, '+fail+' fallaron</span>';
+      statusEl.innerHTML = '<span style="color:#E37400;">' + ok + ' exitosas, ' + fail + ' fallaron</span>' +
+        '<details style="margin-top:4px;font-size:12px;color:#999;"><summary>Ver errores</summary>' + errors.join('<br>') + '</details>';
       btn.disabled = false;
       btn.textContent = 'Reintentar';
     }
   })
   .catch(function(err) {
-    statusEl.innerHTML = '<span style="color:#c0392b;">Error: '+err.message+'</span>';
+    statusEl.innerHTML = '<span style="color:#c0392b;">Error: ' + err.message + '</span>';
     btn.disabled = false;
     btn.textContent = 'Programar todo';
   });
