@@ -688,64 +688,57 @@ function loadSpotifyEpisodes() {
     });
 }
 
-// === BLOG KPI CARDS (from WordPress REST API) ===
+// === BLOG KPI CARDS (from Jekyll-generated JSON) ===
 function loadBlogStats() {
-  // Fetch total post count
-  fetch('https://elevalma.com/wp-json/wp/v2/posts?per_page=1&_fields=id,date')
+  fetch('/api/blog-stats.json')
     .then(function(r) {
-      var total = r.headers.get('X-WP-Total');
-      if (total) {
-        document.getElementById('kpi-blog-posts').textContent = total;
-        // Calculate cadence (Aug 2025 = start)
-        var now = new Date();
-        var months = (now.getFullYear() - 2025) * 12 + (now.getMonth() - 7); // Aug=7
-        if (months > 0) {
-          document.getElementById('kpi-cadencia').innerHTML = (parseInt(total) / months).toFixed(1) + ' <span class="u">posts/mes</span>';
-          document.getElementById('kpi-cadencia-detail').textContent = 'Últimos ' + months + ' meses';
-        }
-        document.getElementById('kpi-blog-since').textContent = 'Desde agosto 2025';
-      }
+      if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     })
-    .catch(function() {
-      document.getElementById('kpi-blog-posts').textContent = '—';
-      document.getElementById('kpi-blog-since').textContent = 'Sin conexión a WordPress';
-    });
+    .then(function(data) {
+      // Total posts
+      document.getElementById('kpi-blog-posts').textContent = data.totalPosts || '—';
+      document.getElementById('kpi-blog-since').textContent = 'Desde ' + formatMonth(data.firstPostDate);
 
-  // Fetch categories to count series
-  fetch('https://elevalma.com/wp-json/wp/v2/categories?per_page=100&_fields=id,name,count')
-    .then(function(r) { return r.json(); })
-    .then(function(cats) {
+      // Cadence (posts/month)
+      var first = new Date(data.firstPostDate);
+      var now = new Date();
+      var months = (now.getFullYear() - first.getFullYear()) * 12 + (now.getMonth() - first.getMonth());
+      if (months > 0 && data.totalPosts) {
+        document.getElementById('kpi-cadencia').innerHTML = (data.totalPosts / months).toFixed(1) + ' <span class="u">posts/mes</span>';
+        document.getElementById('kpi-cadencia-detail').textContent = 'Últimos ' + months + ' meses';
+      }
+
+      // Videos count from YouTube API (videos publicados)
+      var AK = 'AIzaSyCGX-QSET9JcUVPLYetbxVTuKI7ZPhlWvY';
+      var CH = document.getElementById('yt-channel-select') ? document.getElementById('yt-channel-select').value : 'UCm7TaLFmuImm2wfhCHJJehw';
+      document.getElementById('kpi-videos').textContent = document.getElementById('yt-vids').textContent || '—';
+
+      // Active series from categories
+      var cats = data.categories || [];
       var activeSeries = [];
       for (var i = 0; i < cats.length; i++) {
         if (cats[i].count >= 3) activeSeries.push(cats[i]);
       }
       activeSeries.sort(function(a, b) { return b.count - a.count; });
-      document.getElementById('kpi-series').textContent = activeSeries.length;
+      document.getElementById('kpi-series').textContent = activeSeries.length || '—';
       var topNames = [];
       for (var j = 0; j < Math.min(3, activeSeries.length); j++) {
-        topNames.push(activeSeries[j].name);
+        topNames.push(activeSeries[j].name + ' (' + activeSeries[j].count + ')');
       }
-      document.getElementById('kpi-series-detail').textContent = topNames.join(' · ');
+      document.getElementById('kpi-series-detail').textContent = topNames.join(' · ') || '—';
     })
-    .catch(function() {
-      document.getElementById('kpi-series').textContent = '—';
-      document.getElementById('kpi-series-detail').textContent = 'Sin conexión';
+    .catch(function(err) {
+      document.getElementById('kpi-blog-posts').textContent = '—';
+      document.getElementById('kpi-blog-since').textContent = 'Error: ' + (err.message || 'sin conexión');
     });
+}
 
-  // Count videos — fetch posts tagged as video or with video content
-  fetch('https://elevalma.com/wp-json/wp/v2/tags?search=video&_fields=id,count')
-    .then(function(r) { return r.json(); })
-    .then(function(tags) {
-      var videoCount = 0;
-      for (var i = 0; i < tags.length; i++) {
-        if (tags[i].count) videoCount += tags[i].count;
-      }
-      document.getElementById('kpi-videos').textContent = videoCount || '—';
-    })
-    .catch(function() {
-      document.getElementById('kpi-videos').textContent = '—';
-    });
+function formatMonth(dateStr) {
+  var months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var parts = (dateStr || '').split('-');
+  if (parts.length >= 2) return months[parseInt(parts[1]) - 1] + ' ' + parts[0];
+  return dateStr;
 }
 
 // === OPUS CONTENT CALENDAR ===
