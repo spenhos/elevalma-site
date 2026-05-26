@@ -603,10 +603,13 @@ var spotifyChartC3 = null;
 
 function loadSpotifyEpisodes() {
   fetch('https://elevalma-api.vercel.app/api/spotify-episodes?limit=10')
-    .then(function(r) { return r.json(); })
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
     .then(function(data) {
       if (data.error) {
-        document.getElementById('spotify-episodes').innerHTML = '<li style="color:#c0392b;font-size:14px;">Error: ' + data.message + '</li>';
+        document.getElementById('spotify-episodes').innerHTML = '<li style="color:#c0392b;font-size:14px;">Error: ' + (data.message || data.error) + '</li>';
         return;
       }
       var eps = data.episodes || [];
@@ -672,7 +675,7 @@ function loadSpotifyEpisodes() {
       });
     })
     .catch(function(err) {
-      document.getElementById('spotify-episodes').innerHTML = '<li style="color:#c0392b;font-size:14px;">No se pudo conectar con Spotify API</li>';
+      document.getElementById('spotify-episodes').innerHTML = '<li style="color:#c0392b;font-size:14px;">Spotify: ' + (err.message || 'Error de conexión') + '</li>';
     });
 }
 
