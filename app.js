@@ -109,6 +109,26 @@ document.addEventListener('DOMContentLoaded', () => {
       featImg.src = 'https://img.youtube.com/vi/' + f.youtubeId + '/maxresdefault.jpg';
       featImg.alt = f.title;
     }
+
+    // Update share buttons with featured video URL
+    const ytUrl = 'https://www.youtube.com/watch?v=' + f.youtubeId;
+    const shareText = encodeURIComponent(f.title + ' — ElevAlma');
+    const shareUrl = encodeURIComponent(ytUrl);
+    const sWa = document.getElementById('share-wa');
+    const sFb = document.getElementById('share-fb');
+    const sX = document.getElementById('share-x');
+    const sTg = document.getElementById('share-tg');
+    const sCopy = document.getElementById('share-copy-btn');
+    if (sWa) sWa.href = 'https://api.whatsapp.com/send?text=' + shareText + '%20' + shareUrl;
+    if (sFb) sFb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + shareUrl;
+    if (sX) sX.href = 'https://twitter.com/intent/tweet?text=' + shareText + '&url=' + shareUrl;
+    if (sTg) sTg.href = 'https://t.me/share/url?url=' + shareUrl + '&text=' + shareText;
+    if (sCopy) sCopy.addEventListener('click', function() {
+      navigator.clipboard.writeText(ytUrl);
+      this.classList.add('copied');
+      var btn = this;
+      setTimeout(function(){ btn.classList.remove('copied'); }, 2000);
+    });
   }
 
   // ---- NEWSLETTER FORM (FormSubmit.co) ----
