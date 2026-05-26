@@ -7,21 +7,32 @@
 const SITE_DATA = {
   // Video destacado en el Hero
   featured: {
-    id: "behar-bejukotay-5786",
-    title: "CEGUERA EXISTENCIAL — ¿Quién eres cuando te quitan lo que creías que eras?",
-    subtitle: "Perashá Behar-Bejukotay 5786",
-    description: "Behar-Bejukotay revela tres síntomas de una enfermedad que todos padecemos: la ceguera de creer que lo que posees te define. Un diagnóstico de la Toráh que cambia cómo ves tu vida.",
-    date: "2026-05-13",
-    duration: "28 min",
+    id: "bemidbar-rut-5786",
+    title: "HUIR — ¿Cuándo 'crecer espiritualmente' es HUIR?",
+    subtitle: "Perashá Bamidbar × Meguilat Rut 5786",
+    description: "La decisión que el sistema religioso aplaude puede ser exactamente la que impide que nazca el Mashíaj. Bamidbar y Rut revelan una verdad que nadie quiere escuchar.",
+    date: "2026-05-25",
+    duration: "29 min",
     views: "",
-    youtubeId: "PqosbXntkuQ",
-    thumbnail: "https://img.youtube.com/vi/PqosbXntkuQ/maxresdefault.jpg",
-    tags: ["Parashá", "Behar", "Bejukotay", "Musar"]
+    youtubeId: "JW9_DzlLex4",
+    thumbnail: "https://img.youtube.com/vi/JW9_DzlLex4/maxresdefault.jpg",
+    tags: ["Parashá", "Bamidbar", "Rut", "Teshuvá", "Musar"]
   },
 
   // Todos los videos (más reciente primero)
   videos: [
     // ── PARASHÁ SEMANAL ──
+    {
+      id: "bemidbar-rut-5786",
+      title: "HUIR — ¿Cuándo 'crecer espiritualmente' es HUIR?",
+      series: "Perashá Bamidbar × Meguilat Rut",
+      description: "La decisión que el sistema religioso aplaude puede ser exactamente la que impide que nazca el Mashíaj. Bamidbar y Rut revelan una verdad incómoda.",
+      date: "2026-05-25",
+      duration: "29 min",
+      youtubeId: "JW9_DzlLex4",
+      thumbnail: "https://img.youtube.com/vi/JW9_DzlLex4/maxresdefault.jpg",
+      category: "parasha"
+    },
     {
       id: "behar-bejukotay-5786",
       title: "CEGUERA EXISTENCIAL — ¿Quién eres cuando te quitan lo que creías que eras?",
