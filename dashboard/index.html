@@ -645,10 +645,12 @@ function loadSpotifyEpisodes() {
           durLabels.push(t.length > 18 ? t.substring(0, 18) + '...' : t);
           durData.push(Math.round((chartEps[j].durationMs || 0) / 60000));
         }
-        // Destroy existing chart on c2 canvas
-        var existC2 = Chart.getChart('c2');
-        if (existC2) existC2.destroy();
-        spotifyChartC2 = new Chart(document.getElementById('c2'), {
+        // Replace canvas to avoid Chart.js "already in use" error
+        var oldC2 = document.getElementById('c2');
+        var newC2 = document.createElement('canvas');
+        newC2.id = 'c2'; newC2.height = 200;
+        oldC2.parentNode.replaceChild(newC2, oldC2);
+        spotifyChartC2 = new Chart(newC2, {
           type: 'bar',
           data: { labels: durLabels, datasets: [{ data: durData, backgroundColor: green, borderRadius: 6 }] },
           options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f0ede8' } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } } } }
@@ -670,9 +672,11 @@ function loadSpotifyEpisodes() {
           freqLabels.push(months[parseInt(mp[1]) - 1] + ' ' + mp[0].substring(2));
           freqData.push(monthCount[sortedMonths[m]]);
         }
-        var existC3 = Chart.getChart('c3');
-        if (existC3) existC3.destroy();
-        spotifyChartC3 = new Chart(document.getElementById('c3'), {
+        var oldC3 = document.getElementById('c3');
+        var newC3 = document.createElement('canvas');
+        newC3.id = 'c3'; newC3.height = 200;
+        oldC3.parentNode.replaceChild(newC3, oldC3);
+        spotifyChartC3 = new Chart(newC3, {
           type: 'line',
           data: { labels: freqLabels, datasets: [{ data: freqData, borderColor: green, backgroundColor: gR, fill: true, tension: 0.4, pointBackgroundColor: green, pointRadius: 5 }] },
           options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#f0ede8' }, ticks: { font: { size: 11 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 25 } } } }
