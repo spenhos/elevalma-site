@@ -1635,19 +1635,18 @@ function wfBuildSchedulePlan() {
       var localDt = new Date(publishDate + 'T' + String(platforms[p].localHour).padStart(2,'0') + ':' + String(platforms[p].localMin).padStart(2,'0') + ':00');
       var publishAt = localDt.toISOString();
 
+      var clipDesc = (selected[i].description || selected[i].title) + '\n\n' + (selected[i].hashtags || '#ElevAlma #Torah');
+      var isYT = platforms[p].platform === 'YOUTUBE';
+      var postDetail = isYT
+        ? { title: selected[i].title, mediaType: 'video', custom: { description: clipDesc, privacy: 'public' } }
+        : { title: clipDesc, mediaType: 'video', custom: { description: clipDesc } };
+
       plan.push({
         clipId: selected[i].clipId,
         projectId: selected[i].projectId,
         platform: platforms[p].platform,
         publishAt: publishAt,
-        postDetail: {
-          title: selected[i].title,
-          mediaType: 'video',
-          custom: {
-            description: (selected[i].description || selected[i].title) + '\n\n' + (selected[i].hashtags || '#ElevAlma #Torah'),
-            privacy: 'public'
-          }
-        },
+        postDetail: postDetail,
         label: platforms[p].label,
         clipTitle: selected[i].title,
         dateLabel: dates[i]
