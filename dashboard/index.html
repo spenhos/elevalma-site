@@ -931,7 +931,7 @@ function go() {
   // Post data — fetched live from API
   var OPUS_POSTS = [];
   var ELEVALMA_API = 'https://elevalma-api.vercel.app';
-  var ALL_PROJECT_IDS = 'P3051714CLWg,P3051717x6De'; // ANDA + Yitro
+  var ALL_PROJECT_IDS = 'P3051714CLWg,P3051717x6De,P30526006dgR'; // ANDA + Yitro + Behar-Bejukotay
 
   var PROJECT_THUMBS = {
     'P3051714CLWg': 'https://i.ytimg.com/vi/PqosbXntkuQ/maxresdefault.jpg',  // ANDA
@@ -1572,12 +1572,12 @@ function wfBuildSchedulePlan() {
   var useIG = document.getElementById('wf-p-ig').checked;
   var useYT = document.getElementById('wf-p-yt').checked;
 
-  // Platform posting times — defined in LOCAL time, converted to UTC for API
-  // TikTok: 7:30 AM local | Instagram: 12:00 PM local | YouTube: 8:00 PM local
+  // Platform posting times in UTC (Mexico City = UTC-6 permanent, no DST)
+  // TikTok: 7:30 AM CST = 13:30 UTC | Instagram: 12:00 PM CST = 18:00 UTC | YouTube: 8:00 PM CST = 02:00+1d UTC
   var platforms = [];
-  if (useTT) platforms.push({ platform: 'TIKTOK_BUSINESS', localHour: 7, localMin: 30, label: 'TikTok' });
-  if (useIG) platforms.push({ platform: 'INSTAGRAM_BUSINESS', localHour: 12, localMin: 0, label: 'Instagram' });
-  if (useYT) platforms.push({ platform: 'YOUTUBE', localHour: 20, localMin: 0, label: 'YouTube' });
+  if (useTT) platforms.push({ platform: 'TIKTOK_BUSINESS', utcHour: 13, utcMin: 30, label: 'TikTok 7:30 AM' });
+  if (useIG) platforms.push({ platform: 'INSTAGRAM_BUSINESS', utcHour: 18, utcMin: 0, label: 'Instagram 12:00 PM' });
+  if (useYT) platforms.push({ platform: 'YOUTUBE', utcHour: 2, utcMin: 0, nextDay: true, label: 'YouTube 8:00 PM' });
 
   // Generate dates based on pattern
   var dates = [];
@@ -1631,9 +1631,11 @@ function wfBuildSchedulePlan() {
   for (var i = 0; i < Math.min(selected.length, dates.length); i++) {
     for (var p = 0; p < platforms.length; p++) {
       var publishDate = dates[i];
-      // Create date in LOCAL time, then convert to UTC via toISOString()
-      var localDt = new Date(publishDate + 'T' + String(platforms[p].localHour).padStart(2,'0') + ':' + String(platforms[p].localMin).padStart(2,'0') + ':00');
-      var publishAt = localDt.toISOString();
+      // Build UTC time directly
+      var d = new Date(publishDate + 'T00:00:00Z');
+      if (platforms[p].nextDay) d.setUTCDate(d.getUTCDate() + 1);
+      var publishAt = d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0') +
+        'T'+String(platforms[p].utcHour).padStart(2,'0')+':'+String(platforms[p].utcMin).padStart(2,'0')+':00.000Z';
 
       var clipDesc = (selected[i].description || selected[i].title) + '\n\n' + (selected[i].hashtags || '#ElevAlma #Torah');
       var isYT = platforms[p].platform === 'YOUTUBE';
@@ -1672,10 +1674,11 @@ function wfPreviewSchedule() {
   for (var i = 0; i < plan.length; i++) {
     var p = plan[i];
     var platColor = p.platform === 'TIKTOK_BUSINESS' ? '#1a1a1a' : p.platform === 'INSTAGRAM_BUSINESS' ? '#d6249f' : '#FF0000';
-    // Show local time from the publishAt ISO string
-    var localDt = new Date(p.publishAt);
-    var localTime = String(localDt.getHours()).padStart(2,'0') + ':' + String(localDt.getMinutes()).padStart(2,'0');
-    var localDateStr = localDt.getFullYear()+'-'+String(localDt.getMonth()+1).padStart(2,'0')+'-'+String(localDt.getDate()).padStart(2,'0');
+    // Show CST time (UTC-6) from the publishAt ISO string
+    var utcDt = new Date(p.publishAt);
+    var cstDt = new Date(utcDt.getTime() - 6*60*60*1000);
+    var localTime = String(cstDt.getUTCHours()).padStart(2,'0') + ':' + String(cstDt.getUTCMinutes()).padStart(2,'0');
+    var localDateStr = cstDt.getUTCFullYear()+'-'+String(cstDt.getUTCMonth()+1).padStart(2,'0')+'-'+String(cstDt.getUTCDate()).padStart(2,'0');
     html += '<tr style="border-bottom:1px solid #f0ede8;">' +
       '<td style="padding:4px 8px;">' + localDateStr + '</td>' +
       '<td style="padding:4px 8px;color:'+platColor+';font-weight:600;">' + p.label + '</td>' +
@@ -1730,6 +1733,11 @@ function wfExecuteSchedule() {
     if (fail === 0) {
       statusEl.innerHTML = '<span style="color:#1DB954;font-weight:600;">' + ok + ' publicaciones programadas exitosamente</span>';
       btn.textContent = 'Listo';
+      // Auto-add project to calendar if not already there
+      var wfProjId = document.getElementById('wf-project-id').value.trim();
+      if (wfProjId && ALL_PROJECT_IDS.indexOf(wfProjId) === -1) {
+        ALL_PROJECT_IDS += ',' + wfProjId;
+      }
       setTimeout(function() { loadOpus(); }, 2000);
     } else {
       statusEl.innerHTML = '<span style="color:#E37400;">' + ok + ' exitosas, ' + fail + ' fallaron</span>' +
