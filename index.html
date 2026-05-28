@@ -253,12 +253,52 @@ layout: null
     </div>
   </div>
 
+  <!-- ==================== BLOG RECIENTE ==================== -->
+  <section id="blog-reciente">
+    <div class="container">
+      <div class="blog-home-header">
+        <div>
+          <span class="label reveal">Blog</span>
+          <h2 class="heading-lg reveal stagger-1" style="margin-top: 16px;">Reflexiones semanales</h2>
+        </div>
+      </div>
+      <div class="blog-home-grid reveal stagger-2">
+        {% for post in site.posts limit:3 %}
+        <a href="{{ post.url }}" class="blog-home-card">
+          <div class="blog-home-card-thumb">
+            {% if post.youtube_id %}
+            <img src="https://img.youtube.com/vi/{{ post.youtube_id }}/mqdefault.jpg" alt="{{ post.title }}" loading="lazy">
+            {% elsif post.cover_image %}
+            <img src="{{ post.cover_image | replace: '.png', '-800w.jpg' }}" alt="{{ post.title }}" loading="lazy">
+            {% else %}
+            <img src="/og-image.png" alt="{{ post.title }}" loading="lazy">
+            {% endif %}
+          </div>
+          <div class="blog-home-card-body">
+            <span class="label">{{ post.series }}</span>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.description | truncate: 100 }}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      <div class="more-videos reveal">
+        <a href="/blog/" class="btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          Explora el blog
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- ==================== VIDEOS ==================== -->
   <section id="videos">
     <div class="container">
       <div class="videos-header">
         <div>
-          <span class="label reveal">Blog & videos</span>
+          <span class="label reveal">Videos</span>
           <h2 class="heading-lg reveal stagger-1" style="margin-top: 16px;">Cada semana, una nueva<br>ventana al alma</h2>
         </div>
         <div class="filter-tabs reveal stagger-2">
@@ -272,7 +312,7 @@ layout: null
       <div class="more-videos reveal">
         <a href="https://www.youtube.com/@elevalma.oficial" target="_blank" rel="noopener" class="btn-secondary">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
-          Ver todos los videos en YouTube
+          Explora más videos en YouTube
         </a>
       </div>
     </div>

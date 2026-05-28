@@ -267,7 +267,8 @@ function renderVideos(videos, category) {
     : videos.filter(v => v.category === category);
 
   const blogMap = window._blogMap || {};
-  grid.innerHTML = filtered.map((v, i) => {
+  const limited = filtered.slice(0, 5);
+  grid.innerHTML = limited.map((v, i) => {
     const blogUrl = blogMap[v.youtubeId];
     const href = blogUrl ? blogUrl : 'https://www.youtube.com/watch?v=' + v.youtubeId;
     const target = blogUrl ? '' : ' target="_blank" rel="noopener"';
