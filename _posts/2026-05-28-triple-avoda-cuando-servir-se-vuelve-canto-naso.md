@@ -11,6 +11,8 @@ cover_image: /images/blog/triple-avoda-levi-guardia.png
 
 ## Una palabra que tartamudea
 
+![Pergamino de Torá con letras doradas](/images/blog/triple-avoda-1-pergamino.png)
+
 Hay un versículo en la Torá que nadie debería poder ignorar — y sin embargo, casi todo el mundo lo ignora.
 
 Está al final de un censo. Un párrafo que parece logístico: quién carga qué, desde qué edad hasta cuál. El tipo de texto que el ojo recorre sin detenerse. Pero hay una anomalía en la frase que, una vez que la ves, no puedes dejar de ver:
@@ -43,6 +45,8 @@ Pero para llegar ahí, necesitas primero escuchar a los cinco.
 
 ## Primera voz: el servicio que canta
 
+![Leviím cantando con arpas y címbalos en el Templo](/images/blog/triple-avoda-2-canto.png)
+
 La respuesta más antigua y dominante viene del Talmud Bavlí, en el tratado de *Erajín* 11a. Rabí Yojanán pregunta: ¿cuál es el servicio que necesita a otro servicio? Y responde: **el canto**.
 
 Los Leviím cantaban en el Templo mientras los Cohaním ofrecían los korbanot. El korbán era la *avodá* central. El canto era la *avodá* de la *avodá* — un servicio cuya única razón de existir era elevar a otro servicio. No entretenía. No decoraba. *Completaba.*
@@ -66,6 +70,8 @@ Si alguna vez sentiste que tu cumplimiento de mitzvot era técnicamente correcto
 
 ## Segunda voz: el servicio que ensucia las manos
 
+![Manos preparando el korbán sobre mármol blanco](/images/blog/triple-avoda-3-manos.png)
+
 Los Ba'alei HaTosafot — concretamente Pa'aneaj Razá, Hadar Zekenim y Da'at Zekenim — proponen algo completamente distinto. *Avodat avodá* no es el canto. Es la *shejitá*, la *hefshet* y el *nituaj*: **la matanza ritual, la desolladura y el descuartizamiento del animal del korbán**.
 
 ¿Por qué se llama "servicio de servicio"? Porque esas eran funciones del *cohén*, no del *leví*. Pero hubo momentos en la historia — el Pésaj del rey Jizkiyahu, la época de Ezra — donde no había suficientes Cohaním en estado de pureza, y los Leviím tuvieron que asumir ese trabajo.
@@ -77,6 +83,8 @@ Hay algo profundamente humilde en esta lectura. La *avodá* más alta no siempre
 ---
 
 ## Tercera voz: el servicio que construye el espacio
+
+![Leviím armando el Mishkán al amanecer en el desierto](/images/blog/triple-avoda-4-mishkan.png)
 
 R"Y Kara y el Rashbam, los grandes *pashtanim* del norte de Francia, leen el versículo de otra manera. Para ellos, *avodat avodá* es **el armado y desarmado del Mishkán** — la Tienda de la Cita que viajaba con el pueblo por el desierto.
 
