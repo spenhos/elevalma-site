@@ -1,0 +1,11 @@
+<picture>
+  <source
+    type="image/webp"
+    srcset="{{ include.src | replace: '.png', '-480w.webp' }} 480w, {{ include.src | replace: '.png', '-800w.webp' }} 800w, {{ include.src | replace: '.png', '-1200w.webp' }} 1200w"
+    sizes="(max-width: 520px) 480px, (max-width: 860px) 800px, 1200px">
+  <source
+    type="image/jpeg"
+    srcset="{{ include.src | replace: '.png', '-480w.jpg' }} 480w, {{ include.src | replace: '.png', '-800w.jpg' }} 800w, {{ include.src | replace: '.png', '-1200w.jpg' }} 1200w"
+    sizes="(max-width: 520px) 480px, (max-width: 860px) 800px, 1200px">
+  <img src="{{ include.src | replace: '.png', '-800w.jpg' }}" alt="{{ include.alt }}" loading="lazy" decoding="async">
+</picture>

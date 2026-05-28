@@ -11,7 +11,7 @@ cover_image: /images/blog/triple-avoda-levi-guardia.png
 
 ## Una palabra que tartamudea
 
-![Pergamino de Torá con letras doradas](/images/blog/triple-avoda-1-pergamino.png)
+{% include blog-img.html src="/images/blog/triple-avoda-1-pergamino.png" alt="Pergamino de Torá con letras doradas" %}
 
 Hay un versículo en la Torá que nadie debería poder ignorar — y sin embargo, casi todo el mundo lo ignora.
 
@@ -45,7 +45,7 @@ Pero para llegar ahí, necesitas primero escuchar a los cinco.
 
 ## Primera voz: el servicio que canta
 
-![Leviím cantando con arpas y címbalos en el Templo](/images/blog/triple-avoda-2-canto.png)
+{% include blog-img.html src="/images/blog/triple-avoda-2-canto.png" alt="Leviím cantando con arpas y címbalos en el Templo" %}
 
 La respuesta más antigua y dominante viene del Talmud Bavlí, en el tratado de *Erajín* 11a. Rabí Yojanán pregunta: ¿cuál es el servicio que necesita a otro servicio? Y responde: **el canto**.
 
@@ -70,7 +70,7 @@ Si alguna vez sentiste que tu cumplimiento de mitzvot era técnicamente correcto
 
 ## Segunda voz: el servicio que ensucia las manos
 
-![Manos preparando el korbán sobre mármol blanco](/images/blog/triple-avoda-3-manos.png)
+{% include blog-img.html src="/images/blog/triple-avoda-3-manos.png" alt="Manos preparando el korbán sobre mármol blanco" %}
 
 Los Ba'alei HaTosafot — concretamente Pa'aneaj Razá, Hadar Zekenim y Da'at Zekenim — proponen algo completamente distinto. *Avodat avodá* no es el canto. Es la *shejitá*, la *hefshet* y el *nituaj*: **la matanza ritual, la desolladura y el descuartizamiento del animal del korbán**.
 
@@ -84,7 +84,7 @@ Hay algo profundamente humilde en esta lectura. La *avodá* más alta no siempre
 
 ## Tercera voz: el servicio que construye el espacio
 
-![Leviím armando el Mishkán al amanecer en el desierto](/images/blog/triple-avoda-4-mishkan.png)
+{% include blog-img.html src="/images/blog/triple-avoda-4-mishkan.png" alt="Leviím armando el Mishkán al amanecer en el desierto" %}
 
 R"Y Kara y el Rashbam, los grandes *pashtanim* del norte de Francia, leen el versículo de otra manera. Para ellos, *avodat avodá* es **el armado y desarmado del Mishkán** — la Tienda de la Cita que viajaba con el pueblo por el desierto.
 
@@ -167,7 +167,7 @@ La pregunta que Parashat Nasó te deja no es cuántas mitzvot cumples. Es: ¿cu�
 
 ## La imagen final
 
-![El Leví que camina al lado, atento, listo para sostener](/images/blog/triple-avoda-levi-guardia.png)
+{% include blog-img.html src="/images/blog/triple-avoda-levi-guardia.png" alt="El Leví que camina al lado, atento, listo para sostener" %}
 
 Hay una imagen del Talmud en *Shabat* 98a que es la más bella síntesis de todo esto. Cuando el Mishkán viajaba, las tablas de madera a veces se deslizaban de los vagones de los bueyes. Los Sabios cuentan que había un Leví que iba caminando al lado, atento, para que en el momento en que una tabla empezara a caer, él la sostuviera.
 
