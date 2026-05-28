@@ -9,9 +9,15 @@
   <meta property="og:description" content="{{ page.description }}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  {% if page.youtube_id %}
   <meta property="og:image" content="https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg">
-  <meta property="og:image:width" content="1280">
-  <meta property="og:image:height" content="720">
+  {% elsif page.cover_image %}
+  <meta property="og:image" content="{{ site.url }}{{ page.cover_image }}">
+  {% else %}
+  <meta property="og:image" content="https://elevalma.com/og-image.png">
+  {% endif %}
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,6 +89,7 @@
     .blog-post .post-content strong { color: #fff; font-weight: 600; }
     .blog-post .post-content em { font-family: 'Fraunces', serif; color: var(--gold); font-style: italic; font-size: 1.05em; }
     .blog-post .post-content blockquote { border-left: 3px solid var(--gold); padding: 16px 28px; margin: 36px 0; font-family: 'Fraunces', serif; font-size: 1.1em; line-height: 1.7; color: rgba(255,255,255,0.7); font-style: italic; background: rgba(201,168,76,0.04); border-radius: 0 8px 8px 0; }
+    .blog-post .post-content img { width: 100%; border-radius: 12px; margin: 36px 0; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
     .blog-post .post-content ul, .blog-post .post-content ol { margin: 16px 0 24px 24px; }
     .blog-post .post-content li { margin-bottom: 8px; }
     .blog-cta { text-align: center; margin-top: 64px; padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.06); }
@@ -91,6 +98,11 @@
     .blog-nav a { color: var(--gold); font-family: 'Inter', sans-serif; }
     .blog-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
     .blog-tags span { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); background: rgba(201,168,76,0.08); padding: 4px 12px; border-radius: 20px; font-family: 'Inter', sans-serif; }
+    .pull-quote > blockquote,
+    .post-content .pull-quote + blockquote { border: none; background: none; padding: 32px 40px; margin: 48px -20px; text-align: center; font-family: 'Fraunces', serif; font-size: 1.3em; line-height: 1.55; color: var(--gold); font-style: italic; font-weight: 600; position: relative; border-left: none; border-radius: 0; }
+    .pull-quote > blockquote::before,
+    .post-content .pull-quote + blockquote::before { content: '\201C'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 4em; color: rgba(201,168,76,0.15); font-family: 'Fraunces', serif; line-height: 1; }
+    @media (max-width: 768px) { .pull-quote > blockquote, .post-content .pull-quote + blockquote { padding: 24px 16px; margin: 36px 0; font-size: 1.15em; } }
     .share-bar { display: flex; align-items: center; gap: 12px; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06); }
     .share-label { font-size: 13px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
     .share-btn { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; color: #fff; transition: transform 0.2s, box-shadow 0.2s; position: relative; background: none; border: none; cursor: pointer; font: inherit; }
@@ -150,7 +162,7 @@
   <article class="blog-post">
     <span class="label">{{ page.series }}</span>
     <h1>{{ page.title }}</h1>
-    <div class="post-meta">{{ page.date | date: "%d de %B, %Y" }} · Por Saleh Penhos · {{ page.duration }}</div>
+    <div class="post-meta">{{ page.date | date: "%d de %B, %Y" }} · Por Saleh Penhos · {% if page.youtube_id %}{{ page.duration }}{% else %}{{ page.content | number_of_words | divided_by: 200 | plus: 1 }} min de lectura{% endif %}</div>
 
     {% if page.tags.size > 0 %}
     <div class="blog-tags">
@@ -171,16 +183,18 @@
     <!-- SHARE BUTTONS -->
     <div class="share-bar">
       <span class="share-label">Compartir:</span>
-      <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ site.url }}{{ page.url }}" target="_blank" rel="noopener" class="share-btn share-wa" aria-label="Compartir en WhatsApp">
+      {% assign share_text = page.title %}
+      {% if page.share_quote %}{% assign share_text = page.share_quote | append: " — " | append: page.title %}{% endif %}
+      <a href="https://api.whatsapp.com/send?text={{ share_text | url_encode }}%0A%0A{{ site.url }}{{ page.url }}" target="_blank" rel="noopener" class="share-btn share-wa" aria-label="Compartir en WhatsApp">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35zm-5.42 7.4A9.87 9.87 0 0 1 7 20.14l-.36-.21-3.73.98.99-3.64-.24-.37a9.87 9.87 0 0 1-1.51-5.26c0-5.45 4.44-9.89 9.9-9.89a9.87 9.87 0 0 1 7 2.9 9.86 9.86 0 0 1 2.9 7c0 5.46-4.44 9.9-9.9 9.9zm8.41-18.31A11.82 11.82 0 0 0 12.05 0C5.49 0 .16 5.33.16 11.88c0 2.1.55 4.14 1.58 5.95L0 24l6.3-1.65a11.86 11.86 0 0 0 5.75 1.47c6.56 0 11.89-5.33 11.89-11.88a11.82 11.82 0 0 0-3.48-8.42z"/></svg>
       </a>
       <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url }}" target="_blank" rel="noopener" class="share-btn share-fb" aria-label="Compartir en Facebook">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.79-4.7 4.53-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.62 23.1 24 18.1 24 12.07z"/></svg>
       </a>
-      <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener" class="share-btn share-x" aria-label="Compartir en X">
+      <a href="https://twitter.com/intent/tweet?text={{ share_text | url_encode }}%0A{{ site.url }}{{ page.url }}" target="_blank" rel="noopener" class="share-btn share-x" aria-label="Compartir en X">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </a>
-      <a href="https://t.me/share/url?url={{ site.url }}{{ page.url }}&text={{ page.title | url_encode }}" target="_blank" rel="noopener" class="share-btn share-tg" aria-label="Compartir en Telegram">
+      <a href="https://t.me/share/url?url={{ site.url }}{{ page.url }}&text={{ share_text | url_encode }}" target="_blank" rel="noopener" class="share-btn share-tg" aria-label="Compartir en Telegram">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
       </a>
       <button class="share-btn share-copy" aria-label="Copiar enlace" onclick="navigator.clipboard.writeText('{{ site.url }}{{ page.url }}');this.classList.add('copied');var b=this;setTimeout(function(){b.classList.remove('copied')},2000);">
