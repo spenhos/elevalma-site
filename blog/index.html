@@ -36,7 +36,7 @@ title: Blog — ElevAlma
     "@type": "BlogPosting",
     "headline": {{ post.title | jsonify }},
     "description": {{ post.description | jsonify }},
-    "image": "https://img.youtube.com/vi/{{ post.youtube_id }}/maxresdefault.jpg",
+    "image": "{% if post.youtube_id %}https://img.youtube.com/vi/{{ post.youtube_id }}/maxresdefault.jpg{% elsif post.cover_image %}{{ site.url }}{{ post.cover_image }}{% else %}https://elevalma.com/og-image.png{% endif %}",
     "datePublished": "{{ post.date | date: '%Y-%m-%dT12:00:00-06:00' }}",
     "author": {
       "@type": "Person",
@@ -185,11 +185,15 @@ title: Blog — ElevAlma
     <div class="blog-grid">
       {% for post in site.posts %}
       <a href="{{ post.url }}" class="blog-card">
-        {% if post.youtube_id %}
         <div class="blog-card-thumb">
+          {% if post.youtube_id %}
           <img src="https://img.youtube.com/vi/{{ post.youtube_id }}/mqdefault.jpg" alt="{{ post.title }}" loading="lazy">
+          {% elsif post.cover_image %}
+          <img src="{{ post.cover_image }}" alt="{{ post.title }}" loading="lazy">
+          {% else %}
+          <img src="/og-image.png" alt="{{ post.title }}" loading="lazy">
+          {% endif %}
         </div>
-        {% endif %}
         <div class="blog-card-body">
           <span class="label">{{ post.series }}</span>
           <h2>{{ post.title }}</h2>
