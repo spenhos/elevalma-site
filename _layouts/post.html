@@ -12,7 +12,7 @@
   {% if page.youtube_id %}
   <meta property="og:image" content="https://img.youtube.com/vi/{{ page.youtube_id }}/maxresdefault.jpg">
   {% elsif page.cover_image %}
-  <meta property="og:image" content="{{ site.url }}{{ page.cover_image }}">
+  <meta property="og:image" content="{{ site.url }}{{ page.cover_image | replace: '.png', '-1200w.jpg' }}">
   {% else %}
   <meta property="og:image" content="https://elevalma.com/og-image.png">
   {% endif %}
