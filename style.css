@@ -16,9 +16,9 @@
   --border: rgba(255,255,255,0.06);
   --border-hover: rgba(255,255,255,0.12);
   --text: #f0efe8;
-  --text-secondary: rgba(255,255,255,0.82);
-  --text-muted: rgba(255,255,255,0.68);
-  --text-dim: rgba(255,255,255,0.55);
+  --text-secondary: rgba(255,255,255,0.88);
+  --text-muted: rgba(255,255,255,0.76);
+  --text-dim: rgba(255,255,255,0.64);
   --nav-h: 72px;
   --section-py: clamp(80px, 10vw, 140px);
 }
@@ -519,7 +519,7 @@ section {
   font-size: 15px;
 }
 .jbar-sep { color: rgba(201,168,76,0.3); }
-.jbar-greg { color: rgba(255,255,255,0.55); font-size: 14px; }
+.jbar-greg { color: rgba(255,255,255,0.7); font-size: 14px; }
 .jbar-parasha {
   color: #fff;
   font-weight: 600;
@@ -626,7 +626,7 @@ section {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.62);
   margin-top: 4px;
 }
 @media (max-width: 600px) {
@@ -1701,7 +1701,7 @@ section {
   transition: border-color 0.3s;
 }
 .mobile-search-input::placeholder {
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.5);
 }
 .mobile-search-input:focus {
   border-color: var(--gold);
@@ -1731,10 +1731,10 @@ section {
   justify-content: center;
   gap: 10px 18px;
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.72);
 }
 .mobile-zmanim-times b {
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.92);
   font-weight: 500;
 }
 
@@ -2099,9 +2099,9 @@ section {
   }
   /* Mejorar legibilidad en móvil para audiencia mayor */
   :root {
-    --text-dim: rgba(255,255,255,0.6);
-    --text-muted: rgba(255,255,255,0.72);
-    --text-secondary: rgba(255,255,255,0.85);
+    --text-dim: rgba(255,255,255,0.74);
+    --text-muted: rgba(255,255,255,0.86);
+    --text-secondary: rgba(255,255,255,0.93);
   }
   .body-text { font-size: 16px; }
   .section-label { font-size: 12px; }
