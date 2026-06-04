@@ -5,6 +5,37 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* ---- בס״ד (Keter Aram Tsova, proyecto Culmus GPL) ---- */
+@font-face {
+  font-family: 'KeterYG';
+  src: url('/fonts/KeterYG-Medium.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+.bsd-badge {
+  position: fixed;
+  top: 5px;
+  right: 12px;
+  font-family: 'KeterYG', serif;
+  font-size: 15px;
+  color: rgba(201, 168, 76, 0.78);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  z-index: 1500;
+  animation: bsd-beat 2.8s ease-in-out infinite;
+}
+
+@keyframes bsd-beat {
+  0%, 100% { transform: scale(1); opacity: 0.72; }
+  50% { transform: scale(1.07); opacity: 0.95; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bsd-badge { animation: none; }
+}
+
 :root {
   --gold: #c9a84c;
   --gold-light: #e4cc7a;
