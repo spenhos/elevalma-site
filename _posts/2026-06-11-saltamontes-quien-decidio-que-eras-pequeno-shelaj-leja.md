@@ -2,13 +2,12 @@
 title: "SALTAMONTES — ¿Quién decidió que eras pequeño?"
 description: "Los espías de Shelaj Lejá no mintieron: cada dato de su informe era verdad. La mentira estaba en una sola frase — la misma que tú repites cuando decides que eres pequeño."
 series: "Perashá Shelaj Lejá 5786"
-youtube_id: ""
 duration: "12 min"
 date: 2026-06-11
 tags: [Bamidbar, Shelaj Lejá, Autoimagen, Emuná, Musar]
 category: parasha
 share_quote: "Los espías no mintieron sobre los gigantes. Mintieron sobre sí mismos."
-cover_image: /images/blog/saltamontes-hilo-tejelet.png
+cover_image: /images/blog/saltamontes-1-espias.png
 ---
 
 ## La frase que mató a una generación
