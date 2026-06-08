@@ -694,20 +694,7 @@ layout: null
   <script src="videos.js" defer></script>
   <script src="app.js" defer></script>
 
-  <!-- Anti-spam: timing check -->
-  <script>
-  (function(){
-    var form = document.getElementById('contact-form');
-    if(!form) return;
-    var loadTime = Date.now();
-    form.addEventListener('submit', function(e){
-      if(Date.now() - loadTime < 3000){
-        e.preventDefault();
-        return false;
-      }
-    });
-  })();
-  </script>
+  <!-- El formulario de contacto lo gestiona app.js (envío a Supabase) -->
 
   <!-- Animated Counters + YouTube Stats Auto-Update -->
   <script>
