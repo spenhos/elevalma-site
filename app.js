@@ -2,6 +2,26 @@
 // ElevAlma — Main Application Script
 // =============================================
 
+// ---- SUPABASE (consultas + newsletter, sin terceros) ----
+// La clave publishable es pública por diseño; las tablas tienen RLS con
+// política de SOLO INSERT para el rol anónimo (nadie puede leer desde el sitio).
+const SUPABASE_URL = 'https://gspkqjdmemxtcwwzbzwx.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_1H_8_HSaBqlNomy6fLpBpg_o9R2P9TG';
+
+async function supabaseInsert(table, row) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(row),
+  });
+  return res; // ok=201; 409=duplicado (email único)
+}
+
 document.addEventListener('DOMContentLoaded', () => {
 
   // ---- PAGE LOADER ----
@@ -138,25 +158,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---- NEWSLETTER FORM (FormSubmit.co) ----
+  // ---- NEWSLETTER FORM (Supabase) ----
   const nlForm = document.getElementById('newsletter-form');
   if (nlForm) {
     nlForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = nlForm.querySelector('.newsletter-btn');
       const btnText = btn.querySelector('.newsletter-btn-text');
+      const honey = nlForm.querySelector('input[name="_honey"]');
+      if (honey && honey.value) return; // bot
+      const email = (nlForm.querySelector('input[name="EMAIL"]')?.value || '').trim().toLowerCase();
+      const name = (nlForm.querySelector('input[name="FNAME"]')?.value || '').trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        btnText.textContent = 'Revisa tu email';
+        return;
+      }
       btnText.textContent = 'Suscribiendo...';
       btn.disabled = true;
 
       try {
-        const formData = new FormData(nlForm);
-        const response = await fetch('https://formsubmit.co/ajax/consulta@elevalma.com', {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
+        const response = await supabaseInsert('newsletter_subscribers', {
+          email, name: name || null, locale: 'es', source: 'elevalma-home'
         });
-
-        if (response.ok) {
+        // 201 = nuevo · 409 = ya estaba suscrito (ambos: éxito para el usuario)
+        if (response.ok || response.status === 409) {
           nlForm.style.display = 'none';
           document.getElementById('newsletter-success').style.display = 'block';
           if (typeof gtag !== 'undefined') {
@@ -194,20 +219,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ---- CONTACT FORM ----
+  // ---- CONTACT FORM (Supabase) ----
   const form = document.getElementById('contact-form');
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('.form-submit');
+      const honey = form.querySelector('input[name="_honey"]');
+      if (honey && honey.value) return; // bot
+      const nombre = (form.querySelector('[name="nombre"]')?.value || '').trim();
+      const email = (form.querySelector('[name="email"]')?.value || '').trim().toLowerCase();
+      const tipo = form.querySelector('[name="tipo_consulta"]')?.value || null;
+      const mensaje = (form.querySelector('[name="mensaje"]')?.value || '').trim();
+      if (!nombre || !mensaje || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        btn.textContent = 'Revisa los campos';
+        return;
+      }
       btn.textContent = 'Enviando...';
       btn.disabled = true;
 
       try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
+        const source = (form.querySelector('input[name="_subject"]')?.value || '').includes('consultas')
+          ? 'consultas' : 'home';
+        const response = await supabaseInsert('consultas', {
+          nombre, email, tipo, mensaje, source, locale: 'es'
         });
 
         if (response.ok) {
@@ -216,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (typeof gtag !== 'undefined') {
             gtag('event', 'contact_form_submit', {
               event_category: 'leads',
-              event_label: form.querySelector('select[name="tipo_consulta"]')?.value || ''
+              event_label: tipo || ''
             });
           }
         } else {

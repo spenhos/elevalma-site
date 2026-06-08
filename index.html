@@ -499,13 +499,9 @@ layout: null
         </div>
 
         <div class="reveal-right">
-          <form id="contact-form" class="contact-form" action="https://formsubmit.co/73ba5ea63f9aef54db219240acb80a2b" method="POST">
-            <!-- FormSubmit config -->
+          <form id="contact-form" class="contact-form" action="#" method="POST" novalidate>
             <input type="hidden" name="_subject" value="Nueva consulta desde elevalma.com">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" value="https://elevalma.com/#contacto">
-            <input type="text" name="_honey" style="display:none">
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="form-row">
               <div class="form-group">
@@ -558,10 +554,8 @@ layout: null
           </div>
           <h2 class="heading-md">Recibe sabiduría en tu bandeja cada semana</h2>
           <p class="body-text" style="max-width: 420px; margin: 0 auto 28px;">Suscríbete al newsletter de ElevAlma. Cada viernes recibe el video de la parashá, reflexiones exclusivas y herramientas para tu semana.</p>
-          <form id="newsletter-form" class="newsletter-form">
-            <input type="hidden" name="_subject" value="Nuevo suscriptor newsletter ElevAlma">
-            <input type="hidden" name="_template" value="table">
-            <input type="text" name="_honey" style="display:none">
+          <form id="newsletter-form" class="newsletter-form" novalidate>
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
             <div class="newsletter-input-group">
               <input type="text" name="FNAME" placeholder="Tu nombre" required class="newsletter-input">
               <input type="email" name="EMAIL" placeholder="tu@email.com" required class="newsletter-input newsletter-input-email">

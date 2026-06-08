@@ -486,12 +486,9 @@ layout: null
       </div>
 
       <div>
-        <form id="contact-form" class="contact-form" action="https://formsubmit.co/73ba5ea63f9aef54db219240acb80a2b" method="POST">
+        <form id="contact-form" class="contact-form" action="#" method="POST" novalidate>
           <input type="hidden" name="_subject" value="Nueva consulta desde elevalma.com/consultas">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_next" value="https://elevalma.com/consultas/#contacto">
-          <input type="text" name="_honey" style="display:none">
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 
           <div class="form-group">
             <label for="name">Nombre</label>
