@@ -2166,3 +2166,161 @@ section {
     margin-bottom: 32px;
   }
 }
+
+/* ============================================================
+   Consultas — mejoras: tarjetas, modal e iconos de marca
+   ============================================================ */
+
+/* --- Tarjetas: igual altura, botón al fondo, marco claro, título grande --- */
+.services-grid { align-items: stretch; }
+.service-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.035);
+}
+.service-card.popular {
+  border: 1.5px solid rgba(201,168,76,0.55);
+  background: rgba(201,168,76,0.06);
+  box-shadow: 0 12px 44px rgba(201,168,76,0.10);
+}
+.service-card h3 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.service-icon { width: 52px; height: 52px; }
+.service-icon svg { width: 24px; height: 24px; }
+.service-features { flex-grow: 1; }            /* empuja el CTA al fondo => simetría */
+
+/* --- Botón secundario VISIBLE (gratuita y mentoría) --- */
+.service-cta {
+  width: 100%;
+  margin-top: auto;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(201,168,76,0.55);
+  background: rgba(201,168,76,0.12);
+  color: var(--gold-light);
+}
+.service-cta:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0a0a0a;
+}
+/* La popular es el botón principal (oro sólido) */
+.service-card.popular .service-cta {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0a0a0a;
+}
+.service-card.popular .service-cta:hover {
+  background: var(--gold-light);
+  box-shadow: 0 8px 24px rgba(201,168,76,0.3);
+}
+
+/* --- Sección contacto: 2 columnas + panel CTA --- */
+.consultas-contact-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+  max-width: 960px;
+  margin: 32px auto 0;
+  text-align: left;
+}
+@media (max-width: 760px){ .consultas-contact-form { grid-template-columns: 1fr; } }
+.contact-cta-panel {
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(201,168,76,0.30);
+  border-radius: 14px;
+  padding: 28px;
+}
+.contact-cta-panel h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+.contact-cta-panel p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+.contact-cta-panel .cta-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--gold);
+  color: #0a0a0a;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background .2s, box-shadow .2s;
+}
+.contact-cta-panel .cta-btn:hover { background: var(--gold-light); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+
+/* --- Modal de consulta --- */
+.consulta-modal { position: fixed; inset: 0; z-index: 1000; display: none; }
+.consulta-modal.open { display: block; }
+.consulta-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.72); backdrop-filter: blur(4px); }
+.consulta-modal-box {
+  position: relative;
+  max-width: 540px;
+  width: calc(100% - 32px);
+  margin: 6vh auto;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: #0e0e10;
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 16px;
+  padding: 32px clamp(20px, 4vw, 36px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  text-align: left;
+}
+.consulta-modal-close {
+  position: absolute; top: 14px; right: 16px;
+  width: 36px; height: 36px;
+  border: none; border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text-muted);
+  font-size: 22px; line-height: 1; cursor: pointer;
+  transition: all .2s;
+}
+.consulta-modal-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.consulta-modal-box h3 { font-size: 24px; font-weight: 600; margin-bottom: 6px; }
+.consulta-modal-sub { color: var(--text-muted); font-size: 14px; margin-bottom: 22px; }
+
+.consulta-modal .form-group { margin-bottom: 16px; }
+.consulta-modal label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; }
+.consulta-modal input,
+.consulta-modal select,
+.consulta-modal textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  transition: border-color .2s, background .2s;
+}
+.consulta-modal input::placeholder,
+.consulta-modal textarea::placeholder { color: rgba(255,255,255,0.4); }
+.consulta-modal input:focus,
+.consulta-modal select:focus,
+.consulta-modal textarea:focus { outline: none; border-color: var(--gold); background: rgba(255,255,255,0.09); }
+.consulta-modal select option { background: #0e0e10; color: var(--text); }
+.consulta-modal .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px){ .consulta-modal .form-row-2 { grid-template-columns: 1fr; } }
+.consulta-modal .form-submit { width: 100%; margin-top: 6px; padding: 14px; background: var(--gold); color: #0a0a0a; border: none; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; transition: background .2s, box-shadow .2s; }
+.consulta-modal .form-submit:hover { background: var(--gold-light); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+.consulta-modal .form-submit:disabled { opacity: .7; cursor: default; }
+.consulta-modal-success { text-align: center; padding: 24px 4px; }
+.consulta-modal-success h3 { color: var(--gold); }
+.consulta-modal-success p { color: var(--text-muted); margin-top: 8px; }
+
+/* --- Iconos sociales con color de marca --- */
+.contact-channel-icon.cc-brand svg { stroke: none; fill: #fff; width: 18px; height: 18px; }
+.contact-channel-icon.cc-youtube   { background: #FF0000; }
+.contact-channel-icon.cc-spotify   { background: #1DB954; }
+.contact-channel-icon.cc-tiktok    { background: #010101; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18); }
+.contact-channel-icon.cc-instagram { background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+.contact-channel-icon.cc-whatsapp  { background: #25D366; }
