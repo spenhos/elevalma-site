@@ -1,11 +1,11 @@
 // =============================================
 // ARCHIVO DE DATOS — ElevAlma Videos
-// Actualiza este archivo cada semana
-// con el nuevo video de la parashá.
+// Para el nuevo video semanal: agrega UN objeto al INICIO del array
+// "videos" (más abajo). El hero toma automáticamente el primero.
 // =============================================
 
 const SITE_DATA = {
-  // Video destacado en el Hero
+  // (Obsoleto) El hero ahora toma automáticamente el primer video de "videos". Este bloque ya no se usa.
   featured: {
     id: "bemidbar-rut-5786",
     title: "HUIR — ¿Cuándo 'crecer espiritualmente' es HUIR?",
@@ -22,6 +22,17 @@ const SITE_DATA = {
   // Todos los videos (más reciente primero)
   videos: [
     // ── PARASHÁ SEMANAL ──
+    {
+      id: "behaaloteja-5786",
+      title: "Estás huyendo y te llamas libre",
+      series: "Perashá Beha'alotjá",
+      description: "En medio de Beha'alotjá hay dos letras invertidas. Solo dos en toda la Torá. La pregunta no es por qué están al revés — es qué quiso esconder la Torá ahí dentro. Y la respuesta cambia cómo lees tu propia vida.",
+      date: "2026-06-05",
+      duration: "27 min",
+      youtubeId: "HnnqYILQC4s",
+      thumbnail: "https://img.youtube.com/vi/HnnqYILQC4s/maxresdefault.jpg",
+      category: "parasha"
+    },
     {
       id: "bemidbar-rut-5786",
       title: "HUIR — ¿Cuándo 'crecer espiritualmente' es HUIR?",

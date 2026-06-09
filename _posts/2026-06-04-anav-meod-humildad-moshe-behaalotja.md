@@ -2,7 +2,6 @@
 title: "ANAV MEOD — La humildad no es pensar menos de ti, es no pensar en ti"
 description: "En Beha'alotjá la Torá interrumpe una historia de conflicto para decir una sola cosa: Moshé era el hombre más humilde de la tierra. Pero la humildad que describe no es la que tú crees — y por eso casi todos la entienden al revés."
 series: "Perashá Beha'alotjá 5786"
-youtube_id: "HnnqYILQC4s"
 duration: "27 min"
 date: 2026-06-04
 tags: [Bamidbar, Beha'alotjá, Humildad, Anavá, Musar]
