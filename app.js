@@ -131,7 +131,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (featTitle) featTitle.textContent = f.title;
     if (featSub) featSub.textContent = f.subtitle || f.series || '';
     if (featMeta) featMeta.textContent = f.duration + (f.views ? ' · ' + f.views + ' vistas' : '');
-    if (featLink) featLink.href = 'https://www.youtube.com/watch?v=' + f.youtubeId;
+    if (featLink) {
+      if (f.postUrl) {
+        featLink.href = f.postUrl;
+        featLink.removeAttribute('target');
+        featLink.removeAttribute('rel');
+      } else {
+        featLink.href = 'https://www.youtube.com/watch?v=' + f.youtubeId;
+      }
+    }
     if (featImg) {
       featImg.src = 'https://img.youtube.com/vi/' + f.youtubeId + '/maxresdefault.jpg';
       featImg.alt = f.title;

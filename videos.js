@@ -31,6 +31,7 @@ const SITE_DATA = {
       duration: "27 min",
       youtubeId: "HnnqYILQC4s",
       thumbnail: "https://img.youtube.com/vi/HnnqYILQC4s/maxresdefault.jpg",
+      postUrl: "/blog/behaaloteja-huyendo-te-llamas-libre/",
       category: "parasha"
     },
     {
