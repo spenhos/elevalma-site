@@ -119,9 +119,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---- RENDER FEATURED ----
-  if (typeof SITE_DATA !== 'undefined' && SITE_DATA.featured) {
-    const f = SITE_DATA.featured;
+  // ---- RENDER FEATURED (automático: el video más reciente de la lista) ----
+  if (typeof SITE_DATA !== 'undefined' && ((SITE_DATA.videos && SITE_DATA.videos.length) || SITE_DATA.featured)) {
+    const f = (SITE_DATA.videos && SITE_DATA.videos.length) ? SITE_DATA.videos[0] : SITE_DATA.featured;
     const featTitle = document.getElementById('featured-title');
     const featSub = document.getElementById('featured-subtitle');
     const featMeta = document.getElementById('featured-meta');
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const featImg = document.getElementById('featured-thumb-img');
 
     if (featTitle) featTitle.textContent = f.title;
-    if (featSub) featSub.textContent = f.subtitle;
+    if (featSub) featSub.textContent = f.subtitle || f.series || '';
     if (featMeta) featMeta.textContent = f.duration + (f.views ? ' · ' + f.views + ' vistas' : '');
     if (featLink) featLink.href = 'https://www.youtube.com/watch?v=' + f.youtubeId;
     if (featImg) {
