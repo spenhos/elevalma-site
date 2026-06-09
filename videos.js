@@ -24,7 +24,7 @@ const SITE_DATA = {
     // ── PARASHÁ SEMANAL ──
     {
       id: "behaaloteja-5786",
-      title: "Estás huyendo y te llamas libre",
+      title: "CAÍDA — Estás HUYENDO y te CREES libre",
       series: "Perashá Beha'alotjá",
       description: "En medio de Beha'alotjá hay dos letras invertidas. Solo dos en toda la Torá. La pregunta no es por qué están al revés — es qué quiso esconder la Torá ahí dentro. Y la respuesta cambia cómo lees tu propia vida.",
       date: "2026-06-05",

@@ -1,5 +1,5 @@
 ---
-title: "Estás huyendo y te llamas libre"
+title: "CAÍDA — Estás huyendo y te crees libre"
 description: "En medio de Behaaloteja hay dos letras invertidas. Solo dos en toda la Torá. La pregunta no es por qué están al revés — es qué quiso esconder la Torá ahí dentro. Y la respuesta cambia cómo lees tu propia vida."
 series: "Perashá Beha'alotjá 5786"
 youtube_id: "HnnqYILQC4s"
