@@ -23,6 +23,18 @@ const SITE_DATA = {
   videos: [
     // ── PARASHÁ SEMANAL ──
     {
+      id: "pinejas-5786",
+      title: "CELOS — Tuviste toda la razón y te quedaste solo",
+      series: "Perashá Pinejas",
+      description: "Pinejas actúa con celo y recibe un pacto de paz… con una letra escrita a propósito partida por la mitad. El precio oculto de tener toda la razón — y por qué el que cela termina solo.",
+      date: "2026-07-05",
+      duration: "26 min",
+      youtubeId: "-cI5EnzkISE",
+      thumbnail: "https://img.youtube.com/vi/-cI5EnzkISE/maxresdefault.jpg",
+      postUrl: "/blog/celos-tuviste-la-razon-pinejas/",
+      category: "parasha"
+    },
+    {
       id: "behaaloteja-5786",
       title: "CAÍDA — Estás HUYENDO y te CREES libre",
       series: "Perashá Beha'alotjá",
