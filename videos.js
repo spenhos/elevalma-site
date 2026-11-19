@@ -23,6 +23,18 @@ const SITE_DATA = {
   videos: [
     // ── PARASHÁ SEMANAL ──
     {
+      id: "vayetze-dudaim-5787",
+      title: "VAYETZÉ — ¿Cuáles son tus dudaím modernos?",
+      series: "Perashá Vayetzé",
+      description: "Rajel pide los dudaím, Leá los entrega y esa noche cambia la historia. El Alshij HaKadosh y la pregunta que nadie quiere hacerse: ¿en qué pones tu esperanza de verdad?",
+      date: "2026-11-19",
+      duration: "10 min",
+      youtubeId: "2iZpKsIe_nI",
+      thumbnail: "https://img.youtube.com/vi/2iZpKsIe_nI/maxresdefault.jpg",
+      postUrl: "/blog/dame-dudaim-modernos-vayetze/",
+      category: "parasha"
+    },
+    {
       id: "pinejas-5786",
       title: "CELOS — Tuviste toda la razón y te quedaste solo",
       series: "Perashá Pinejas",
