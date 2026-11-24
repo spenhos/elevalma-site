@@ -19,7 +19,7 @@ El Talmud cuenta que un rey de Yehudá, Menashé ben Jizkiyahu, pensaba lo mismo
 
 ## Cuatro contradicciones, cuatro secretos
 
-> **Recorre el árbol mientras lees.** Preparé un [árbol interactivo de la casa de Esav](/arbol-esav/): avanzas paso a paso y ves cada pasuk, cada Rashí y cada línea que el texto no dice en voz alta. También puedes descargar la [guía en PDF](/arbol-esav/vayishlaj-casa-de-esav-guia.pdf) con preguntas para la mesa de Shabat.
+> **Recorre el árbol mientras lees.** Preparé un [árbol interactivo de la casa de Esav](/arbol-esav/): avanzas paso a paso y ves cada pasuk, cada Rashí y cada línea que el texto no dice en voz alta. También puedes descargar la [guía en PDF](https://elevalma.link/vayishlaj-esav) con preguntas para la mesa de Shabat.
 
 Rashí lee Bereshit 36 letra por letra, y cada vez que el texto se contradice, encuentra algo escondido:
 
