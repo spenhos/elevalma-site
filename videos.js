@@ -23,6 +23,18 @@ const SITE_DATA = {
   videos: [
     // ── PARASHÁ SEMANAL ──
     {
+      id: "vayishlaj-5787",
+      title: "VAYISHLAJ  TABÚ: el secreto más oscuro de la casa de Esav — Parashá Semanal | ElevAlma",
+      series: "Perashá Vayishlaj",
+      description: "Una lista de nombres que nadie escucha esconde cuatro uniones prohibidas. Rashí las descubre en Bereshit 36 y explica por qué la Toráh las escribió: por Timná, y por la grandeza de Avraham.",
+      date: "2026-11-23",
+      duration: "7 min",
+      youtubeId: "mzMQExl4-nA",
+      thumbnail: "https://img.youtube.com/vi/mzMQExl4-nA/maxresdefault.jpg",
+      postUrl: "/blog/tabu-secreto-casa-de-esav-vayishlaj/",
+      category: "parasha"
+    },
+    {
       id: "vayetze-dudaim-5787",
       title: "VAYETZÉ — ¿Cuáles son tus dudaím modernos?",
       series: "Perashá Vayetzé",
