@@ -24,7 +24,7 @@ const SITE_DATA = {
     // ── PARASHÁ SEMANAL ──
     {
       id: "vayishlaj-5787",
-      title: "VAYISHLAJ  TABÚ: el secreto más oscuro de la casa de Esav — Parashá Semanal | ElevAlma",
+      title: "VAYISHLAJ — TABÚ: el secreto más oscuro de la casa de Esav",
       series: "Perashá Vayishlaj",
       description: "Una lista de nombres que nadie escucha esconde cuatro uniones prohibidas. Rashí las descubre en Bereshit 36 y explica por qué la Toráh las escribió: por Timná, y por la grandeza de Avraham.",
       date: "2026-11-23",
