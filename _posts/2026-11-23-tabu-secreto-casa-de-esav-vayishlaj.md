@@ -11,8 +11,6 @@ share_quote: "Una casa sin puertas se pudre por dentro. Una casa con la puerta c
 cover_image: /images/blog/vayishlaj-tabu-casa-de-esav.png
 ---
 
-## Gancho
-
 Shabat en la mañana. El lector llega a una columna llena de nombres raros, uno tras otro, y la sala hace lo que hace siempre: alguien mira el reloj, alguien susurra, alguien piensa *esta parte es relleno*.
 
 El Talmud cuenta que un rey de Yehudá, Menashé ben Jizkiyahu, pensaba lo mismo. Se burlaba: ¿Moshé no tenía nada mejor que escribir que *«y la hermana de Lotán era Timná»*? Y una voz del cielo le respondió: *«Callé, y pensaste que Yo era como tú»* (*Sanhedrín 99b*). El que cree que esta lista es relleno no está leyendo la Toráh. Se está leyendo a sí mismo.
